@@ -107,7 +107,7 @@ def update_version(spec: SpecData, latest: str, inplace: bool = False, push: boo
                        f"Updated {spec.name} to {latest}", f"{spec.name}-{latest}"])
         # The github webhooks won't fire if 3+ tags are made at once, to be
         # defensive push each tag by itself
-        subprocess.run(["git", "push"])
+        subprocess.run(["git", "push", "--follow-tags"])
 
 
 def main():
