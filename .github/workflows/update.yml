@@ -1,0 +1,26 @@
+name: Update spec files
+on: workflow_dispatch
+
+jobs:
+  update:
+    name: update
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-python@v4
+        with:
+          cache: 'pip' # caching pip dependencies
+          
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        
+      - name: Set github action details
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+      - name: Check and update spec files
+        run: python autocopr.py --verbose --in-place --push
+          
