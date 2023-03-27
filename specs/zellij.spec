@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name:       zellij
-Version:    0.34.4
-Release:    1%{?dist}
+Version: 0.35.2
+Release: 1%{?dist}
 Summary:    A terminal workspace with batteries included.
 
 License:    MIT
