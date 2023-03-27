@@ -1,5 +1,10 @@
 name: Update spec files
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  
+  schedule:
+    # Arbitrary time to run once a day
+    - cron: '42 0 * * *'
 
 jobs:
   update:
