@@ -1,12 +1,4 @@
-# Update step:
-#    - if version is NOT the same, update file, make commit with tag
-
-# Upload step
-#    - if no one has updated, exit
-#    - if updates have happened, push
-
-# then on COPR side, it sees commits with that package, rebuilds, done :0
-
+import logging
 import subprocess
 import re
 import requests
@@ -41,10 +33,13 @@ def parse_spec(spec_loc: Path) -> SpecData:
             # Assumes Version and URL are only defined once in the file!
             # If there are duplicate definitions, behavior is undefined!
             if (name_match := re.search(name_pat, line)) is not None:
+                logging.info(f'Got name from: "{line.rstrip()}"')
                 name = name_match.group(1)
             elif (ver_match := re.search(version_pat, line)) is not None:
+                logging.info(f'Got version from: "{line.rstrip()}"')
                 version = ver_match.group(1)
             elif (url_match := re.search(url_pat, line)) is not None:
+                logging.info(f'Got url from: "{line.rstrip()}"')
                 url = url_match.group(1)
 
             if name is not None and version is not None and url is not None:
@@ -59,9 +54,12 @@ def is_latest_version(spec: SpecData) -> tuple[bool, str]:
 
     project_info = urllib.parse.urlparse(spec.url).path[1:]
 
+    url = f"https://api.github.com/repos/{project_info}/releases/latest"
+    logging.info(f"Querying {url}...")
     latest_tag: str = requests.get(
-        f"https://api.github.com/repos/{project_info}/releases/latest",
-        {"X-GitHub-Api-Version": "2022-11-28", "Accept": "application/vnd.github+json"},
+        url,
+        {"X-GitHub-Api-Version": "2022-11-28",
+            "Accept": "application/vnd.github+json"},
     ).json()["tag_name"]
 
     # Trims tags like "v0.35.2" to "0.35.2" by cutting from the front until we
@@ -75,52 +73,119 @@ def is_latest_version(spec: SpecData) -> tuple[bool, str]:
     return (latest_version == spec.version, latest_version)
 
 
-def update_version(spec: SpecData, latest: str):
+def update_version(spec: SpecData, latest: str, inplace: bool = False, push: bool = False):
     """Given the location of a spec file, the latest version, and the name of
     the package, update the version in the spec and make a commit with the
     cooresponding COPR tag."""
 
-    spec_loc_backup = spec.loc.rename(spec.loc.with_suffix(spec.loc.suffix + ".bak"))
+    spec_loc_backup = spec.loc.rename(
+        spec.loc.with_suffix(spec.loc.suffix + ".bak"))
 
     with (open(spec.loc, "w") as new_spec, open(spec_loc_backup) as old_spec):
+        # Again, assumes that Version and Release are only defined once!
         for line in old_spec:
             if re.match(version_pat, line):
                 new_spec.write(f"Version: {latest}\n")
             elif re.match(release_pat, line):
                 # All new versions must start at release 1
-                new_spec.write("Release: 1%{dist}\n")
+                new_spec.write("Release: 1%{?dist}\n")
             else:
                 new_spec.write(line)
 
-    spec_loc_backup.unlink()
+    if inplace:
+        spec_loc_backup.unlink()
 
     # Add a commit with this update and tag it so COPR sees it
-    subprocess.run(["git", "add", str(spec.loc)])
-    subprocess.run(["git", "commit", "-m", f"Updated {spec.name} to {latest}"])
-    subprocess.run(["git", "tag", f"{spec.name}-{latest}"])
+    if push:
+        subprocess.run(["git", "add", str(spec.loc)])
+        subprocess.run(
+            ["git", "commit", "-m", f"Updated {spec.name} to {latest}"])
+        # Force the new tag, useful for testing
+        subprocess.run(["git", "tag", "-f", f"{spec.name}-{latest}"])
+        # The github webhooks won't fire if 3+ tags are made at once, to be
+        # defensive push each tag by itself
+        subprocess.run(["git", "push"])
 
 
 def main():
-    any_updated = False
+    import argparse
 
-    for spec_loc in Path("specs").glob("*.spec"):
+    parser = argparse.ArgumentParser(
+        description="Update versions in RPM Spec files and prepare commits."
+    )
+    parser.add_argument(
+        "-p",
+        "--push",
+        help="make git commits with tags and run git push once all update commits are made",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        help="log all information to stdout while running",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-d",
+        "--dry-run",
+        help="do not write new spec files, only print if updates are needed",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-i",
+        "--in-place",
+        help="edit the spec files in-place instead of leaving a .bk backup file",
+        action="store_true",
+    )
+    parser.add_argument(
+        "directory",
+        nargs="?",
+        help='directory where spec files are located. defaults to "specs"',
+        default="specs",
+    )
+    args = parser.parse_args()
+
+    if args.verbose:
+        logging.basicConfig(level=logging.INFO)
+
+    any_updated = False
+    update_summary = []
+
+    if (
+        args.push
+        and subprocess.run(["git", "rev-parse", "--is-inside-work-tree"]).returncode
+        != 0
+    ):
+        # We're not in a git repository, exit
+        logging.error("Cannot use --push when not running in a git repository")
+        exit(1)
+
+    for spec_loc in Path(args.directory).glob("*.spec"):
+        logging.info(f"Starting {spec_loc}...")
+
         spec = parse_spec(spec_loc)
+        logging.info(f"Parsed from spec file: {spec}")
+
         is_latest, latest = is_latest_version(spec)
+        logging.info(
+            f"{spec.name} newest version: {latest}\tis currently up to date: {is_latest}"
+        )
+        ver_string = (
+            f"{spec.version:20}" if is_latest else f"{spec.version:8} -> {latest:8}"
+        )
+        update_summary.append(
+            f"{spec.name:15}\t{ver_string}\t"
+            f"spec file {'was updated' if not args.dry_run else 'is out of date'}: {not is_latest}"
+        )
 
         # Track if any have an update
         any_updated = any_updated | is_latest
 
-        if not is_latest:
-            update_version(spec, latest)
+        if not is_latest and not args.dry_run:
+            logging.info(f"Updating {spec.name}...")
+            update_version(spec, latest, inplace=args.in_place, push=args.push)
 
-        # add to log
-
-    # print log status
-
-    # if any_updated and push flag handed in:
-    #    git push
-    # else:
-    #    print message that commits are ready
+    print("\n".join(update_summary))
 
 
 if __name__ == "__main__":
