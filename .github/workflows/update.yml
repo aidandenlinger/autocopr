@@ -3,8 +3,8 @@ on:
   workflow_dispatch:
   
   schedule:
-    # Arbitrary time to run once a day
-    - cron: '42 0 * * *'
+    # Runs at 11:42am UTC -> 4:42am PT
+    - cron: '42 11 * * *'
 
 jobs:
   update:
