@@ -28,3 +28,13 @@ I did use were
 - [Fedora RPM Macros](https://docs.fedoraproject.org/en-US/packaging-guidelines/RPMMacros/)
 - [RPM Packaging Guide](https://rpm-packaging-guide.github.io/)
 - and a lot of random stack overflow questions.
+
+## Github Actions
+Be sure to go into the repo settings -> Actions -> Workflow permissions and set
+it to "Read and write permissions" and save at the bottom of the page, so the
+workflow can make commits.
+
+You can trigger the workflow manually by going to Actions and clicking on
+"Update spec files". This could be useful if you've manually noticed that
+something's updated and you want to update the spec without waiting for the
+daily check.

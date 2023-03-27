@@ -101,7 +101,10 @@ def update_version(spec: SpecData, latest: str, inplace: bool = False, push: boo
         subprocess.run(
             ["git", "commit", "-m", f"Updated {spec.name} to {latest}"])
         # Force the new tag, useful for testing
-        subprocess.run(["git", "tag", "-f", f"{spec.name}-{latest}"])
+        # Have to make an annotated tag for github to recognize it
+        # message is the same as the tag name
+        subprocess.run(["git", "tag", "-f", "-a", "-m",
+                       f"Updated {spec.name} to {latest}", f"{spec.name}-{latest}"])
         # The github webhooks won't fire if 3+ tags are made at once, to be
         # defensive push each tag by itself
         subprocess.run(["git", "push"])
