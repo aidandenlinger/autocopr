@@ -53,13 +53,13 @@ def is_latest_version(spec: SpecData) -> tuple[bool, str]:
     the spec is up to date, and the latest version."""
 
     project_info = urllib.parse.urlparse(spec.url).path[1:]
-
     url = f"https://api.github.com/repos/{project_info}/releases/latest"
-    logging.info(f"Querying {url}...")
+    logging.info(f"Querying {url}")
+
     latest_tag: str = requests.get(
         url,
         {"X-GitHub-Api-Version": "2022-11-28",
-            "Accept": "application/vnd.github+json"},
+         "Accept": "application/vnd.github+json"},
     ).json()["tag_name"]
 
     # Trims tags like "v0.35.2" to "0.35.2" by cutting from the front until we
@@ -164,7 +164,7 @@ def main():
         exit(1)
 
     for spec_loc in Path(args.directory).glob("*.spec"):
-        logging.info(f"Starting {spec_loc}...")
+        logging.info(f"Starting {spec_loc}")
 
         spec = parse_spec(spec_loc)
         logging.info(f"Parsed from spec file: {spec}")
@@ -185,7 +185,7 @@ def main():
         any_updated = any_updated | is_latest
 
         if not is_latest and not args.dry_run:
-            logging.info(f"Updating {spec.name}...")
+            logging.info(f"Updating {spec.name}")
             update_version(spec, latest, inplace=args.in_place, push=args.push)
 
     print("\n".join(update_summary))
