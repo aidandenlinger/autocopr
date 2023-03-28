@@ -8,7 +8,7 @@ Summary:    A post-modern modal text editor.
 
 License:    MPL-2.0
 URL:        https://github.com/helix-editor/helix
-Source:     %{url}/releases/download/%{version}/%{name}-%{version}-%{_arch}-linux.tar.xz
+Source:     %{url}/releases/download/%{version}/%{name}-%{version}-x86_64-linux.tar.xz
 
 %description
 A kakoune / neovim inspired editor, written in Rust.
@@ -16,7 +16,7 @@ The editing model is very heavily based on kakoune.
 Features include Vim-like modal editing, multiple selections, built-in language server support and smart, incremental syntax highlighting and code editing via tree-sitter
 
 %prep
-%autosetup -n %{name}-%{version}-%{_arch}-linux
+%autosetup -n %{name}-%{version}-x86_64-linux
 
 %build
 

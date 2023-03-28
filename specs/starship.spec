@@ -7,7 +7,7 @@ Summary: Minimal, blazing-fast, and infinitely customizable prompt for any shell
 
 License: ISC
 URL: https://github.com/starship/starship
-Source: %{url}/releases/download/v%{version}/%{name}-%{_arch}-unknown-linux-gnu.tar.gz
+Source: %{url}/releases/download/v%{version}/%{name}-x86_64-unknown-linux-gnu.tar.gz
 
 %description
 Minimal, blazing-fast, and infinitely customizable prompt for any shell! â˜„ğŸŒŒï¸�.
