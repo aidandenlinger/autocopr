@@ -58,8 +58,7 @@ def is_latest_version(spec: SpecData) -> tuple[bool, str]:
 
     latest_tag: str = requests.get(
         url,
-        {"X-GitHub-Api-Version": "2022-11-28",
-         "Accept": "application/vnd.github+json"},
+        {"X-GitHub-Api-Version": "2022-11-28", "Accept": "application/vnd.github+json"},
     ).json()["tag_name"]
 
     # Trims tags like "v0.35.2" to "0.35.2" by cutting from the front until we
@@ -73,13 +72,14 @@ def is_latest_version(spec: SpecData) -> tuple[bool, str]:
     return (latest_version == spec.version, latest_version)
 
 
-def update_version(spec: SpecData, latest: str, inplace: bool = False, push: bool = False):
+def update_version(
+    spec: SpecData, latest: str, inplace: bool = False, push: bool = False
+):
     """Given the location of a spec file, the latest version, and the name of
     the package, update the version in the spec and make a commit with the
     cooresponding COPR tag."""
 
-    spec_loc_backup = spec.loc.rename(
-        spec.loc.with_suffix(spec.loc.suffix + ".bak"))
+    spec_loc_backup = spec.loc.rename(spec.loc.with_suffix(spec.loc.suffix + ".bak"))
 
     with (open(spec.loc, "w") as new_spec, open(spec_loc_backup) as old_spec):
         # Again, assumes that Version and Release are only defined once!
@@ -98,13 +98,21 @@ def update_version(spec: SpecData, latest: str, inplace: bool = False, push: boo
     # Add a commit with this update and tag it so COPR sees it
     if push:
         subprocess.run(["git", "add", str(spec.loc)])
-        subprocess.run(
-            ["git", "commit", "-m", f"Updated {spec.name} to {latest}"])
+        subprocess.run(["git", "commit", "-m", f"Update {spec.name} to {latest}"])
         # Force the new tag, useful for testing
         # Have to make an annotated tag for github to recognize it
         # message is the same as the tag name
-        subprocess.run(["git", "tag", "-f", "-a", "-m",
-                       f"Updated {spec.name} to {latest}", f"{spec.name}-{latest}"])
+        subprocess.run(
+            [
+                "git",
+                "tag",
+                "-f",
+                "-a",
+                "-m",
+                f"Update {spec.name} to {latest}",
+                f"{spec.name}-{latest}",
+            ]
+        )
         # The github webhooks won't fire if 3+ tags are made at once, to be
         # defensive push each tag by itself
         subprocess.run(["git", "push", "--follow-tags"])
