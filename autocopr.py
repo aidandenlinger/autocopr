@@ -151,7 +151,6 @@ def main():
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    any_updated = False
     update_summary = []
 
     if (
@@ -180,9 +179,6 @@ def main():
             f"{spec.name:15}\t{ver_string}\t"
             f"spec file {'was updated' if not args.dry_run else 'is out of date'}: {not is_latest}"
         )
-
-        # Track if any have an update
-        any_updated = any_updated | is_latest
 
         if not is_latest and not args.dry_run:
             logging.info(f"Updating {spec.name}")
