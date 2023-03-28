@@ -163,7 +163,9 @@ def main():
 
     if (
         args.push
-        and subprocess.run(["git", "rev-parse", "--is-inside-work-tree"]).returncode
+        and subprocess.run(
+            ["git", "rev-parse", "--is-inside-work-tree"], capture_output=True
+        ).returncode
         != 0
     ):
         # We're not in a git repository, exit
