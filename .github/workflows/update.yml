@@ -3,8 +3,8 @@ on:
   workflow_dispatch:
   
   schedule:
-    # Runs at 7:42am UTC -> 12:42am PT
-    - cron: '42 7 * * *'
+    # Runs at 12:00am UTC -> 5:00pm PDT
+    - cron: '0 0 * * *'
 
 jobs:
   update:
