@@ -38,10 +38,6 @@ HELIX_RUNTIME="%{_datadir}/helix/runtime" exec %{_libexecdir}/hx "\$@"
 EOF
 chmod +x %{buildroot}%{_bindir}/hx
 
-# License and README
-install -p -D -m 0644 LICENSE %{buildroot}%{_datadir}/licenses/helix/LICENSE
-install -p -D -m 0644 README.md %{buildroot}%{_docdir}/helix/README.md
-
 # Shell completion
 # Inspired by alacritty's spec build
 install -p -D -m 0644 contrib/completion/hx.bash %{buildroot}%{_datadir}/bash-completion/completions/hx
@@ -49,8 +45,8 @@ install -p -D -m 0644 contrib/completion/hx.fish %{buildroot}%{_datadir}/fish/ve
 install -p -D -m 0644 contrib/completion/hx.zsh %{buildroot}%{_datadir}/zsh/site-functions/_hx
 
 %files
-%license %{_datadir}/licenses/helix/LICENSE
-%doc %{_docdir}/helix/README.md
+%license LICENSE
+%doc README.md
 %{_bindir}/hx
 %{_libexecdir}/hx
 %{_datadir}/helix/runtime/
