@@ -28,7 +28,7 @@ mv runtime %{buildroot}%{_datadir}/helix
 # Helix binary, but in libexec because we don't directly call it
 install -p -D hx %{buildroot}%{_libexecdir}/hx
 
-# Acutal binary we call that uses the runtime folder
+# Actual binary we call that uses the runtime folder
 mkdir -p %{buildroot}%{_bindir}
 touch %{buildroot}%{_bindir}/hx
 cat >> %{buildroot}%{_bindir}/hx <<EOF
