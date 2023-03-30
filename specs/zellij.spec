@@ -19,8 +19,7 @@ Zellij is a workspace aimed at developers, ops-oriented people and anyone who lo
 %build
 
 %install
-mkdir -p %{buildroot}%{_bindir}
-install %{name} %{buildroot}%{_bindir}
+install -p -D %{name} %{buildroot}%{_bindir}/%{name}
 
 %files
 %{_bindir}/%{name}

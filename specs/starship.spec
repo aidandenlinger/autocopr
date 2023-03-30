@@ -12,15 +12,13 @@ Source: %{url}/releases/download/v%{version}/%{name}-x86_64-unknown-linux-gnu.ta
 %description
 Minimal, blazing-fast, and infinitely customizable prompt for any shell! â˜„ğŸŒŒï¸�.
 
-
 %prep
 %autosetup -c
 
 %build
 
 %install
-mkdir -p %{buildroot}%{_bindir}
-install %{name} %{buildroot}%{_bindir}
+install -p -D %{name} %{buildroot}%{_bindir}/%{name}
 
 %files
 %{_bindir}/%{name}
