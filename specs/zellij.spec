@@ -2,7 +2,7 @@
 
 Name:       zellij
 Version: 0.35.2
-Release: 1%{?dist}
+Release: %autorelease
 Summary:    A terminal workspace with batteries included.
 
 License:    MIT
@@ -23,3 +23,6 @@ install -p -D %{name} %{buildroot}%{_bindir}/%{name}
 
 %files
 %{_bindir}/%{name}
+
+%changelog
+%autochangelog

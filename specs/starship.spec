@@ -2,7 +2,7 @@
 
 Name: starship
 Version: 1.13.1
-Release: 1%{?dist}
+Release: %autorelease
 Summary: Minimal, blazing-fast, and infinitely customizable prompt for any shell! â˜„ğŸŒŒï¸�
 
 License: ISC
@@ -22,3 +22,6 @@ install -p -D %{name} %{buildroot}%{_bindir}/%{name}
 
 %files
 %{_bindir}/%{name}
+
+%changelog
+%autochangelog
