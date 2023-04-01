@@ -155,8 +155,9 @@ def main():
     parser.add_argument(
         "directory",
         nargs="?",
-        help='directory where spec files are located. defaults to "specs"',
-        default="specs",
+        help="directory where spec files are located. defaults to the working "
+             "directory",
+        default=".",
     )
     args = parser.parse_args()
 
@@ -177,7 +178,7 @@ def main():
         logging.error("Cannot use --push when not running in a git repository")
         exit(1)
 
-    for spec_loc in Path(args.directory).glob("*.spec"):
+    for spec_loc in Path(args.directory).glob("**/*.spec"):
         logging.info(f"Starting {spec_loc}")
 
         spec = parse_spec(spec_loc)

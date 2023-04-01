@@ -28,5 +28,5 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
       - name: Check and update spec files
-        run: python autocopr.py --verbose --in-place --push
+        run: python autocopr.py --verbose --in-place --push specs
           
