@@ -130,7 +130,8 @@ def main():
     parser.add_argument(
         "-p",
         "--push",
-        help="make git commits with tags and run git push once all update commits are made",
+        help="when updating spec files, immediately push updates with "
+             "cooresponding tags for COPR",
         action="store_true",
     )
     parser.add_argument(
@@ -148,7 +149,7 @@ def main():
     parser.add_argument(
         "-i",
         "--in-place",
-        help="edit the spec files in-place instead of leaving a .bk backup file",
+        help="when updating a spec file, do not store a backup",
         action="store_true",
     )
     parser.add_argument(
@@ -187,7 +188,8 @@ def main():
         logging.info(f"spec file is latest: {is_latest}")
 
         ver_string = (
-            f"{spec.version:8}\t(no update)" if is_latest else f"{spec.version:8}\t{latest:8}"
+            f"{spec.version:8}\t(no update)" if is_latest
+            else f"{spec.version:8}\t{latest:8}"
         )
         update_summary.append(f"{spec.name:15}\t{ver_string}")
 
