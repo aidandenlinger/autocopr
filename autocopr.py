@@ -190,7 +190,13 @@ def main():
                 "skipping this file")
             continue
 
-        is_latest, latest = is_latest_version(spec)
+        try:
+            is_latest, latest = is_latest_version(spec)
+        except KeyError:
+            logging.warning(
+                f"{spec.name} does not have a latest version, skipping")
+            continue
+
         logging.info(f"newest version: {latest}")
         logging.info(f"spec file is latest: {is_latest}")
 
