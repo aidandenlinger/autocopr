@@ -206,6 +206,13 @@ def main():
 
     print("\n".join(update_summary))
 
+    if args.dry_run:
+        print("To update the spec files, run again without the dry-run flag.")
+    elif not args.in_place:
+        print("If any specs were updated, the original spec files now have a "
+              ".bk suffix, and the spec files are updated with the newest "
+              "version.")
+
 
 if __name__ == "__main__":
     main()
