@@ -162,7 +162,8 @@ def main():
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    update_summary = []
+    update_summary = [
+        f"{'Name':15}\t{'Old Version':8}\tNew Version"]
 
     if (
         args.push
@@ -182,16 +183,13 @@ def main():
         logging.info(f"Parsed from spec file: {spec}")
 
         is_latest, latest = is_latest_version(spec)
-        logging.info(
-            f"{spec.name} newest version: {latest}\tis currently up to date: {is_latest}"
-        )
+        logging.info(f"newest version: {latest}")
+        logging.info(f"spec file is latest: {is_latest}")
+
         ver_string = (
-            f"{spec.version:20}" if is_latest else f"{spec.version:8} -> {latest:8}"
+            f"{spec.version:8}\t(no update)" if is_latest else f"{spec.version:8}\t{latest:8}"
         )
-        update_summary.append(
-            f"{spec.name:15}\t{ver_string}\t"
-            f"spec file {'was updated' if not args.dry_run else 'is out of date'}: {not is_latest}"
-        )
+        update_summary.append(f"{spec.name:15}\t{ver_string}")
 
         if not is_latest and not args.dry_run:
             logging.info(f"Updating {spec.name}")
