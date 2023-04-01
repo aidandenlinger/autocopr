@@ -18,7 +18,7 @@ release_pat = re.compile(r"^Release\s*:\s*(\S+)", re.IGNORECASE)
 class SpecData:
     name: str
     version: str
-    url: str
+    url: urllib.parse.ParseResult
     loc: Path
 
 
@@ -40,7 +40,7 @@ def parse_spec(spec_loc: Path) -> SpecData:
                 version = ver_match.group(1)
             elif (url_match := re.search(url_pat, line)) is not None:
                 logging.info(f'Got url from: "{line.rstrip()}"')
-                url = url_match.group(1)
+                url = urllib.parse.urlparse(url_match.group(1))
 
             if name is not None and version is not None and url is not None:
                 return SpecData(name, version, url, spec_loc)
@@ -49,10 +49,10 @@ def parse_spec(spec_loc: Path) -> SpecData:
 
 
 def is_latest_version(spec: SpecData) -> tuple[bool, str]:
-    """Given SpecData, returns a pair of a boolean if
-    the spec is up to date, and the latest version."""
+    """Given SpecData with a github url, returns a pair of a boolean if
+    the spec is up to date and the latest version."""
 
-    project_info = urllib.parse.urlparse(spec.url).path[1:]
+    project_info = spec.url.path[1:]
     url = f"https://api.github.com/repos/{project_info}/releases/latest"
     logging.info(f"Querying {url}")
 
@@ -183,6 +183,12 @@ def main():
 
         spec = parse_spec(spec_loc)
         logging.info(f"Parsed from spec file: {spec}")
+        if spec.url.netloc != "github.com":
+            logging.warning(
+                f"{spec.name} is hosted on {spec.url.netloc} "
+                "but this script only checks projects from github, "
+                "skipping this file")
+            continue
 
         is_latest, latest = is_latest_version(spec)
         logging.info(f"newest version: {latest}")
