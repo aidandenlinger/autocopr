@@ -105,8 +105,9 @@ or by looking in the [specs folder](specs).
 
 ### The `autocopr.py` Script
 The `autocopr.py` script checks all `.spec` files in the given directory and
-updates the files. This doesn't need to be integrated with CI - this can be
-run locally to update any compatible spec files automatically.
+updates the versions to the latest Github Release. This doesn't need to be
+integrated with CI - this can be run locally to update any compatible spec
+files automatically.
 
 #### Install
 
