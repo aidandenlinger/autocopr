@@ -45,14 +45,14 @@ something's updated and you want to update the spec without waiting for the
 daily check.
 
 ## COPR Integration
-TL;DR: Create a new COPR project and follow the Webhooks documentation [here](https://
-docs.pagure.org/copr.copr/user_documentation.html#webhooks). I'll write exactly
-what I did when following the documentation, but steps may have changed so check
-the fedora documentation first!
+TL;DR: Create a new COPR project and follow the Webhooks documentation
+[here](https://docs.pagure.org/copr.copr/user_documentation.html#webhooks).
+I'll write exactly what I did when following the documentation, but steps may
+have changed so check the fedora documentation first!
 
 - Create a new project. You don't need to fill out everything now, I just put
   the name and select the last three fedora versions as my chroot. You should
-  fill this out later if you intend for it to be public.
+  fill out the instructions if you intend for it to be public.
 
 - Go to Packages and hit "Create a New Package".
 - Choose SCM, fill in the package name, clone url (which is the link to your
