@@ -13,9 +13,9 @@ TL;DR: Automatic version bumper for projects that use Github Releases :)
 ## Table of Contents
 
 - [Background](#background)
-- [Install/Usage](#install/usage)
+- [Install/Usage](#installusage)
   - [Using This COPR Repository](#using-this-copr-repository)
-  - [The `autocopr.py` script](#the-autocopr.py-script)
+  - [The `autocopr.py` script](#the-autocoprpy-script)
   - [Integrating with Github Actions and COPR Automatic Builds](#integrating-with-github-actions-and-copr-automatic-builds)
 - [Thanks](#thanks)
 - [Contributing](#contributing)
@@ -31,7 +31,9 @@ Projects) is a build system that takes a
 builds an [RPM package](https://rpm-packaging-guide.github.io/#what-is-an-rpm)
 that can be installed with `dnf`. COPR provides an easy way to integrate user
 packages that aren't in the default Fedora repos into the Fedora package
-management system.
+management system. [Github Actions](https://github.com/features/actions) is
+Github's Continuous Integration/Development system that runs actions based on
+Github events. In our case, we can use it to run a script every 24 hours.
 
 There are a few Rust CLI tools I like to use that aren't in the default
 repository (you can read more about some of the interesting challenges
@@ -165,8 +167,9 @@ backups, will push all spec file changes, and only searches the `specs` folder
 for spec files.
 
 ### Integrating with Github Actions and COPR Automatic Builds
-This process is detailed much further in [DOCS.md](DOCS.md), but if you know
-what you're doing here's a quick summary:
+This repo has a Github Action at .github/workflows/update.yml that runs the
+script every 24 hours. This process is detailed much further in
+[DOCS.md](DOCS.md), but if you know what you're doing here's a quick summary:
 
 - Read through [`autocopr.py`](autocopr.py) and the
   [Github Actions workflow](.github/workflows/update.yml) to make sure you
