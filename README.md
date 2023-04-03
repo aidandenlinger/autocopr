@@ -131,7 +131,7 @@ By default, running the script will
 - if they have github urls, query for the latest release.
 - If the spec file has the latest version, move to next file
 - If it is not up to date, move the current spec to have a .bk suffix
-  and write a new .spec file with the new version and with `%autorelease`.
+  and write a new .spec file with the new version and release set to 1.
 - When done, print a summary of the updates.
 
 You can specify the directory to search for specs in, for instance with this

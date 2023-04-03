@@ -3,7 +3,7 @@
 
 Name:       helix
 Version: 23.03
-Release: %autorelease
+Release:    2%{?dist}
 Summary:    A post-modern modal text editor.
 
 License:    MPL-2.0
@@ -47,6 +47,3 @@ install -v -p -D -m 0644 contrib/completion/hx.zsh %{buildroot}%{_datadir}/zsh/s
 %{_datadir}/bash-completion/completions/hx
 %{_datadir}/fish/vendor_completions.d/hx.fish
 %{_datadir}/zsh/site-functions/_hx
-
-%changelog
-%autochangelog

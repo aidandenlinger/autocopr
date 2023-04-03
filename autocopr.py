@@ -89,8 +89,8 @@ def update_version(
             if re.match(version_pat, line):
                 new_spec.write(f"Version: {latest}\n")
             elif re.match(release_pat, line):
-                # Ensure we're using autorelease
-                new_spec.write("Release: %autorelease\n")
+                # All new versions must start at release 1
+                new_spec.write("Release: 1%{?dist}\n")
             else:
                 new_spec.write(line)
 
