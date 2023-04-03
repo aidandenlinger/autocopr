@@ -22,34 +22,28 @@ Features include Vim-like modal editing, multiple selections, built-in language 
 
 %install
 # Runtime, holds language grammars/etc
-mkdir -p %{buildroot}%{_datadir}/helix
-mv runtime %{buildroot}%{_datadir}/helix
+mkdir -pv %{buildroot}%{_libexecdir}/%{name}
+mv -v runtime %{buildroot}%{_libexecdir}/%{name}
 
-# Helix binary, but in libexec because we don't directly call it
-install -p -D hx %{buildroot}%{_libexecdir}/hx
+# Helix binary, store in libexec so runtime is in the same folder and helix will use it
+# https://github.com/helix-editor/helix/wiki/Troubleshooting#missing-syntax-highlighting
+install -v -p -D hx %{buildroot}%{_libexecdir}/%{name}/hx
 
-# Actual binary we call that uses the runtime folder
-mkdir -p %{buildroot}%{_bindir}
-touch %{buildroot}%{_bindir}/hx
-cat >> %{buildroot}%{_bindir}/hx <<EOF
-#!/usr/bin/sh
-
-HELIX_RUNTIME="%{_datadir}/helix/runtime" exec %{_libexecdir}/hx "\$@"
-EOF
-chmod +x %{buildroot}%{_bindir}/hx
+# Link hx to bin
+mkdir -v %{buildroot}%{_bindir}
+ln -srv %{buildroot}%{_libexecdir}/%{name}/hx %{buildroot}%{_bindir}/hx
 
 # Shell completion
 # Inspired by alacritty's spec build
-install -p -D -m 0644 contrib/completion/hx.bash %{buildroot}%{_datadir}/bash-completion/completions/hx
-install -p -D -m 0644 contrib/completion/hx.fish %{buildroot}%{_datadir}/fish/vendor_completions.d/hx.fish
-install -p -D -m 0644 contrib/completion/hx.zsh %{buildroot}%{_datadir}/zsh/site-functions/_hx
+install -v -p -D -m 0644 contrib/completion/hx.bash %{buildroot}%{_datadir}/bash-completion/completions/hx
+install -v -p -D -m 0644 contrib/completion/hx.fish %{buildroot}%{_datadir}/fish/vendor_completions.d/hx.fish
+install -v -p -D -m 0644 contrib/completion/hx.zsh %{buildroot}%{_datadir}/zsh/site-functions/_hx
 
 %files
 %license LICENSE
 %doc README.md
 %{_bindir}/hx
-%{_libexecdir}/hx
-%{_datadir}/helix/runtime/
+%{_libexecdir}/%{name}
 %{_datadir}/bash-completion/completions/hx
 %{_datadir}/fish/vendor_completions.d/hx.fish
 %{_datadir}/zsh/site-functions/_hx
