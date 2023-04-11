@@ -1,3 +1,4 @@
+import argparse
 import logging
 import subprocess
 import re
@@ -148,8 +149,8 @@ def update_version(
         subprocess.run(["git", "push", "--follow-tags"])
 
 
-def main():
-    import argparse
+def create_parser() -> argparse.ArgumentParser:
+    """Initializes the cli parser."""
 
     parser = argparse.ArgumentParser(
         description="Update versions in RPM Spec files and prepare commits."
@@ -186,7 +187,12 @@ def main():
              "directory",
         default=".",
     )
-    args = parser.parse_args()
+
+    return parser
+
+
+def main():
+    args = create_parser().parse_args()
 
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
