@@ -24,7 +24,10 @@ class SpecData:
 
 
 def parse_spec(spec_loc: Path) -> Optional[SpecData]:
-    """Given a path to a Spec file, returns a parsed version and url."""
+    """Given a path to a Spec file, returns a parsed version and url. Returns
+    None if file does not have a name, version, or URL, or if the URL is not a
+    Github repo."""
+
     name = None
     version = None
     url = None
@@ -61,7 +64,11 @@ def parse_spec(spec_loc: Path) -> Optional[SpecData]:
 def is_latest_version(spec: SpecData, session: requests.Session) -> Optional[tuple[bool, str]]:
     """Given SpecData with a github url, returns a pair of a boolean if
     the spec is up to date and the latest version. Forces usage of a session
-    because all uses of this function will use the same API."""
+    because all uses of this function will use the same API. Returns None
+    if there is no latest version (either the repo has no releases, or
+    you are rate limited by Github. Unauthenticated users only get 60
+    requests per hour -
+    https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limits-for-requests-from-personal-accounts )"""
 
     project_info = spec.url.path[1:]
     url = f"https://api.github.com/repos/{project_info}/releases/latest"
