@@ -1,8 +1,9 @@
 import argparse
+import asyncio
+import httpx
 import logging
 import subprocess
 import re
-import requests
 import urllib.parse
 from typing import Optional
 from pathlib import Path
@@ -63,8 +64,18 @@ def parse_spec(spec_loc: Path) -> Optional[SpecData]:
     return None
 
 
-def get_latest_version(
-    spec: SpecData, session: requests.Session
+async def get_latest_versions(
+        specs: list[SpecData]) -> list[tuple[SpecData, str]]:
+    """Async runner to get the latest versions for all Specs.
+    Disregards specs that do not have a latest version."""
+    # Use a client since we're querying the same API multiple times
+    async with httpx.AsyncClient() as c:
+        return [(spec, latest) for spec in specs
+                if (latest := await get_latest_version(spec, c)) is not None]
+
+
+async def get_latest_version(
+    spec: SpecData, client: httpx.AsyncClient
 ) -> Optional[str]:
     """Given SpecData with a github url, returns the latest version. Forces
     usage of a session because all uses of this function will use the same
@@ -78,11 +89,12 @@ def get_latest_version(
     url = f"https://api.github.com/repos/{project_info}/releases/latest"
     logging.info(f"Querying {url}")
 
-    req = session.get(
+    raw_req = await client.get(
         url,
         params={"X-GitHub-Api-Version": "2022-11-28",
                 "Accept": "application/vnd.github+json"},
-    ).json()
+    )
+    req = raw_req.json()
 
     try:
         latest_tag: str = req["tag_name"]
@@ -221,11 +233,7 @@ def main():
                              in Path(args.directory).glob("**/*.spec")
                              if (parsed := parse_spec(spec)) is not None]
 
-    # Use a session since we're querying the same API multiple times
-    with requests.Session() as s:
-        latest_ver = [(spec, latest)
-                      for spec in specs
-                      if (latest := get_latest_version(spec, s)) is not None]
+    latest_ver = asyncio.run(get_latest_versions(specs))
 
     update_summary = [
         f"{'Name':15}\t{'Old Version':8}\tNew Version"]
