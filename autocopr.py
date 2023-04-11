@@ -3,6 +3,7 @@ import subprocess
 import re
 import requests
 import urllib.parse
+from typing import Optional
 from pathlib import Path
 from dataclasses import dataclass
 
@@ -22,7 +23,7 @@ class SpecData:
     loc: Path
 
 
-def parse_spec(spec_loc: Path) -> SpecData:
+def parse_spec(spec_loc: Path) -> Optional[SpecData]:
     """Given a path to a Spec file, returns a parsed version and url."""
     name = None
     version = None
@@ -41,14 +42,23 @@ def parse_spec(spec_loc: Path) -> SpecData:
             elif (url_match := re.search(url_pat, line)) is not None:
                 logging.info(f'Got url from: "{line.rstrip()}"')
                 url = urllib.parse.urlparse(url_match.group(1))
+                if url.netloc != "github.com":
+                    logging.warning(
+                        f"{spec_loc} is hosted on {url.netloc} "
+                        "but this script only checks projects from github, "
+                        "skipping this file")
+                    return None
 
             if name is not None and version is not None and url is not None:
-                return SpecData(name, version, url, spec_loc)
+                parsed = SpecData(name, version, url, spec_loc)
+                logging.info(f"Parsed from file: {parsed}")
+                return parsed
 
-    raise Exception(f"Missing version or URL in {spec_loc}!")
+    logging.warning(f"Missing version or URL in {spec_loc}! Skipping")
+    return None
 
 
-def is_latest_version(spec: SpecData) -> tuple[bool, str]:
+def is_latest_version(spec: SpecData) -> Optional[tuple[bool, str]]:
     """Given SpecData with a github url, returns a pair of a boolean if
     the spec is up to date and the latest version."""
 
@@ -56,11 +66,16 @@ def is_latest_version(spec: SpecData) -> tuple[bool, str]:
     url = f"https://api.github.com/repos/{project_info}/releases/latest"
     logging.info(f"Querying {url}")
 
-    latest_tag: str = requests.get(
-        url,
-        {"X-GitHub-Api-Version": "2022-11-28",
-            "Accept": "application/vnd.github+json"},
-    ).json()["tag_name"]
+    try:
+        latest_tag: str = requests.get(
+            url,
+            {"X-GitHub-Api-Version": "2022-11-28",
+                "Accept": "application/vnd.github+json"},
+        ).json()["tag_name"]
+    except KeyError:
+        logging.warning(
+            f"{spec.name} does not have a latest version, skipping")
+        return None
 
     # Trims tags like "v0.35.2" to "0.35.2" by cutting from the front until we
     # hit a digit
@@ -80,6 +95,7 @@ def update_version(
     the package, update the version in the spec and make a commit with the
     cooresponding COPR tag."""
 
+    logging.info(f"Updating {spec.name} file to {latest}...")
     spec_loc_backup = spec.loc.rename(
         spec.loc.with_suffix(spec.loc.suffix + ".bak"))
 
@@ -96,9 +112,12 @@ def update_version(
 
     if inplace:
         spec_loc_backup.unlink()
+    else:
+        logging.info("Original spec file is at {spec_loc_backup}")
 
     # Add a commit with this update and tag it so COPR sees it
     if push:
+        logging.info("Pushing changes...")
         subprocess.run(["git", "add", str(spec.loc)])
         subprocess.run(
             ["git", "commit", "-m", f"Update {spec.name} to {latest}"])
@@ -164,9 +183,6 @@ def main():
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    update_summary = [
-        f"{'Name':15}\t{'Old Version':8}\tNew Version"]
-
     if (
         args.push
         and subprocess.run(
@@ -178,37 +194,25 @@ def main():
         logging.error("Cannot use --push when not running in a git repository")
         exit(1)
 
-    for spec_loc in Path(args.directory).glob("**/*.spec"):
-        logging.info(f"Starting {spec_loc}")
+    specs = [parsed for spec in Path(args.directory).glob("**/*.spec")
+             if (parsed := parse_spec(spec)) is not None]
 
-        spec = parse_spec(spec_loc)
-        logging.info(f"Parsed from spec file: {spec}")
-        if spec.url.netloc != "github.com":
-            logging.warning(
-                f"{spec.name} is hosted on {spec.url.netloc} "
-                "but this script only checks projects from github, "
-                "skipping this file")
-            continue
+    is_latest = {spec: latest for spec in specs
+                 if (latest := is_latest_version(spec)) is not None}
+    logging.info({k.name: v for k, v in is_latest.items()})
 
-        try:
-            is_latest, latest = is_latest_version(spec)
-        except KeyError:
-            logging.warning(
-                f"{spec.name} does not have a latest version, skipping")
-            continue
+    update_summary = [
+        f"{'Name':15}\t{'Old Version':8}\tNew Version"]
 
-        logging.info(f"newest version: {latest}")
-        logging.info(f"spec file is latest: {is_latest}")
+    update_summary += [f"{spec.name:15}\t{spec.version:8}\t"
+                       f"{'(no update)' if is_latest[0] else is_latest[1]}"
+                       for (spec, is_latest) in is_latest.items()]
 
-        ver_string = (
-            f"{spec.version:8}\t(no update)" if is_latest
-            else f"{spec.version:8}\t{latest:8}"
-        )
-        update_summary.append(f"{spec.name:15}\t{ver_string}")
-
-        if not is_latest and not args.dry_run:
-            logging.info(f"Updating {spec.name}")
-            update_version(spec, latest, inplace=args.in_place, push=args.push)
+    if not args.dry_run:
+        for (spec, latest_version) in {k: v[1] for k, v in is_latest.items()
+                                       if not v[0]}.items():
+            update_version(spec, latest_version,
+                           inplace=args.in_place, push=args.push)
 
     print("\n".join(update_summary))
 
@@ -218,6 +222,8 @@ def main():
         print("If any specs were updated, the original spec files now have a "
               ".bk suffix, and the spec files are updated with the newest "
               "version.")
+    else:
+        print("Any updates have been applied to the spec files.")
 
 
 if __name__ == "__main__":
