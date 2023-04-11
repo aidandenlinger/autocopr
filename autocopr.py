@@ -58,19 +58,20 @@ def parse_spec(spec_loc: Path) -> Optional[SpecData]:
     return None
 
 
-def is_latest_version(spec: SpecData) -> Optional[tuple[bool, str]]:
+def is_latest_version(spec: SpecData, session: requests.Session) -> Optional[tuple[bool, str]]:
     """Given SpecData with a github url, returns a pair of a boolean if
-    the spec is up to date and the latest version."""
+    the spec is up to date and the latest version. Forces usage of a session
+    because all uses of this function will use the same API."""
 
     project_info = spec.url.path[1:]
     url = f"https://api.github.com/repos/{project_info}/releases/latest"
     logging.info(f"Querying {url}")
 
     try:
-        latest_tag: str = requests.get(
+        latest_tag: str = session.get(
             url,
-            {"X-GitHub-Api-Version": "2022-11-28",
-                "Accept": "application/vnd.github+json"},
+            params={"X-GitHub-Api-Version": "2022-11-28",
+                    "Accept": "application/vnd.github+json"},
         ).json()["tag_name"]
     except KeyError:
         logging.warning(
@@ -197,8 +198,11 @@ def main():
     specs = [parsed for spec in Path(args.directory).glob("**/*.spec")
              if (parsed := parse_spec(spec)) is not None]
 
-    is_latest = {spec: latest for spec in specs
-                 if (latest := is_latest_version(spec)) is not None}
+    # Use a session since we're querying the same API multiple times
+    with requests.Session() as s:
+        is_latest = {spec: latest for spec in specs
+                     if (latest := is_latest_version(spec, s)) is not None}
+
     logging.info({k.name: v for k, v in is_latest.items()})
 
     update_summary = [
