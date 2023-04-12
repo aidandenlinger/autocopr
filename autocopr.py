@@ -18,6 +18,7 @@ release_pat = re.compile(r"^Release\s*:\s*(\S+)", re.IGNORECASE)
 
 @dataclass(frozen=True)
 class SpecData:
+    """Data from a parsed spec file."""
     name: str
     version: str
     url: urllib.parse.ParseResult
