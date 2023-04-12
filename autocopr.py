@@ -59,7 +59,7 @@ def parse_spec(spec_loc: Path) -> Optional[SpecData]:
                 logging.info(f"Parsed from file: {parsed}")
                 return parsed
 
-    logging.warning(f"Missing version or URL in {spec_loc}! Skipping")
+    logging.warning(f"Missing name, version or URL in {spec_loc}! Skipping")
     return None
 
 
@@ -78,15 +78,20 @@ def get_latest_version(
     url = f"https://api.github.com/repos/{project_info}/releases/latest"
     logging.info(f"Querying {url}")
 
+    req = session.get(
+        url,
+        params={"X-GitHub-Api-Version": "2022-11-28",
+                "Accept": "application/vnd.github+json"},
+    ).json()
+
     try:
-        latest_tag: str = session.get(
-            url,
-            params={"X-GitHub-Api-Version": "2022-11-28",
-                    "Accept": "application/vnd.github+json"},
-        ).json()["tag_name"]
+        latest_tag: str = req["tag_name"]
     except KeyError:
         logging.warning(
             f"{spec.name} does not have a latest version, skipping")
+        logging.info("Request received:")
+        import json
+        logging.info(json.dumps(req, indent=4))
         return None
 
     # Trims tags like "v0.35.2" to "0.35.2" by cutting from the front until we
