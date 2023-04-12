@@ -211,8 +211,9 @@ def main():
         logging.error("Cannot use --push when not running in a git repository")
         exit(1)
 
-    specs = [parsed for spec in Path(args.directory).glob("**/*.spec")
-             if (parsed := parse_spec(spec)) is not None]
+    specs: list[SpecData] = [parsed for spec
+                             in Path(args.directory).glob("**/*.spec")
+                             if (parsed := parse_spec(spec)) is not None]
 
     # Use a session since we're querying the same API multiple times
     with requests.Session() as s:
