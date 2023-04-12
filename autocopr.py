@@ -96,6 +96,7 @@ def get_latest_version(
     # Assumes the version has a digit somewhere in it
     first_digit = [x.isdigit() for x in latest_tag].index(True)
     latest_version = latest_tag[first_digit:]
+    logging.info(f"{spec.name} latest version is {latest_version}")
 
     return latest_version
 
@@ -217,21 +218,19 @@ def main():
 
     # Use a session since we're querying the same API multiple times
     with requests.Session() as s:
-        latest_ver: dict[SpecData, str] = {spec: latest for spec in specs
-                                           if (latest := get_latest_version(spec, s))
-                                           is not None}
-
-    logging.info({spec.name: latest for spec, latest in latest_ver.items()})
+        latest_ver = [(spec, latest)
+                      for spec in specs
+                      if (latest := get_latest_version(spec, s)) is not None]
 
     update_summary = [
         f"{'Name':15}\t{'Old Version':8}\tNew Version"]
 
     update_summary += [f"{spec.name:15}\t{spec.version:8}\t"
                        f"{'(no update)' if spec.version == latest else latest}"
-                       for (spec, latest) in latest_ver.items()]
+                       for (spec, latest) in latest_ver]
 
     if not args.dry_run:
-        for (spec, latest) in latest_ver.items():
+        for (spec, latest) in latest_ver:
             if spec.version != latest:
                 update_version(
                     spec, latest, inplace=args.in_place, push=args.push)
