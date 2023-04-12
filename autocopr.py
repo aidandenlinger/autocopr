@@ -70,9 +70,9 @@ def get_latest_version(
     usage of a session because all uses of this function will use the same
     API. Returns None if there is no latest version (either the repo has no
     releases, or you are rate limited by Github. Unauthenticated users only get
-    60 requests per hour - https://docs.github.com/en/rest/overview/resources-
-    in- the-rest-api?apiVersion=2022-11-28#rate-limits-for-requests-from-
-    personal- accounts )"""
+    60 requests per hour -
+    https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limits-for-requests-from-personal-accounts
+    )"""
 
     project_info = spec.url.path[1:]
     url = f"https://api.github.com/repos/{project_info}/releases/latest"
