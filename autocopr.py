@@ -62,14 +62,16 @@ def parse_spec(spec_loc: Path) -> Optional[SpecData]:
     return None
 
 
-def is_latest_version(spec: SpecData, session: requests.Session) -> Optional[tuple[bool, str]]:
-    """Given SpecData with a github url, returns a pair of a boolean if
-    the spec is up to date and the latest version. Forces usage of a session
-    because all uses of this function will use the same API. Returns None
-    if there is no latest version (either the repo has no releases, or
-    you are rate limited by Github. Unauthenticated users only get 60
-    requests per hour -
-    https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limits-for-requests-from-personal-accounts )"""
+def get_latest_version(
+    spec: SpecData, session: requests.Session
+) -> Optional[str]:
+    """Given SpecData with a github url, returns the latest version. Forces
+    usage of a session because all uses of this function will use the same
+    API. Returns None if there is no latest version (either the repo has no
+    releases, or you are rate limited by Github. Unauthenticated users only get
+    60 requests per hour - https://docs.github.com/en/rest/overview/resources-
+    in- the-rest-api?apiVersion=2022-11-28#rate-limits-for-requests-from-
+    personal- accounts )"""
 
     project_info = spec.url.path[1:]
     url = f"https://api.github.com/repos/{project_info}/releases/latest"
@@ -94,7 +96,7 @@ def is_latest_version(spec: SpecData, session: requests.Session) -> Optional[tup
     first_digit = [x.isdigit() for x in latest_tag].index(True)
     latest_version = latest_tag[first_digit:]
 
-    return (latest_version == spec.version, latest_version)
+    return latest_version
 
 
 def update_version(
@@ -213,23 +215,24 @@ def main():
 
     # Use a session since we're querying the same API multiple times
     with requests.Session() as s:
-        is_latest = {spec: latest for spec in specs
-                     if (latest := is_latest_version(spec, s)) is not None}
+        latest_ver: dict[SpecData, str] = {spec: latest for spec in specs
+                                           if (latest := get_latest_version(spec, s))
+                                           is not None}
 
-    logging.info({k.name: v for k, v in is_latest.items()})
+    logging.info({spec.name: latest for spec, latest in latest_ver.items()})
 
     update_summary = [
         f"{'Name':15}\t{'Old Version':8}\tNew Version"]
 
     update_summary += [f"{spec.name:15}\t{spec.version:8}\t"
-                       f"{'(no update)' if is_latest[0] else is_latest[1]}"
-                       for (spec, is_latest) in is_latest.items()]
+                       f"{'(no update)' if spec.version == latest else latest}"
+                       for (spec, latest) in latest_ver.items()]
 
     if not args.dry_run:
-        for (spec, latest_version) in {k: v[1] for k, v in is_latest.items()
-                                       if not v[0]}.items():
-            update_version(spec, latest_version,
-                           inplace=args.in_place, push=args.push)
+        for (spec, latest) in latest_ver.items():
+            if spec.version != latest:
+                update_version(
+                    spec, latest, inplace=args.in_place, push=args.push)
 
     print("\n".join(update_summary))
 
