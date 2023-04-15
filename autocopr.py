@@ -63,9 +63,15 @@ def parse_spec(spec_loc: Path) -> Optional[SpecData]:
     return None
 
 
+@dataclass(frozen=True)
+class Latest:
+    ver: str
+    url: str
+
+
 def get_latest_version(
     spec: SpecData, session: requests.Session
-) -> Optional[str]:
+) -> Optional[Latest]:
     """Given SpecData with a github url, returns the latest version. Forces
     usage of a session because all uses of this function will use the same
     API. Returns None if there is no latest version (either the repo has no
@@ -86,6 +92,7 @@ def get_latest_version(
 
     try:
         latest_tag: str = req["tag_name"]
+        latest_url: str = req["html_url"]
     except KeyError:
         logging.warning(
             f"{spec.name} does not have a latest version, skipping")
@@ -103,17 +110,17 @@ def get_latest_version(
     latest_version = latest_tag[first_digit:]
     logging.info(f"{spec.name} latest version is {latest_version}")
 
-    return latest_version
+    return Latest(latest_version, latest_url)
 
 
 def update_version(
-    spec: SpecData, latest: str, inplace: bool = False, push: bool = False
+    spec: SpecData, latest: Latest, inplace: bool = False, push: bool = False
 ):
     """Given the location of a spec file, the latest version, and the name of
     the package, update the version in the spec and make a commit with the
     cooresponding COPR tag."""
 
-    logging.info(f"Updating {spec.name} file to {latest}...")
+    logging.info(f"Updating {spec.name} file to {latest.ver}...")
     spec_loc_backup = spec.loc.rename(
         spec.loc.with_suffix(spec.loc.suffix + ".bak"))
 
@@ -121,7 +128,7 @@ def update_version(
         # Again, assumes that Version and Release are only defined once!
         for line in old_spec:
             if re.match(version_pat, line):
-                new_spec.write(f"Version: {latest}\n")
+                new_spec.write(f"Version: {latest.ver}\n")
             elif re.match(release_pat, line):
                 # All new versions must start at release 1
                 new_spec.write("Release: 1%{?dist}\n")
@@ -136,23 +143,13 @@ def update_version(
     # Add a commit with this update and tag it so COPR sees it
     if push:
         logging.info("Pushing changes...")
+        commit_msg = f"Update {spec.name} to {latest.ver}\n\n{latest.url}"
         subprocess.run(["git", "add", str(spec.loc)])
-        subprocess.run(
-            ["git", "commit", "-m", f"Update {spec.name} to {latest}"])
-        # Force the new tag, useful for testing
+        subprocess.run(["git", "commit", "-m", commit_msg])
         # Have to make an annotated tag for github to recognize it
-        # message is the same as the tag name
-        subprocess.run(
-            [
-                "git",
-                "tag",
-                "-f",
-                "-a",
-                "-m",
-                f"Update {spec.name} to {latest}",
-                f"{spec.name}-{latest}",
-            ]
-        )
+        # message is the same as the commit message
+        subprocess.run(["git", "tag", "-a", "-m", commit_msg,
+                        f"{spec.name}-{latest.ver}"])
         # The github webhooks won't fire if 3+ tags are made at once, to be
         # defensive push each tag by itself
         subprocess.run(["git", "push", "--follow-tags"])
@@ -223,20 +220,20 @@ def main():
 
     # Use a session since we're querying the same API multiple times
     with requests.Session() as s:
-        latest_ver = [(spec, latest)
-                      for spec in specs
-                      if (latest := get_latest_version(spec, s)) is not None]
+        latest_vers = [(spec, latest)
+                       for spec in specs
+                       if (latest := get_latest_version(spec, s)) is not None]
 
     update_summary = [
         f"{'Name':15}\t{'Old Version':8}\tNew Version"]
 
     update_summary += [f"{spec.name:15}\t{spec.version:8}\t"
-                       f"{'(no update)' if spec.version == latest else latest}"
-                       for (spec, latest) in latest_ver]
+                       f"{'(no update)' if spec.version == latest.ver else latest.ver}"
+                       for (spec, latest) in latest_vers]
 
     if not args.dry_run:
-        for (spec, latest) in latest_ver:
-            if spec.version != latest:
+        for (spec, latest) in latest_vers:
+            if spec.version != latest.ver:
                 update_version(
                     spec, latest, inplace=args.in_place, push=args.push)
 
