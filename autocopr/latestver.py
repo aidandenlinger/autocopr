@@ -1,7 +1,8 @@
 import requests
-from .specdata import SpecData
+
 from .githubapi import rest
 from .githubapi.latest import Latest
+from .specdata import SpecData
 
 
 def get_latest_versions(

@@ -1,8 +1,8 @@
-from . import cli, specdata, latestver, update
 import logging
 import subprocess
-from .specdata import SpecData
 from pathlib import Path
+
+from . import cli, latestver, specdata, update
 
 
 def main():
@@ -22,10 +22,9 @@ def main():
         logging.error("Cannot use --push when not running in a git repository")
         exit(1)
 
-    specs: list[SpecData] = [parsed for spec
-                             in Path(args.directory).glob("**/*.spec")
-                             if (parsed := specdata.parse_spec(spec))
-                             is not None]
+    specs = [parsed for spec
+             in Path(args.directory).glob("**/*.spec")
+             if (parsed := specdata.parse_spec(spec)) is not None]
 
     latest_vers = latestver.get_latest_versions(specs)
 

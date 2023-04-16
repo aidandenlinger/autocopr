@@ -1,9 +1,10 @@
 import logging
 import re
 import subprocess
+
+from .githubapi.latest import Latest
 from .regexconstants import RegexConstants
 from .specdata import SpecData
-from .githubapi.latest import Latest
 
 
 def update_version(

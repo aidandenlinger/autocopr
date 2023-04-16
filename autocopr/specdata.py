@@ -2,9 +2,10 @@ import logging
 import re
 import urllib.parse
 from dataclasses import dataclass
-from .regexconstants import RegexConstants
 from pathlib import Path
 from typing import Optional
+
+from .regexconstants import RegexConstants
 
 
 @dataclass(frozen=True)

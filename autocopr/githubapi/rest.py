@@ -1,8 +1,10 @@
 import logging
-import requests
-from .latest import Latest
-from ..specdata import SpecData
 from typing import Optional
+
+import requests
+
+from ..githubapi.latest import Latest
+from ..specdata import SpecData
 
 
 def get_latest_version(
