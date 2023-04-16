@@ -123,8 +123,14 @@ to install the necessary dependencies.
 #### Usage
 
 ```shell
-python autocopr/autocopr.py
+python -m autocopr.autocopr
 ```
+
+This will run the `autocopr/autocopr.py` script. It needs to be run with the
+`-m` flag because `autocopr` is a module. I wanted everything to be within one
+folder instead of having an `autocopr` library and a script outside of it, so
+it was either a weird file layout or a weird way to call the script, I went with
+the latter. There is likely a better way of doing this.
 
 By default, running the script will
 - check all .spec files in the current working directory 
@@ -138,7 +144,7 @@ You can specify the directory to search for specs in, for instance with this
 repo it would be better to run
 
 ```shell
-python autocopr/autocopr.py specs
+python -m autocopr.autocopr specs
 ```
 
 to only search the `specs` folder.
@@ -160,7 +166,7 @@ There are a few flags:
 The command the Github Action runs is
 
 ```shell
-python autocopr/autocopr.py --verbose --in-place --push specs
+python -m autocopr.autocopr --verbose --in-place --push specs
 ```
 
 which means that it will print all info to standard out, will not create

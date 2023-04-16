@@ -2,7 +2,7 @@ import logging
 import re
 import urllib.parse
 from dataclasses import dataclass
-from regexconstants import RegexConstants
+from .regexconstants import RegexConstants
 from pathlib import Path
 from typing import Optional
 
@@ -14,6 +14,7 @@ class SpecData:
     version: str
     url: urllib.parse.ParseResult
     loc: Path
+
 
 def parse_spec(spec_loc: Path) -> Optional[SpecData]:
     """Given a path to a Spec file, returns a parsed version and url. Returns

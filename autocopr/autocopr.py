@@ -1,11 +1,7 @@
-import cli
+from . import cli, specdata, latestver, update
 import logging
 import subprocess
-import requests
-import specdata
-import latestver
-import update
-from specdata import SpecData
+from .specdata import SpecData
 from pathlib import Path
 
 
@@ -31,12 +27,7 @@ def main():
                              if (parsed := specdata.parse_spec(spec))
                              is not None]
 
-    # Use a session since we're querying the same API multiple times
-    with requests.Session() as s:
-        latest_vers = [(spec, latest)
-                       for spec in specs
-                       if (latest := latestver.get_latest_version(spec, s))
-                       is not None]
+    latest_vers = latestver.get_latest_versions(specs)
 
     update_summary = [
         f"{'Name':15}\t{'Old Version':8}\tNew Version"]
