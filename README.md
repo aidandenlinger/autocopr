@@ -15,7 +15,7 @@ TL;DR: Automatic version bumper for projects that use Github Releases :)
 - [Background](#background)
 - [Install/Usage](#installusage)
   - [Using This COPR Repository](#using-this-copr-repository)
-  - [The `autocopr.py` script](#the-autocoprpy-script)
+  - [The `autocopr.py` Program](#the-autocoprpy-program)
   - [Integrating with Github Actions and COPR Automatic Builds](#integrating-with-github-actions-and-copr-automatic-builds)
 - [Thanks](#thanks)
 - [Contributing](#contributing)
@@ -103,11 +103,11 @@ See all packages on
 [Copr](https://copr.fedorainfracloud.org/coprs/adenl/github-releases/packages/)
 or by looking in the [specs folder](specs).
 
-### The `autocopr.py` Script
-The `autocopr.py` script checks all `.spec` files in the given directory and
-updates the versions to the latest Github Release. This doesn't need to be
-integrated with CI - this can be run locally to update any compatible spec
-files automatically.
+### The `autocopr.py` Program
+The `autocopr.py` program (in the [`autocopr` folder](autocopr)) checks all
+`.spec` files in the given directory and updates the versions to the latest
+Github Release. This doesn't need to be integrated with CI - this can be run
+locally to update any compatible spec files automatically.
 
 #### Install
 
@@ -123,7 +123,7 @@ to install the necessary dependencies.
 #### Usage
 
 ```shell
-python autocopr.py
+python autocopr/autocopr.py
 ```
 
 By default, running the script will
@@ -138,7 +138,7 @@ You can specify the directory to search for specs in, for instance with this
 repo it would be better to run
 
 ```shell
-python autocopr.py specs
+python autocopr/autocopr.py specs
 ```
 
 to only search the `specs` folder.
@@ -160,7 +160,7 @@ There are a few flags:
 The command the Github Action runs is
 
 ```shell
-python autocopr.py --verbose --in-place --push specs
+python autocopr/autocopr.py --verbose --in-place --push specs
 ```
 
 which means that it will print all info to standard out, will not create
@@ -172,7 +172,7 @@ This repo has a Github Action at .github/workflows/update.yml that runs the
 script every 24 hours. This process is detailed much further in
 [DOCS.md](DOCS.md), but if you know what you're doing here's a quick summary:
 
-- Read through [`autocopr.py`](autocopr.py) and the
+- Read through [`autocopr.py`](autocopr/autocopr.py) and the
   [Github Actions workflow](.github/workflows/update.yml) to make sure you
   understand and trust what this is doing
 - Fork this repository (button in the top right)
