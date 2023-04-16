@@ -11,35 +11,35 @@ def main():
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    if (
-        args.push
-        and subprocess.run(
-            ["git", "rev-parse", "--is-inside-work-tree"], capture_output=True
-        ).returncode
-        != 0
-    ):
+    if (args.push
+            and subprocess.run(["git", "rev-parse", "--is-inside-work-tree"],
+                               capture_output=True).returncode != 0):
         # We're not in a git repository, exit
         logging.error("Cannot use --push when not running in a git repository")
         exit(1)
 
-    specs = [parsed for spec
-             in Path(args.directory).glob("**/*.spec")
-             if (parsed := specdata.parse_spec(spec)) is not None]
+    specs = [
+        parsed for spec in Path(args.directory).glob("**/*.spec")
+        if (parsed := specdata.parse_spec(spec)) is not None
+    ]
 
     latest_vers = latestver.get_latest_versions(specs)
 
-    update_summary = [
-        f"{'Name':15}\t{'Old Version':8}\tNew Version"]
+    update_summary = [f"{'Name':15}\t{'Old Version':8}\tNew Version"]
 
-    update_summary += [f"{spec.name:15}\t{spec.version:8}\t"
-                       f"{'(no update)' if spec.version == latest.ver else latest.ver}"
-                       for (spec, latest) in latest_vers]
+    update_summary += [
+        f"{spec.name:15}\t{spec.version:8}\t"
+        f"{'(no update)' if spec.version == latest.ver else latest.ver}"
+        for (spec, latest) in latest_vers
+    ]
 
     if not args.dry_run:
         for (spec, latest) in latest_vers:
             if spec.version != latest.ver:
-                update.update_version(
-                    spec, latest, inplace=args.in_place, push=args.push)
+                update.update_version(spec,
+                                      latest,
+                                      inplace=args.in_place,
+                                      push=args.push)
 
     print("\n".join(update_summary))
 

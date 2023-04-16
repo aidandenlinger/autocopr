@@ -5,13 +5,12 @@ def create_parser() -> argparse.ArgumentParser:
     """Initializes the cli parser."""
 
     parser = argparse.ArgumentParser(
-        description="Update versions in RPM Spec files and prepare commits."
-    )
+        description="Update versions in RPM Spec files and prepare commits.")
     parser.add_argument(
         "-p",
         "--push",
         help="when updating spec files, immediately push updates with "
-             "cooresponding tags for COPR",
+        "cooresponding tags for COPR",
         action="store_true",
     )
     parser.add_argument(
@@ -36,7 +35,7 @@ def create_parser() -> argparse.ArgumentParser:
         "directory",
         nargs="?",
         help="directory where spec files are located. defaults to the working "
-             "directory",
+        "directory",
         default=".",
     )
 

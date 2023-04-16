@@ -7,9 +7,8 @@ from ..githubapi.latest import Latest
 from ..specdata import SpecData
 
 
-def get_latest_version(
-    spec: SpecData, session: requests.Session
-) -> Optional[Latest]:
+def get_latest_version(spec: SpecData,
+                       session: requests.Session) -> Optional[Latest]:
     """Given SpecData with a github url, returns the latest version. Forces
     usage of a session because all uses of this function will use the same
     API. Returns None if there is no latest version (either the repo has no
@@ -24,8 +23,10 @@ def get_latest_version(
 
     req = session.get(
         url,
-        params={"X-GitHub-Api-Version": "2022-11-28",
-                "Accept": "application/vnd.github+json"},
+        params={
+            "X-GitHub-Api-Version": "2022-11-28",
+            "Accept": "application/vnd.github+json"
+        },
     ).json()
 
     try:
