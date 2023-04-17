@@ -24,7 +24,7 @@ def main():
         if (parsed := specdata.parse_spec(spec)) is not None
     ]
 
-    latest_vers = latestver.get_latest_versions(specs)
+    latest_vers = latestver.get_latest_versions(specs, args.github_token)
 
     update_summary = [f"{'Name':15}\t{'Old Version':8}\tNew Version"]
 

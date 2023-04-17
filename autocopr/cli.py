@@ -1,4 +1,5 @@
 import argparse
+import os
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -31,6 +32,11 @@ def create_parser() -> argparse.ArgumentParser:
         help="when updating a spec file, do not store a backup",
         action="store_true",
     )
+    parser.add_argument(
+        "--github-token",
+        default=os.environ.get("GITHUB_TOKEN"),
+        help=("Github token to use to access the GraphQL API. "
+              "Defaults to GITHUB_TOKEN environment variable if not set."))
     parser.add_argument(
         "directory",
         nargs="?",

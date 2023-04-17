@@ -151,6 +151,11 @@ to only search the `specs` folder.
 
 There are a few flags:
 - `--help` will print all the flags and stop.
+- `--github-token` allows you to pass in a github token to use the GraphQL API,
+  which makes less requests to the Github API and therefore can be faster. It
+  can also be set with the `GITHUB_TOKEN` environment variable to keep the
+  token out of your terminal history. The command line flag will take priority
+  over the environment variable.
 - `-d / --dry-run` will not edit any files, and only print if files are
   outdated.
 - `-v / --verbose` will print all information to stdout.
