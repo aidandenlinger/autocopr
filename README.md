@@ -152,12 +152,16 @@ to only search the `specs` folder.
 There are a few flags:
 - `--help` will print all the flags and stop.
 - `--github-token` allows you to pass in a github token to use the GraphQL API,
-  which makes less requests to the Github API and therefore can be faster. It
-  can also be set with the `GITHUB_TOKEN` environment variable to keep the
-  token out of your terminal history. The command line flag will take priority
-  over the environment variable. Using the GraphQL api will create a
-  `graphql_id_cache.json` file with your specs that stores GraphQL ids for each
-  repo.
+  which makes less requests to the Github API and therefore is often faster.
+  It can also be set with the `GITHUB_TOKEN` environment variable (you may want
+  to do this to keep the token out of your terminal command history). Any token
+  defined with the command line flag will take priority over the environment
+  variable. The Github Action in this repo automatically provides a token, to
+  use it locally read [the GraphQL authentication
+  docs](https://docs.github.com/en/graphql/guides/forming-calls-with-graphql#authenticating-with-graphql).
+  Using the GraphQL api will create a `graphql_id_cache.json` file with your
+  specs that stores GraphQL ids for each repo, this should be left alone for
+  quicker GraphQL queries.
 - `-d / --dry-run` will not edit any files, and only print if files are
   outdated.
 - `-v / --verbose` will print all information to stdout.

@@ -25,8 +25,8 @@ def get_latest_versions(specs: list[SpecData], token: Optional[str],
             "GITHUB_TOKEN environment variable or --github-token flag is not set, "
             "using REST api instead of GraphQL.")
         logging.warning(
-            "The REST API is slower and you are limited to 60 calls per hour "
-            "without authenticating.")
+            "The REST API requires more connections, gathers more data than is "
+            "needed, and you are limited to 60 requests per hour without a token.")
 
         with requests.Session() as s:
             return [(spec, latest) for spec in specs
