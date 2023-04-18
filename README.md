@@ -151,6 +151,17 @@ to only search the `specs` folder.
 
 There are a few flags:
 - `--help` will print all the flags and stop.
+- `--github-token` allows you to pass in a github token to use the GraphQL API,
+  which makes less requests to the Github API and therefore is often faster.
+  It can also be set with the `GITHUB_TOKEN` environment variable (you may want
+  to do this to keep the token out of your terminal command history). Any token
+  defined with the command line flag will take priority over the environment
+  variable. The Github Action in this repo automatically provides a token, to
+  use it locally read [the GraphQL authentication
+  docs](https://docs.github.com/en/graphql/guides/forming-calls-with-graphql#authenticating-with-graphql).
+  Using the GraphQL api will create a `graphql_id_cache.json` file with your
+  specs that stores GraphQL ids for each repo, this should be left alone for
+  quicker GraphQL queries.
 - `-d / --dry-run` will not edit any files, and only print if files are
   outdated.
 - `-v / --verbose` will print all information to stdout.
@@ -171,20 +182,22 @@ python -m autocopr.autocopr --verbose --in-place --push specs
 
 which means that it will print all info to standard out, will not create
 backups, will push all spec file changes, and only searches the `specs` folder
-for spec files.
+for spec files. It also passes a Github token in the environment to allow for
+authentication to the GraphQL library.
 
 ### Integrating with Github Actions and COPR Automatic Builds
 This repo has a Github Action at .github/workflows/update.yml that runs the
 script every 24 hours. This process is detailed much further in
 [DOCS.md](DOCS.md), but if you know what you're doing here's a quick summary:
 
-- Read through [`autocopr.py`](autocopr/autocopr.py) and the
+- Read through [`autocopr`](autocopr/autocopr.py) and the
   [Github Actions workflow](.github/workflows/update.yml) to make sure you
-  understand and trust what this is doing
+  understand and trust what this is doing. Please note that the Github token
+  handed to the script has permissions to read/write to any of your repos, so
+  please make sure you understand and trust how that is used! It's only used
+  to push to its own repo and to authenticate to the GraphQL API, but you
+  should verify that I'm telling the truth here :)
 - Fork this repository (button in the top right)
-- Go to Settings -> Actions -> General, scroll to the bottom and set Workflow
-  Permissions to "Read and write permissions". This allows the Github workflow
-  to make pushes to the repo.
 - Empty the `specs` folder and put your own specs in.
 - Create a COPR repository, set up the packages for autobuild, and add its
   webhook to this repo to create automatic builds (more details in
@@ -206,14 +219,16 @@ run it manually from the Actions -> Update spec files -> "Run Workflow" button.
 
 ## Contributing
 Please feel free to leave any issues if you have questions about creating your
-own AutoCOPR!
+own AutoCOPR! I'm open to PRs to the autocopr program to make it better or add
+new features.
 
 I'm willing to accept PRs for existing specs if they have issues, but I'm not
 interested in adding more packages or adding more architectures than what I'm
 already doing. I only want to be pushing packages for programs I'm currently
 using - if there are issues with packages or architectures I'm not using, I'd
 be unaware of those issues, and since this repo is automated the issues could
-go undiscovered for a long time. Please feel free to make your own repo though!
+go undiscovered for a long time. Please feel free to fork and make your own
+COPR repo though!
 
 ## License
 MIT
