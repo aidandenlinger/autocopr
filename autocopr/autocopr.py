@@ -7,6 +7,7 @@ from . import cli, latestver, specdata, update
 
 def main():
     args = cli.create_parser().parse_args()
+    root_dir = Path(args.directory)
 
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
@@ -19,7 +20,7 @@ def main():
         exit(1)
 
     specs = [
-        parsed for spec in Path(args.directory).glob("**/*.spec")
+        parsed for spec in root_dir.glob("**/*.spec")
         if (parsed := specdata.parse_spec(spec)) is not None
     ]
 
