@@ -93,6 +93,7 @@ def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
             logging.warning(f"Error accessing id for {spec.name}, skipping")
             logging.warning("API response:")
             logging.warning(resp)
+            continue
 
         logging.info(f"Adding {id=} for {spec.name} to cache")
         ids[spec.ownerName()] = id
