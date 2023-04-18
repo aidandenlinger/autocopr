@@ -17,7 +17,7 @@ def get_latest_version(spec: SpecData,
     https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limits-for-requests-from-personal-accounts
     )"""
 
-    project_info = spec.url.path[1:]
+    project_info = spec.ownerName()
     url = f"https://api.github.com/repos/{project_info}/releases/latest"
     logging.info(f"Querying {url}")
 

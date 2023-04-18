@@ -16,6 +16,10 @@ class SpecData:
     url: urllib.parse.ParseResult
     loc: Path
 
+    def ownerName(self) -> str:
+        """Return the string "owner/name" """
+        return self.url.path[1:]
+
 
 def parse_spec(spec_loc: Path) -> Optional[SpecData]:
     """Given a path to a Spec file, returns a parsed version and url. Returns
