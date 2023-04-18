@@ -179,6 +179,6 @@ def latest_versions(specs: list[SpecData], token: str,
             "X-Github-Next-Global-ID": "1"
         }
 
-        ids = update_cache(id_cache, specs, headers, session)
+        spec_ids = update_cache(id_cache, specs, headers, session)
 
-        return get_latest_versions(ids, headers, session)
+        return get_latest_versions(spec_ids, headers, session)
