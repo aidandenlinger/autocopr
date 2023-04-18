@@ -3,7 +3,7 @@ from typing import Optional
 
 import requests
 
-from ..githubapi.latest import Latest
+from ..githubapi.latest import Latest, clean_tag
 from ..specdata import SpecData
 
 
@@ -45,8 +45,7 @@ def get_latest_version(spec: SpecData,
     # If your project's tags aren't as simple, this will need to be edited
     # RPM versions don't start with letters
     # Assumes the version has a digit somewhere in it
-    first_digit = [x.isdigit() for x in latest_tag].index(True)
-    latest_version = latest_tag[first_digit:]
+    latest_version = clean_tag(latest_tag)
     logging.info(f"{spec.name} latest version is {latest_version}")
 
     return Latest(latest_version, latest_url)
