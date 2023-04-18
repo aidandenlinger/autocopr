@@ -6,6 +6,10 @@ on:
     # Runs at 12:00am UTC -> 5:00pm PDT
     - cron: '0 0 * * *'
 
+permissions:
+  # Needs to write to this repo
+  contents: write
+
 jobs:
   update:
     name: update
@@ -19,6 +23,19 @@ jobs:
           python-version: '3.11' # Need python version for cache
           cache: 'pip' # caching pip dependencies
           
+      - name: Cache GraphQL API IDs
+        uses: actions/cache@v3
+        with:
+          path: specs/graphql_id_cache.json
+          # This key is overkill - we realy only need to update the
+          # cache when a *new* spec file is added, not when *any* spec
+          # file changes. However, this seems to be the easiest way
+          # to achieve that from within Actions.
+          key: graphql-ids-${{ hashFiles('specs/*.spec') }}
+          # Make sure even if the specs change it grabs the old cache
+          # to start from! Entries are never invalidated, only added
+          restore-keys: graphql-ids
+          
       - name: Install dependencies
         run: pip install -r requirements.txt
         
@@ -29,4 +46,5 @@ jobs:
           
       - name: Check and update spec files
         run: python -m autocopr.autocopr --verbose --in-place --push specs
-          
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
