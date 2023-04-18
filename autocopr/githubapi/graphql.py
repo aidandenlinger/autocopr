@@ -98,7 +98,7 @@ def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
         logging.info(f"Adding {id=} for {spec.name} to cache")
         ids[spec.ownerName()] = id
 
-    if len(specs_that_need_key) > 0:
+    if len(ids) > 0:
         # We changed the cache, update it
         logging.info("Writing new GraphQL cache since "
                      f"{[spec.name for spec in specs_that_need_key]} added")
@@ -108,7 +108,8 @@ def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
         logging.info("No new GraphQL keys added")
 
     # Finally, map ids to their actual specs and return!
-    return [(spec, ids[spec.ownerName()]) for spec in specs]
+    return [(spec, ids[ownername]) for spec in specs
+            if (ownername := spec.ownerName()) in ids]
 
 
 def get_latest_versions(
