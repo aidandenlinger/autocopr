@@ -155,7 +155,9 @@ There are a few flags:
   which makes less requests to the Github API and therefore can be faster. It
   can also be set with the `GITHUB_TOKEN` environment variable to keep the
   token out of your terminal history. The command line flag will take priority
-  over the environment variable.
+  over the environment variable. Using the GraphQL api will create a
+  `graphql_id_cache.json` file with your specs that stores GraphQL ids for each
+  repo.
 - `-d / --dry-run` will not edit any files, and only print if files are
   outdated.
 - `-v / --verbose` will print all information to stdout.
