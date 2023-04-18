@@ -99,9 +99,8 @@ def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
 
     if len(specs_that_need_key) > 0:
         # We changed the cache, update it
-        logging.info(
-            "Writing new GraphQL cache since "
-            f"{[spec.name for spec in specs_that_need_key]} added")
+        logging.info("Writing new GraphQL cache since "
+                     f"{[spec.name for spec in specs_that_need_key]} added")
         with open(id_cache, "w") as out:
             json.dump(ids, out, indent=2)
     else:
@@ -112,7 +111,7 @@ def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
 
 
 def get_latest_versions(
-        ids: list[tuple[SpecData, ID]], headers: dict[str, str],
+        spec_ids: list[tuple[SpecData, ID]], headers: dict[str, str],
         session: requests.Session) -> list[tuple[SpecData, Latest]]:
     # Query an id, if it's a repository (in our case it is) get the latest
     # release name and url
@@ -133,13 +132,13 @@ def get_latest_versions(
                         json={
                             "query": latest_versions,
                             "variables": {
-                                "ids": [id for (_, id) in ids]
+                                "ids": [id for (_, id) in spec_ids]
                             }
                         },
                         headers=headers).json()
 
     spec_releases = []
-    for (spec, node) in zip((spec for (spec, _) in ids),
+    for (spec, node) in zip((spec for (spec, _) in spec_ids),
                             resp['data']['nodes']):
         if node:
             latest = node['latestRelease']
