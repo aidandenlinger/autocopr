@@ -140,14 +140,14 @@ def get_latest_versions(
     spec_releases = []
     for (spec, node) in zip((spec for (spec, _) in spec_ids),
                             resp['data']['nodes']):
-        if node:
-            latest = node['latestRelease']
+        if node and (latest := node['latestRelease']) and 'tagName' in latest:
             latest_version = clean_tag(latest['tagName'])
             logging.info(f"{spec.name} latest version is {latest_version}")
             spec_releases.append((spec, Latest(latest_version, latest['url'])))
         else:
             logging.warning(
                 f"Error getting latest release from {spec.name}. Skipping")
+            logging.info(f"Node response: {node}")
 
     if "errors" in resp:
         logging.warning("GraphQL errors when checking latest versions:")
