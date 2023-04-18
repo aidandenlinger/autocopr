@@ -5,7 +5,7 @@ from pathlib import Path
 import requests
 
 from ..specdata import SpecData
-from .latest import Latest
+from .latest import Latest, clean_tag
 
 # The GraphQL API allows us to specify exactly what we want, instead of
 # overfetching data we don't need from the REST API. This means that
@@ -111,6 +111,53 @@ def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
     return [(spec, ids[spec.ownerName()]) for spec in specs]
 
 
+def get_latest_versions(
+        ids: list[tuple[SpecData, ID]], headers: dict[str, str],
+        session: requests.Session) -> list[tuple[SpecData, Latest]]:
+    # Query an id, if it's a repository (in our case it is) get the latest
+    # release name and url
+    latest_versions = """
+        query GetLatest($ids: [ID!]!) {
+          nodes(ids: $ids) {
+            ... on Repository {
+              latestRelease {
+                tagName
+                url
+              }
+            }
+          }
+        }
+    """
+
+    resp = session.post(graphQL_url,
+                        json={
+                            "query": latest_versions,
+                            "variables": {
+                                "ids": [id for (_, id) in ids]
+                            }
+                        },
+                        headers=headers).json()
+
+    spec_releases = []
+    for (spec, node) in zip((spec for (spec, _) in ids),
+                            resp['data']['nodes']):
+        if node:
+            latest = node['latestRelease']
+            latest_version = clean_tag(latest['tagName'])
+            logging.info(f"{spec.name} latest version is {latest_version}")
+            spec_releases.append((spec, Latest(latest_version, latest['url'])))
+        else:
+            logging.warning(
+                f"Error getting latest release from {spec.name}. Skipping")
+
+    if "errors" in resp:
+        logging.warning("GraphQL errors when checking latest versions:")
+        for error in resp['errors']:
+            logging.warning(error['message'])
+
+    return spec_releases
+
+
 def latest_versions(specs: list[SpecData], token: str,
                     id_cache: Path) -> list[tuple[SpecData, Latest]]:
     """Given a list of specs, a github token, and a location to load and store
@@ -127,5 +174,4 @@ def latest_versions(specs: list[SpecData], token: str,
 
         ids = update_cache(id_cache, specs, headers, session)
 
-        logging.error("GraphQL API in progress")
-        exit()
+        return get_latest_versions(ids, headers, session)
