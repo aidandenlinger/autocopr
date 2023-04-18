@@ -64,6 +64,7 @@ def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
     }    
     """
 
+    specs_that_got_added = []
     for spec in specs_that_need_key:
         owner, name = spec.ownerName().split("/")
         logging.info(f"Getting key for {spec.name} ({owner=}, {name=})")
@@ -96,12 +97,13 @@ def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
             continue
 
         logging.info(f"Adding {id=} for {spec.name} to cache")
+        specs_that_got_added.append(spec.name)
         ids[spec.ownerName()] = id
 
-    if len(ids) > 0:
+    if len(specs_that_got_added) > 0:
         # We changed the cache, update it
-        logging.info("Writing new GraphQL cache since "
-                     f"{[spec.name for spec in specs_that_need_key]} added")
+        logging.info(
+            f"Writing new GraphQL cache since {specs_that_got_added} added")
         with open(id_cache, "w") as out:
             json.dump(ids, out, indent=2)
     else:
