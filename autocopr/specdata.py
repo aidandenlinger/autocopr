@@ -41,7 +41,8 @@ def parse_spec(spec_loc: Path) -> Optional[SpecData]:
             elif (url_match := re.search(RegexConstants.url_pat,
                                          line)) is not None:
                 logging.info(f'Got url from: "{line.rstrip()}"')
-                url = urllib.parse.urlparse(url_match.group(1))
+                # Remove any trailing slashes, we don't them for future API calls
+                url = urllib.parse.urlparse(url_match.group(1).rstrip('/'))
                 if url.netloc != "github.com":
                     logging.warning(
                         f"{spec_loc} is hosted on {url.netloc} "
