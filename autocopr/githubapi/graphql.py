@@ -115,6 +115,12 @@ def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
 def get_latest_versions(
         spec_ids: list[tuple[SpecData, ID]], headers: dict[str, str],
         session: requests.Session) -> list[tuple[SpecData, Latest]]:
+
+    # Special case this because the response won't have any data and will
+    # throw a key error. On all other instances we will have data.
+    if len(spec_ids) == 0:
+        return []
+
     # Query an id, if it's a repository (in our case it is) get the latest
     # release name and url
     latest_versions = """
