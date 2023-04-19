@@ -1,3 +1,17 @@
+# Async is no longer being pursued
+The biggest overhead of the autocopr program is making requests to the Github
+API. Async helps do many requests in a faster amount of time, but the best way
+to speed up the program is to make less requests in the first place. The GraphQL
+API is the solution to that - after an initial ID cache, it can make one request
+to query for all repos.
+
+Not to say this approach is useless - it would be the best usecase for someone
+who doesn't want to log into the Github API and has a good amount of specs
+to query, but it would need to be enough specs to justify the startup cost of
+starting an async runner. I'm leaving this code for that reason, and so I can
+say I've written some basic Python async code, but have no intention of merging
+it into the main branch.
+
 # AutoCOPR
 
 Check Github Releases daily for new project versions and updates spec files
