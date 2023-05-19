@@ -2,8 +2,8 @@
 %global debug_package %{nil}
 
 Name:       helix
-Version: 23.03
-Release:    2%{?dist}
+Version: 23.05
+Release: 1%{?dist}
 Summary:    A post-modern modal text editor.
 
 License:    MPL-2.0
