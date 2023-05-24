@@ -36,8 +36,7 @@ graphQL_url = "https://api.github.com/graphql"
 ID = str
 
 
-def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
-                                                                      str],
+def update_cache(id_cache: Path, specs: list[SpecData],
                  session: requests.Session) -> list[tuple[SpecData, ID]]:
     """Given a list of specs, request headers, id cache, and session,
     load the cache of id keys and fetch any new ones from GraphQl"""
@@ -76,8 +75,7 @@ def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
                                     "owner": owner,
                                     "name": name
                                 }
-                            },
-                            headers=headers).json()
+                            }).json()
 
         if "errors" in resp:
             logging.warning(
@@ -115,7 +113,7 @@ def update_cache(id_cache: Path, specs: list[SpecData], headers: dict[str,
 
 
 def get_latest_versions(
-        spec_ids: list[tuple[SpecData, ID]], headers: dict[str, str],
+        spec_ids: list[tuple[SpecData, ID]],
         session: requests.Session) -> list[tuple[SpecData, Latest]]:
 
     # Special case this because the response won't have any data and will
@@ -144,8 +142,7 @@ def get_latest_versions(
                             "variables": {
                                 "ids": [id for (_, id) in spec_ids]
                             }
-                        },
-                        headers=headers).json()
+                        }).json()
 
     spec_releases = []
     for (spec, node) in zip((spec for (spec, _) in spec_ids),
@@ -172,15 +169,15 @@ def latest_versions(specs: list[SpecData], token: str,
     """Given a list of specs, a github token, and a location to load and store
     a cache of GraphQL ids, get the latest versions for all the specs given."""
 
-    with requests.session() as session:
-        headers = {
+    with requests.Session() as session:
+        session.headers.update({
             "Authorization": f"bearer {token}",
             # https://docs.github.com/en/graphql/guides/migrating-graphql-global-node-ids
             # Even though it's 2023, still need to hand in this header to get
             # the latest IDs :shrug:
             "X-Github-Next-Global-ID": "1"
-        }
+        })
 
-        spec_ids = update_cache(id_cache, specs, headers, session)
+        spec_ids = update_cache(id_cache, specs, session)
 
-        return get_latest_versions(spec_ids, headers, session)
+        return get_latest_versions(spec_ids, session)
