@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name: bottom
-Version: 0.9.2
+Version: 0.9.3
 Release: 1%{?dist}
 Summary: Yet another cross-platform graphical process/system monitor.
 
