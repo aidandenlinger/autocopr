@@ -25,7 +25,6 @@ cp %{SOURCE3} .
 %build
 
 %install
-ls
 install -p -D %{name} %{buildroot}%{_bindir}/%{name}
 
 # Shell completion
