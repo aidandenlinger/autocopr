@@ -17,6 +17,7 @@ TL;DR: Automatic version bumper for projects that use Github Releases :)
   - [Using This COPR Repository](#using-this-copr-repository)
   - [The `autocopr.py` Program](#the-autocoprpy-program)
   - [Integrating with Github Actions and COPR Automatic Builds](#integrating-with-github-actions-and-copr-automatic-builds)
+- [Removed Packages](#removed-packages)
 - [Thanks](#thanks)
 - [Contributing](#contributing)
 - [License](#license)
@@ -207,6 +208,10 @@ script every 24 hours. This process is detailed much further in
 
 You're done! The action will run at 00:00 UTC automatically, and you can also
 run it manually from the Actions -> Update spec files -> "Run Workflow" button.
+
+## Removed Packages
+- 11/17/23: `helix` [has been removed from this repo](https://github.com/aidandenlinger/autocopr/commit/dfc973e8dce1294c9883906342fed5a3e21dba86) as [it is in the official Fedora repos](https://packages.fedoraproject.org/pkgs/helix/helix/).
+- 11/8/23: `eza` [has been removed from this repo](https://github.com/aidandenlinger/autocopr/commit/9ee5c10bab4337db2d3e913baa8e4d00d2b2333c) as [it is in the official Fedora repos](https://packages.fedoraproject.org/pkgs/rust-eza/eza/).
 
 ## Thanks
 - [VarLad](https://gitlab.com/VarLad/rpm-specs) for writing the original
