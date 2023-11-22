@@ -4,9 +4,10 @@ from typing import Optional
 
 import requests
 
-from .githubapi import graphql, rest
-from .githubapi.latest import Latest
-from .specdata import SpecData
+import githubapi.graphql
+import githubapi.rest
+from autocopr.specdata import SpecData
+from githubapi.latest import Latest, OwnerName
 
 
 def get_latest_versions(specs: list[SpecData], token: Optional[str],
@@ -19,16 +20,34 @@ def get_latest_versions(specs: list[SpecData], token: Optional[str],
         logging.info(
             "GITHUB_TOKEN environment variable or --github-token flag is set, "
             "using GraphQL api")
-        return graphql.latest_versions(specs, token, id_cache)
+
+        ownerNames = [
+            OwnerName(*spec.ownerName().split("/")) for spec in specs
+        ]
+
+        latest = githubapi.graphql.latest_versions(ownerNames, token, id_cache)
+
+        final = []
+        for ownerName, ver in latest:
+            # There will be a matching spec because we generated ownerNames from our spec list
+            matchingSpec = next(spec for spec in specs
+                                if spec.ownerName() == ownerName.id())
+
+            final.append((matchingSpec, ver))
+
+        return final
     else:
         logging.warning(
             "GITHUB_TOKEN environment variable or --github-token flag is not set, "
             "using REST api instead of GraphQL.")
         logging.warning(
             "The REST API requires more connections, gathers more data than is "
-            "needed, and you are limited to 60 requests per hour without a token.")
+            "needed, and you are limited to 60 requests per hour without a token."
+        )
 
         with requests.Session() as s:
-            return [(spec, latest) for spec in specs
-                    if (latest := rest.get_latest_version(spec, s)) is not None
-                    ]
+            return [
+                (spec, latest_ver) for spec in specs
+                if (latest_ver := githubapi.rest.get_latest_version(
+                    OwnerName(*spec.ownerName().split("/")), s)) is not None
+            ]

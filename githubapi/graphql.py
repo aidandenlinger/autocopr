@@ -4,8 +4,7 @@ from pathlib import Path
 
 import requests
 
-from ..specdata import SpecData
-from .latest import Latest, clean_tag
+from githubapi.latest import Latest, OwnerName, clean_tag
 
 # The GraphQL API allows us to specify exactly what we want, instead of
 # overfetching data we don't need from the REST API. This means that
@@ -36,8 +35,8 @@ graphQL_url = "https://api.github.com/graphql"
 ID = str
 
 
-def update_cache(id_cache: Path, specs: list[SpecData],
-                 session: requests.Session) -> list[tuple[SpecData, ID]]:
+def update_cache(id_cache: Path, specs: list[OwnerName],
+                 session: requests.Session) -> list[tuple[OwnerName, ID]]:
     """Given a list of specs, request headers, id cache, and session,
     load the cache of id keys and fetch any new ones from GraphQl"""
 
@@ -50,9 +49,7 @@ def update_cache(id_cache: Path, specs: list[SpecData],
         ids = {}
         logging.info(f"No cache at {id_cache}, making a new one")
 
-    specs_that_need_key = [
-        spec for spec in specs if spec.ownerName() not in ids
-    ]
+    specs_that_need_key = [spec for spec in specs if spec.id() not in ids]
 
     # GraphQL query that takes an owner and name, returns its id
     get_id_query = """
@@ -65,15 +62,14 @@ def update_cache(id_cache: Path, specs: list[SpecData],
 
     specs_that_got_added = []
     for spec in specs_that_need_key:
-        owner, name = spec.ownerName().split("/")
-        logging.info(f"Getting key for {spec.name} ({owner=}, {name=})")
+        logging.info(f"Getting key for {spec.id()}")
 
         resp = session.post(graphQL_url,
                             json={
                                 "query": get_id_query,
                                 "variables": {
-                                    "owner": owner,
-                                    "name": name
+                                    "owner": spec.owner,
+                                    "name": spec.name
                                 }
                             }).json()
 
@@ -96,7 +92,7 @@ def update_cache(id_cache: Path, specs: list[SpecData],
 
         logging.info(f"Adding {id=} for {spec.name} to cache")
         specs_that_got_added.append(spec.name)
-        ids[spec.ownerName()] = id
+        ids[spec.id()] = id
 
     if len(specs_that_got_added) > 0:
         # We changed the cache, update it
@@ -108,13 +104,12 @@ def update_cache(id_cache: Path, specs: list[SpecData],
         logging.info("No new GraphQL keys added")
 
     # Finally, map ids to their actual specs and return!
-    return [(spec, ids[ownername]) for spec in specs
-            if (ownername := spec.ownerName()) in ids]
+    return [(spec, ids[spec.id()]) for spec in specs if spec.id() in ids]
 
 
 def get_latest_versions(
-        spec_ids: list[tuple[SpecData, ID]],
-        session: requests.Session) -> list[tuple[SpecData, Latest]]:
+        spec_ids: list[tuple[OwnerName, ID]],
+        session: requests.Session) -> list[tuple[OwnerName, Latest]]:
 
     # Special case this because the response won't have any data and will
     # throw a key error. On all other instances we will have data.
@@ -164,8 +159,8 @@ def get_latest_versions(
     return spec_releases
 
 
-def latest_versions(specs: list[SpecData], token: str,
-                    id_cache: Path) -> list[tuple[SpecData, Latest]]:
+def latest_versions(specs: list[OwnerName], token: str,
+                    id_cache: Path) -> list[tuple[OwnerName, Latest]]:
     """Given a list of specs, a github token, and a location to load and store
     a cache of GraphQL ids, get the latest versions for all the specs given."""
 

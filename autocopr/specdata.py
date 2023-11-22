@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-from .regexconstants import RegexConstants
+from autocopr.regexconstants import RegexConstants
 
 
 @dataclass(frozen=True)

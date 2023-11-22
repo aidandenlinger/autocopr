@@ -2,14 +2,15 @@ import logging
 import re
 import subprocess
 
-from .githubapi.latest import Latest
-from .regexconstants import RegexConstants
-from .specdata import SpecData
+from autocopr.regexconstants import RegexConstants
+from autocopr.specdata import SpecData
+from githubapi.latest import Latest
 
 
-def update_version(
-    spec: SpecData, latest: Latest, inplace: bool = False, push: bool = False
-):
+def update_version(spec: SpecData,
+                   latest: Latest,
+                   inplace: bool = False,
+                   push: bool = False):
     """Given the location of a spec file, the latest version, and the name of
     the package, update the version in the spec and make a commit with the
     cooresponding COPR tag."""
@@ -42,8 +43,9 @@ def update_version(
         subprocess.run(["git", "commit", "-m", commit_msg])
         # Have to make an annotated tag for github to recognize it
         # message is the same as the commit message
-        subprocess.run(["git", "tag", "-a", "-m", commit_msg,
-                        f"{spec.name}-{latest.ver}"])
+        subprocess.run([
+            "git", "tag", "-a", "-m", commit_msg, f"{spec.name}-{latest.ver}"
+        ])
         # The github webhooks won't fire if 3+ tags are made at once, to be
         # defensive push each tag by itself
         subprocess.run(["git", "push", "--follow-tags"])

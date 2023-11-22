@@ -2,11 +2,14 @@ import logging
 import subprocess
 from pathlib import Path
 
-from . import cli, latestver, specdata, update
+import autocopr.cli
+import autocopr.latestver
+import autocopr.specdata
+import autocopr.update
 
 
 def main():
-    args = cli.create_parser().parse_args()
+    args = autocopr.cli.create_parser().parse_args()
     root_dir = Path(args.directory)
 
     if args.verbose:
@@ -21,10 +24,10 @@ def main():
 
     specs = [
         parsed for spec in root_dir.glob("**/*.spec")
-        if (parsed := specdata.parse_spec(spec)) is not None
+        if (parsed := autocopr.specdata.parse_spec(spec)) is not None
     ]
 
-    latest_vers = latestver.get_latest_versions(
+    latest_vers = autocopr.latestver.get_latest_versions(
         specs, args.github_token, root_dir / "graphql_id_cache.json")
 
     update_summary = [f"{'Name':15}\t{'Old Version':8}\tNew Version"]
@@ -38,10 +41,10 @@ def main():
     if not args.dry_run:
         for (spec, latest) in latest_vers:
             if spec.version != latest.ver:
-                update.update_version(spec,
-                                      latest,
-                                      inplace=args.in_place,
-                                      push=args.push)
+                autocopr.update.update_version(spec,
+                                               latest,
+                                               inplace=args.in_place,
+                                               push=args.push)
 
     print("\n".join(update_summary))
 

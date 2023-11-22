@@ -3,11 +3,10 @@ from typing import Optional
 
 import requests
 
-from ..githubapi.latest import Latest, clean_tag
-from ..specdata import SpecData
+from githubapi.latest import Latest, OwnerName, clean_tag
 
 
-def get_latest_version(spec: SpecData,
+def get_latest_version(spec: OwnerName,
                        session: requests.Session) -> Optional[Latest]:
     """Given SpecData with a github url, returns the latest version. Forces
     usage of a session because all uses of this function will use the same
@@ -17,8 +16,7 @@ def get_latest_version(spec: SpecData,
     https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limits-for-requests-from-personal-accounts
     )"""
 
-    project_info = spec.ownerName()
-    url = f"https://api.github.com/repos/{project_info}/releases/latest"
+    url = f"https://api.github.com/repos/{spec.id()}/releases/latest"
     logging.info(f"Querying {url}")
 
     req = session.get(

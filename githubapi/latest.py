@@ -18,3 +18,13 @@ def clean_tag(tag: str) -> str:
     first_digit = [x.isdigit() for x in tag].index(True)
     version = tag[first_digit:]
     return version
+
+
+@dataclass(frozen=True)
+class OwnerName:
+    owner: str
+    name: str
+
+    def id(self) -> str:
+        """Return the string "owner/name" """
+        return self.owner + "/" + self.name
