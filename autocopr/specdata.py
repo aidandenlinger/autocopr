@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Optional
 
 from autocopr.regexconstants import RegexConstants
+from githubapi.latest import OwnerName
 
 
 @dataclass(frozen=True)
@@ -16,9 +17,9 @@ class SpecData:
     url: urllib.parse.ParseResult
     loc: Path
 
-    def ownerName(self) -> str:
-        """Return the string "owner/name" """
-        return self.url.path[1:]
+    def ownerName(self) -> OwnerName:
+        """Return an OwnerName struct."""
+        return OwnerName(*self.url.path[1:].split("/"))
 
 
 def parse_spec(spec_loc: Path) -> Optional[SpecData]:

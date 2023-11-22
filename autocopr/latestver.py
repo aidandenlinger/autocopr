@@ -7,7 +7,7 @@ import requests
 import githubapi.graphql
 import githubapi.rest
 from autocopr.specdata import SpecData
-from githubapi.latest import Latest, OwnerName
+from githubapi.latest import Latest
 
 
 def get_latest_versions(specs: list[SpecData], token: Optional[str],
@@ -21,14 +21,11 @@ def get_latest_versions(specs: list[SpecData], token: Optional[str],
             "GITHUB_TOKEN environment variable or --github-token flag is set, "
             "using GraphQL api")
 
-        ownerNames = [
-            OwnerName(*spec.ownerName().split("/")) for spec in specs
-        ]
-
+        ownerNames = [spec.ownerName() for spec in specs]
         latest = githubapi.graphql.latest_versions(ownerNames, token, id_cache)
 
         return [(spec, latest[key]) for spec in specs
-                if (key := OwnerName(*spec.ownerName().split("/"))) in latest]
+                if (key := spec.ownerName()) in latest]
     else:
         logging.warning(
             "GITHUB_TOKEN environment variable or --github-token flag is not set, "
@@ -39,8 +36,6 @@ def get_latest_versions(specs: list[SpecData], token: Optional[str],
         )
 
         with requests.Session() as s:
-            return [
-                (spec, latest_ver) for spec in specs
-                if (latest_ver := githubapi.rest.get_latest_version(
-                    OwnerName(*spec.ownerName().split("/")), s)) is not None
-            ]
+            return [(spec, latest_ver) for spec in specs
+                    if (latest_ver := githubapi.rest.get_latest_version(
+                        spec.ownerName(), s)) is not None]
