@@ -107,14 +107,13 @@ def update_cache(id_cache: Path, specs: list[OwnerName],
     return [(spec, ids[spec.id()]) for spec in specs if spec.id() in ids]
 
 
-def get_latest_versions(
-        spec_ids: list[tuple[OwnerName, ID]],
-        session: requests.Session) -> list[tuple[OwnerName, Latest]]:
+def get_latest_versions(spec_ids: list[tuple[OwnerName, ID]],
+                        session: requests.Session) -> dict[OwnerName, Latest]:
 
     # Special case this because the response won't have any data and will
     # throw a key error. On all other instances we will have data.
     if len(spec_ids) == 0:
-        return []
+        return {}
 
     # Query an id, if it's a repository (in our case it is) get the latest
     # release name and url
@@ -139,13 +138,13 @@ def get_latest_versions(
                             }
                         }).json()
 
-    spec_releases = []
+    spec_releases = {}
     for (spec, node) in zip((spec for (spec, _) in spec_ids),
                             resp['data']['nodes']):
         if node and (latest := node['latestRelease']) and 'tagName' in latest:
             latest_version = clean_tag(latest['tagName'])
             logging.info(f"{spec.name} latest version is {latest_version}")
-            spec_releases.append((spec, Latest(latest_version, latest['url'])))
+            spec_releases[spec] = Latest(latest_version, latest['url'])
         else:
             logging.warning(
                 f"Error getting latest release from {spec.name}. Skipping")
@@ -160,7 +159,7 @@ def get_latest_versions(
 
 
 def latest_versions(specs: list[OwnerName], token: str,
-                    id_cache: Path) -> list[tuple[OwnerName, Latest]]:
+                    id_cache: Path) -> dict[OwnerName, Latest]:
     """Given a list of specs, a github token, and a location to load and store
     a cache of GraphQL ids, get the latest versions for all the specs given."""
 

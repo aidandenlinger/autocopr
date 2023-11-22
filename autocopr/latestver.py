@@ -27,15 +27,8 @@ def get_latest_versions(specs: list[SpecData], token: Optional[str],
 
         latest = githubapi.graphql.latest_versions(ownerNames, token, id_cache)
 
-        final = []
-        for ownerName, ver in latest:
-            # There will be a matching spec because we generated ownerNames from our spec list
-            matchingSpec = next(spec for spec in specs
-                                if spec.ownerName() == ownerName.id())
-
-            final.append((matchingSpec, ver))
-
-        return final
+        return [(spec, latest[key]) for spec in specs
+                if (key := OwnerName(*spec.ownerName().split("/"))) in latest]
     else:
         logging.warning(
             "GITHUB_TOKEN environment variable or --github-token flag is not set, "
