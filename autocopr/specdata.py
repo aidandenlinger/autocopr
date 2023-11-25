@@ -12,14 +12,13 @@ from githubapi.latest import OwnerName
 @dataclass(frozen=True)
 class SpecData:
     """Data from a parsed spec file."""
-    name: str
+    ownerName: OwnerName
     version: str
-    url: urllib.parse.ParseResult
     loc: Path
 
-    def ownerName(self) -> OwnerName:
-        """Return an OwnerName struct."""
-        return OwnerName(*self.url.path[1:].split("/"))
+    @property
+    def name(self) -> str:
+        return self.ownerName.name
 
 
 def parse_spec(spec_loc: Path) -> Optional[SpecData]:
@@ -56,7 +55,8 @@ def parse_spec(spec_loc: Path) -> Optional[SpecData]:
                     return None
 
             if name is not None and version is not None and url is not None:
-                parsed = SpecData(name, version, url, spec_loc)
+                ownerName = OwnerName(*url.path[1:].split("/"))
+                parsed = SpecData(ownerName, version, spec_loc)
                 logging.info(f"Parsed from file: {parsed}")
                 return parsed
 
