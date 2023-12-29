@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name: starship
-Version: 1.16.0
-Release: 2%{?dist}
+Version: 1.17.0
+Release: 1%{?dist}
 Summary: The minimal, blazing-fast, and infinitely customizable prompt for any shell
 
 License: ISC
