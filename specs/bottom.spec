@@ -2,8 +2,8 @@
 %global binary_name btm
 
 Name: bottom
-Version: 0.9.6
-Release: 2%{?dist}
+Version: 0.9.7
+Release: 1%{?dist}
 Summary: Yet another cross-platform graphical process/system monitor
 
 License: MIT
