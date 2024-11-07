@@ -1,13 +1,14 @@
 %global debug_package %{nil}
 
 Name:       mise
-Version:    2024.11.1
+Version:    2024.11.4
 Release:    1%{?dist}
 Summary:    dev tools, env vars, task runner
 
 License:    MIT
+# https://github.com/jdx/mise/releases/download/v2024.11.4/mise-v2024.11.4-linux-x64-musl.tar.gz
 URL:        https://github.com/jdx/mise
-Source:     %{url}/releases/download/v%{version}/%{name}-%{version}-linux-x64-musl.tar.gz
+Source:     %{url}/releases/download/v%{version}/%{name}-v%{version}-linux-x64-musl.tar.gz
 #Source1:    https://raw.githubusercontent.com/jdx/mise/v%{version}/docs/MANPAGE.md
 
 BuildRequires: pandoc
