@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name:       mise
-Version:    2024.11.4
-Release:    1%{?dist}
+Version: 2024.11.5
+Release: 1%{?dist}
 Summary:    dev tools, env vars, task runner
 
 License:    MIT
