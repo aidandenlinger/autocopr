@@ -1,0 +1,26 @@
+name: File Change Webhook
+
+on:
+  push:
+    paths:
+      - 'specs/*'
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get Changed Files
+        id: changes
+        run: |
+          git diff-tree --no-commit-id --name-only -r ${{ github.sha }} > changed_files.txt
+          echo "::set-output name=files::$(cat changed_files.txt)"
+        
+      - name: Send Webhook for Each File
+        run: |
+          for file in $(cat changed_files.txt); do
+            filename=$(basename "$file")
+            name_without_extension="${filename%.*}"
+            curl -X POST "${{ secrets.WEBHOOK_URL }}/$name_without_extension" -d "{\"filename\":\"$name_without_extension\"}" -H "Content-Type: application/json"
+          done
