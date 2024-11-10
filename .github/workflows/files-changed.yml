@@ -18,7 +18,7 @@ jobs:
         id: changes
         shell: bash
         run: |
-          files_changed=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | cut -c 7- | cut -c -5)
+          files_changed=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
           echo "Files changed: $files_changed"
           echo "CHANGED_FILES=$files_changed" >> "$GITHUB_OUTPUT"
 
@@ -29,8 +29,12 @@ jobs:
           WEBHOOK: ${{ secrets.WEBHOOK_URL }}
         run: |
           echo "Processing webhooks for..."
-          echo $CHANGED_FILES
-          for file in $CHANGED_FILES; do
+          echo "$CHANGED_FILES"
+          for file in "$CHANGED_FILES"; do
             echo "Processing file: $file"
-            curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST "$WEBHOOK/$file"
+            filename=$(basename "$file")
+            filename_without_ext="${filename%.*}"
+            echo "Completed processing of $filename_without_ext. Now sending copr webhook of package $filename_without_ext"
+            curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST "$WEBHOOK/$filename_without_ext"
+            sleep 5
           done
