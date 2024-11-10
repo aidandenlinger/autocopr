@@ -16,11 +16,12 @@ jobs:
         id: changes
         run: |
           git diff-tree --no-commit-id --name-only -r ${{ github.sha }} > changed_files.txt
-          echo "FILES=$(cat changed_files.txt)" >> $GITHUB_ENV
+          cat changed_files.txt
+          echo "FILES=$(cat changed_files.txt | tr '\n' ' ')" >> $GITHUB_ENV
 
       - name: Print Changed Files
         run: |
-          echo $FILES
+          echo "Changed files: ${{ env.FILES }}"
         env:
           FILES: ${{ env.FILES }}
 

@@ -41,5 +41,5 @@ install -pvD -m 0644 _%{name} %{buildroot}%{zsh_completions_dir}/_%{name}
 %files
 %doc CONFIGURATION.md
 %{_bindir}/%{name}
-/%{bash_completions_dir}/%{name}
-/%{zsh_completions_dir}/_%{name}
+%{bash_completions_dir}/%{name}
+%{zsh_completions_dir}/_%{name}

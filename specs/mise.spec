@@ -40,5 +40,5 @@ install -pvD -m 0644 %{name}.fish %{buildroot}%{fish_completions_dir}/%{name}.fi
 %files
 %doc CONFIGURATION.md
 %{_bindir}/%{name}
-/%{bash_completions_dir}/%{name}
-/%{fish_completions_dir}/%{name}.fish
+%{bash_completions_dir}/%{name}
+%{fish_completions_dir}/%{name}.fish
