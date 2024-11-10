@@ -1,0 +1,49 @@
+###
+# This GitHub Actions runs when there is a push to master/main branch and a new change in the `specs/` folder.
+# It will send a webhook to COPR when the WEBHOOK URL actions secret has been set in Settings.
+# The WEBHOOK_URL is found under the `Custom webhook(s)` sections on https://copr.fedorainfracloud.org/coprs/<username>/<repo>/integrations/
+###
+name: File Change Webhook
+
+on:
+  push:
+    branches:
+      - "master"
+      - "main"
+    paths:
+      - "specs/*"
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 5
+          ref: master
+
+      - name: Get Changed Files
+        id: changes
+        shell: bash
+        run: |
+          files_changed=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          echo "Files changed: $files_changed"
+          echo "CHANGED_FILES=$files_changed" >> "$GITHUB_OUTPUT"
+
+      - name: Send Webhook
+        shell: bash
+        env:
+          CHANGED_FILES: ${{ steps.changes.outputs.CHANGED_FILES }}
+          WEBHOOK: ${{ secrets.WEBHOOK_URL }}
+        run: |
+          echo "Processing webhooks for..."
+          echo "$CHANGED_FILES"
+          for file in "$CHANGED_FILES"; do
+            echo "Processing file: $file"
+            filename=$(basename "$file")
+            filename_without_ext="${filename%.*}"
+            echo "Completed processing of $filename_without_ext. Now sending copr webhook of package $filename_without_ext"
+            curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST "$WEBHOOK/$filename_without_ext/"
+            sleep 5
+          done
