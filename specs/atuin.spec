@@ -3,7 +3,7 @@
 Name:    atuin
 Version: 18.3.0
 Release: 1%{?dist}
-Summary: ✨ Magical shell history
+Summary: Magical shell history
 
 License:    MIT
 URL:        https://github.com/atuinsh/atuin
