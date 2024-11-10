@@ -1,9 +1,15 @@
+###
+# This GitHub Actions runs when there is a push to master/main branch and a new change in the `specs/` folder.
+# It will send a webhook to COPR when the WEBHOOK URL actions secret has been set in Settings.
+# The WEBHOOK_URL is found under the `Custom webhook(s)` sections on https://copr.fedorainfracloud.org/coprs/<username>/<repo>/integrations/
+###
 name: File Change Webhook
 
 on:
   push:
     branches:
       - "master"
+      - "main"
     paths:
       - "specs/*"
 
