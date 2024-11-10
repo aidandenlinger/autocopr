@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 %global binary_name btm
 
-Name: bottom
+Name:    bottom
 Version: 0.10.2
 Release: 1%{?dist}
 Summary: Yet another cross-platform graphical process/system monitor
