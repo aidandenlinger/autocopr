@@ -4,7 +4,7 @@
 Name:    bottom
 Version: 0.10.2
 Release: 1%{?dist}
-Summary: Yet another cross-platform graphical process/system monitor
+Summary: Yet another cross-platform graphical process and system monitor
 
 License: MIT
 URL: https://github.com/ClementTsang/bottom
