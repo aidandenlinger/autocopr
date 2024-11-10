@@ -40,6 +40,12 @@
 
 [Upstream](https://github.com/starship/starship)
 
+### usage
+
+![usage status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/usage/status_image/last_build.png)
+
+[Upstream](https://github.com/jdx/usage)
+
 ### wezterm
 
 ![wezterm status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/wezterm/status_image/last_build.png)
