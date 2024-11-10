@@ -16,40 +16,22 @@ jobs:
         id: changes
         run: |
           git diff-tree --no-commit-id --name-only -r ${{ github.sha }} > changed_files.txt
-          cat changed_files.txt
           echo "FILES=$(cat changed_files.txt)" >> $GITHUB_ENV
-        
+
       - name: Print Changed Files
-        run: echo $FILES
-        env:
-          FILES: ${{ env.FILES }}
-
-      - name: Send Webhook for Each File
-        uses: infraway/workflow-webhook-action@v1
-        with:
-          webhook_url: ${{ secrets.WEBHOOK_URL }}
-          method: POST
-          payload: |
-            {
-              "files": [
-                ${{#each env.FILES.split(" ")}}
-                {
-                  "filename": "${{this}}",
-                  "name_without_extension": "${{this.replace(/\.[^/.]+$/, '')}}"
-                }${{#if @last}}{{else}},{{/if}}
-                ${{/each}}
-              ]
-            }
-        env:
-          FILES: ${{ env.FILES }}
-
-      - name: Echo Filename
         run: |
-          for file in $FILES; do
+          echo $FILES
+        env:
+          FILES: ${{ env.FILES }}
+
+      - name: Echo Filename and Send Webhook
+        run: |
+          for file in ${{ env.FILES }}; do
             filename=$(basename "$file")
             name_without_extension="${filename%.*}"
             echo "Processing file: $filename"
             echo "Sending webhook for $name_without_extension"
+            gh workflow run infraway/workflow-webhook-action --with webhook_url=${{ secrets.WEBHOOK_URL }} --with method=POST --with payload='{"filename":"'"$filename"'","name_without_extension":"'"$name_without_extension"'"}'
           done
         env:
           FILES: ${{ env.FILES }}
