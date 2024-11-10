@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-Name:       mise
+Name:    mise
 Version: 2024.11.6
 Release: 1%{?dist}
-Summary:    dev tools, env vars, task runner
+Summary: dev tools, env vars, task runner
 
 License:    MIT
 URL:        https://github.com/jdx/mise
