@@ -18,7 +18,7 @@ jobs:
         id: changes
         shell: bash
         run: |
-          #files_changed=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | cut -c 7- | cut -c -5)
+          files_changed=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | cut -c 7- | cut -c -5)
           echo "Files changed: $files_changed"
           echo "CHANGED_FILES=$files_changed" >> "$GITHUB_OUTPUT"
 
