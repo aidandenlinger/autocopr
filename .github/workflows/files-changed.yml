@@ -38,6 +38,6 @@ jobs:
             filename=$(basename "$file")
             filename_without_ext="${filename%.*}"
             echo "Completed processing of $filename_without_ext. Now sending copr webhook of package $filename_without_ext"
-            curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST "$WEBHOOK/$filename_without_ext"
+            curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST "$WEBHOOK/$filename_without_ext/"
             sleep 5
           done
