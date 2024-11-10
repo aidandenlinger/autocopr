@@ -1,9 +1,9 @@
 %global debug_package %{nil}
 
-Name:       fnm
-Version:    1.37.2
-Release:    1%{?dist}
-Summary:    Fast and simple Node.js version manager, built in Rust
+Name:    fnm
+Version: 1.37.2
+Release: 1%{?dist}
+Summary: Fast and simple Node.js version manager, built in Rust
 
 License:    GPL v3
 URL:        https://github.com/Schniz/fnm
