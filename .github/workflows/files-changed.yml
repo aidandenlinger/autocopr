@@ -27,9 +27,15 @@ jobs:
         id: changes
         shell: bash
         run: |
-          files_changed=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          files_changed=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep '.spec')
           echo "Files changed: $files_changed"
-          echo "CHANGED_FILES=$files_changed" >> "$GITHUB_OUTPUT"
+          for file in "$files_changed"; do
+            echo "Processing file: $file"
+            filename=$(basename "$file")
+            filename_without_ext="${filename%.*}"
+            echo "CHANGED_FILES=$filename_without_ext" >> "$GITHUB_OUTPUT"
+            echo "Added $filename_without_ext to GITHUB_OUTPUT"
+          done
 
       - name: Send Webhook
         shell: bash
