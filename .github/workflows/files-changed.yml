@@ -12,6 +12,10 @@ on:
       - "main"
     paths:
       - "specs/*"
+  workflow_run:
+    workflows: [Update spec files]
+    types:
+      - completed
 
 jobs:
   notify:
