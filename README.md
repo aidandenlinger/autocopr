@@ -48,6 +48,12 @@ For any issues or questions related to python scripts, please go to upstream rep
 
 [Upstream](https://github.com/jdx/usage)
 
+### uv
+
+![uv status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/uv/status_image/last_build.png)
+
+[Upstream](https://github.com/astral-sh/uv)
+
 ### wezterm
 
 ![wezterm status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/wezterm/status_image/last_build.png)
