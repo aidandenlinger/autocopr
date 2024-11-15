@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:    fnm
-Version: 1.37.2
+Version: 1.38.0
 Release: 1%{?dist}
 Summary: Fast and simple Node.js version manager, built in Rust
 
