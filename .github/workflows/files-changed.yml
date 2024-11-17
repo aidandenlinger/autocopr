@@ -8,7 +8,7 @@ name: File Change Webhook
 on:
   push:
     branches:
-      - ${{ GITHUB_BASE_REF }}
+      - master
     paths:
       - "specs/*"
   workflow_run:
@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 5
-          ref: ${{ GITHUB_BASE_REF }}
+          ref: master
 
       - name: Get changes and send webhook to COPR
         shell: bash
