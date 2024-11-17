@@ -12,6 +12,7 @@ on:
       - master
     paths:
       - "specs/*"
+      - ".github/workflows/*"
   workflow_run:
     workflows: [Update spec files]
     types:
@@ -69,13 +70,11 @@ jobs:
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git diff-index HEAD
-          git status
-          if git diff-index --quiet HEAD; then 
-            echo "No changes to commit" 
+          if git diff-index --quiet HEAD; then
+            echo "**No changes to README.md with python script to commit**"
           else
             git add README.md
-            git commit -m "Update README.md" 
+            git commit -m "Update README.md with the list of spec files"
             git push
           fi
         env:
