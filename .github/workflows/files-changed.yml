@@ -79,3 +79,6 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Finalize
+        if: failure()
+        run: echo "Workflow completed. No changes were necessary."
