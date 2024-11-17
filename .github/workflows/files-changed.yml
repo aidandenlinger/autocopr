@@ -6,6 +6,7 @@
 name: File Change Webhook
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
