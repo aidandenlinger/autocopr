@@ -6,7 +6,7 @@ Release: 1%{?dist}
 Summary: A more powerful alternative to kubectx and kubens
 
 License: Zlib
-URL: https://github.com/sbstp/kubie
+URL:     https://github.com/sbstp/kubie
 Source0: https://raw.githubusercontent.com/sbstp/kubie/refs/tags/v%{version}/README.md
 Source1: https://raw.githubusercontent.com/sbstp/kubie/refs/tags/v%{version}/LICENSE
 Source2: https://raw.githubusercontent.com/sbstp/kubie/refs/tags/v%{version}/completion/kubie.bash
