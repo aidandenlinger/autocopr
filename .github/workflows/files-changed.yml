@@ -28,7 +28,7 @@ concurrency:
 
 jobs:
   notify:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -43,7 +43,7 @@ jobs:
         run: ./scripts/copr_webhook.sh "$WEBHOOK" "${{ github.sha }}"
 
   update-readme:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
