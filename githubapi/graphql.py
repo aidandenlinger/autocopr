@@ -3,7 +3,6 @@ import logging
 from pathlib import Path
 
 import requests
-
 from githubapi.latest import Latest, OwnerName, clean_tag
 
 # The GraphQL API allows us to specify exactly what we want, instead of
@@ -35,8 +34,9 @@ graphQL_url = "https://api.github.com/graphql"
 ID = str
 
 
-def update_cache(id_cache: Path, specs: list[OwnerName],
-                 session: requests.Session) -> list[tuple[OwnerName, ID]]:
+def update_cache(
+    id_cache: Path, specs: list[OwnerName], session: requests.Session
+) -> list[tuple[OwnerName, ID]]:
     """Given a list of specs, request headers, id cache, and session,
     load the cache of id keys and fetch any new ones from GraphQl"""
 
@@ -57,33 +57,31 @@ def update_cache(id_cache: Path, specs: list[OwnerName],
       repository(owner: $owner, name: $name) {
         id
       }
-    }    
+    }
     """
 
     specs_that_got_added = []
     for spec in specs_that_need_key:
         logging.info(f"Getting key for {spec.id()}")
 
-        resp = session.post(graphQL_url,
-                            json={
-                                "query": get_id_query,
-                                "variables": {
-                                    "owner": spec.owner,
-                                    "name": spec.name
-                                }
-                            }).json()
+        resp = session.post(
+            graphQL_url,
+            json={
+                "query": get_id_query,
+                "variables": {"owner": spec.owner, "name": spec.name},
+            },
+        ).json()
 
         if "errors" in resp:
-            logging.warning(
-                f"API error when getting {spec.name}'s GraphQL id':")
-            for error in resp['errors']:
-                logging.warning(error['message'])
+            logging.warning(f"API error when getting {spec.name}'s GraphQL id':")
+            for error in resp["errors"]:
+                logging.warning(error["message"])
             logging.warning(f"Skipping {spec.name}...")
 
             continue
 
         try:
-            id = resp['data']['repository']['id']
+            id = resp["data"]["repository"]["id"]
         except KeyError:
             logging.warning(f"Error accessing id for {spec.name}, skipping")
             logging.warning("API response:")
@@ -96,8 +94,7 @@ def update_cache(id_cache: Path, specs: list[OwnerName],
 
     if len(specs_that_got_added) > 0:
         # We changed the cache, update it
-        logging.info(
-            f"Writing new GraphQL cache since {specs_that_got_added} added")
+        logging.info(f"Writing new GraphQL cache since {specs_that_got_added} added")
         with open(id_cache, "w") as out:
             json.dump(ids, out, indent=2)
     else:
@@ -107,8 +104,9 @@ def update_cache(id_cache: Path, specs: list[OwnerName],
     return [(spec, ids[spec.id()]) for spec in specs if spec.id() in ids]
 
 
-def get_latest_versions(spec_ids: list[tuple[OwnerName, ID]],
-                        session: requests.Session) -> dict[OwnerName, Latest]:
+def get_latest_versions(
+    spec_ids: list[tuple[OwnerName, ID]], session: requests.Session
+) -> dict[OwnerName, Latest]:
 
     # Special case this because the response won't have any data and will
     # throw a key error. On all other instances we will have data.
@@ -130,47 +128,48 @@ def get_latest_versions(spec_ids: list[tuple[OwnerName, ID]],
         }
     """
 
-    resp = session.post(graphQL_url,
-                        json={
-                            "query": latest_versions,
-                            "variables": {
-                                "ids": [id for (_, id) in spec_ids]
-                            }
-                        }).json()
+    resp = session.post(
+        graphQL_url,
+        json={
+            "query": latest_versions,
+            "variables": {"ids": [id for (_, id) in spec_ids]},
+        },
+    ).json()
 
     spec_releases = {}
-    for (spec, node) in zip((spec for (spec, _) in spec_ids),
-                            resp['data']['nodes']):
-        if node and (latest := node['latestRelease']) and 'tagName' in latest:
-            latest_version = clean_tag(latest['tagName'])
+    for spec, node in zip((spec for (spec, _) in spec_ids), resp["data"]["nodes"]):
+        if node and (latest := node["latestRelease"]) and "tagName" in latest:
+            latest_version = clean_tag(latest["tagName"])
             logging.info(f"{spec.name} latest version is {latest_version}")
-            spec_releases[spec] = Latest(latest_version, latest['url'])
+            spec_releases[spec] = Latest(latest_version, latest["url"])
         else:
-            logging.warning(
-                f"Error getting latest release from {spec.name}. Skipping")
+            logging.warning(f"Error getting latest release from {spec.name}. Skipping")
             logging.info(f"Node response: {node}")
 
     if "errors" in resp:
         logging.warning("GraphQL errors when checking latest versions:")
-        for error in resp['errors']:
-            logging.warning(error['message'])
+        for error in resp["errors"]:
+            logging.warning(error["message"])
 
     return spec_releases
 
 
-def latest_versions(specs: list[OwnerName], token: str,
-                    id_cache: Path) -> dict[OwnerName, Latest]:
+def latest_versions(
+    specs: list[OwnerName], token: str, id_cache: Path
+) -> dict[OwnerName, Latest]:
     """Given a list of specs, a github token, and a location to load and store
     a cache of GraphQL ids, get the latest versions for all the specs given."""
 
     with requests.Session() as session:
-        session.headers.update({
-            "Authorization": f"bearer {token}",
-            # https://docs.github.com/en/graphql/guides/migrating-graphql-global-node-ids
-            # Even though it's 2023, still need to hand in this header to get
-            # the latest IDs :shrug:
-            "X-Github-Next-Global-ID": "1"
-        })
+        session.headers.update(
+            {
+                "Authorization": f"bearer {token}",
+                # https://docs.github.com/en/graphql/guides/migrating-graphql-global-node-ids
+                # Even though it's 2023, still need to hand in this header to get
+                # the latest IDs :shrug:
+                "X-Github-Next-Global-ID": "1",
+            }
+        )
 
         spec_ids = update_cache(id_cache, specs, session)
 

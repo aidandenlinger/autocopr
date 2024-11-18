@@ -1,10 +1,10 @@
 name: Update spec files
 on:
   workflow_dispatch:
-  
+
   schedule:
     # Runs at 12:00am UTC -> 5:00pm PDT
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 permissions:
   # Needs to write to this repo
@@ -14,15 +14,15 @@ jobs:
   update:
     name: update
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12' # Need python version for cache
-          cache: 'pip' # caching pip dependencies
-          
+          python-version: "3.12" # Need python version for cache
+          cache: "pip" # caching pip dependencies
+
       - name: Cache GraphQL API IDs
         uses: actions/cache@v4
         with:
@@ -35,15 +35,15 @@ jobs:
           # Make sure even if the specs change it grabs the old cache
           # to start from! Entries are never invalidated, only added
           restore-keys: graphql-ids
-          
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
+
       - name: Set git user to github-actions[bot]
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
+
       - name: Check and update spec files
         run: python -m autocopr.autocopr --verbose --in-place --push specs
         env:

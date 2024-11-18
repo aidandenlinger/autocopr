@@ -2,12 +2,10 @@ import logging
 from typing import Optional
 
 import requests
-
 from githubapi.latest import Latest, OwnerName, clean_tag
 
 
-def get_latest_version(spec: OwnerName,
-                       session: requests.Session) -> Optional[Latest]:
+def get_latest_version(spec: OwnerName, session: requests.Session) -> Optional[Latest]:
     """Given SpecData with a github url, returns the latest version. Forces
     usage of a session because all uses of this function will use the same
     API. Returns None if there is no latest version (either the repo has no
@@ -23,7 +21,7 @@ def get_latest_version(spec: OwnerName,
         url,
         params={
             "X-GitHub-Api-Version": "2022-11-28",
-            "Accept": "application/vnd.github+json"
+            "Accept": "application/vnd.github+json",
         },
     ).json()
 
@@ -31,10 +29,10 @@ def get_latest_version(spec: OwnerName,
         latest_tag: str = req["tag_name"]
         latest_url: str = req["html_url"]
     except KeyError:
-        logging.warning(
-            f"{spec.name} does not have a latest version, skipping")
+        logging.warning(f"{spec.name} does not have a latest version, skipping")
         logging.info("Request received:")
         import json
+
         logging.info(json.dumps(req, indent=4))
         return None
 

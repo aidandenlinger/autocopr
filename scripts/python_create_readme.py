@@ -1,13 +1,12 @@
 #!/bin/env python3
 
 import pathlib
-import markdown
 
 # Specify the directory path
-dir_path = pathlib.Path('.')
+dir_path = pathlib.Path(".")
 
 # Use glob to retrieve a list of files
-files = dir_path.glob('specs/**/*.spec')  # only match .spec files
+files = dir_path.glob("specs/**/*.spec")  # only match .spec files
 
 # Sort the files by filename (natural sort)
 sorted_files = sorted(files, key=lambda x: x.name)
@@ -30,12 +29,12 @@ for file in sorted_files:
                 break
     if name and url:
         name_url_pairs.append((name, url))
-        print(f'Processed: {file.name} -> Name: {name}, URL: {url}')
+        print(f"Processed: {file.name} -> Name: {name}, URL: {url}")
 
 # Create markdown content for README.md
 readme_content = """# Autocopr forked repo
 
-For any issues or questions related to python scripts, please go to upstream repo.
+## For any issues or questions related to python scripts, please go to upstream repo.
 
 <details open>
 
@@ -51,7 +50,7 @@ for name, url in name_url_pairs:
 """
 
 # Example of how to convert markdown content to HTML (optional, for further use)
-#html_content = markdown.markdown(markdown_content)
+# html_content = markdown.markdown(markdown_content)
 
 # Write markdown content to README.md
 readme_path = pathlib.Path("README.md")
@@ -63,4 +62,3 @@ print("README.md file created successfully!")
 # Example of how to use the html_content (optional)
 # with open("README.html", "w", encoding="utf-8") as html_file:
 #     html_file.write(html_content)
-

@@ -40,7 +40,7 @@ jobs:
         shell: bash
         env:
           WEBHOOK: ${{ secrets.WEBHOOK_URL }}
-        run: ./scripts/copr_webhook.sh $WEBHOOK ${{ github.sha }}
+        run: ./scripts/copr_webhook.sh "$WEBHOOK" "${{ github.sha }}"
 
   update-readme:
     runs-on: ubuntu-latest
