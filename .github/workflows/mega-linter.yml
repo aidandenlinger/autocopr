@@ -9,10 +9,10 @@ on:
   # Comment this line to trigger action only on pull-requests
   # (not recommended if you don't pay for GH Actions)
   push:
-
+    branches:
+      - master
   pull_request:
     branches:
-      - main
       - master
 
 # Comment env block if you do not want to apply fixes
@@ -25,11 +25,11 @@ env:
 
   # Decide which event triggers application of fixes in a commit or a PR
   # (pull_request, push, all)
-  APPLY_FIXES_EVENT: pull_request
+  APPLY_FIXES_EVENT: push
 
   # If APPLY_FIXES is used, defines if the fixes are directly committed (commit)
   # or posted in a PR (pull_request)
-  APPLY_FIXES_MODE: commit
+  APPLY_FIXES_MODE: pull_request
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
@@ -46,6 +46,7 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
+      security-events: write
 
     steps:
       # Git Checkout
@@ -56,14 +57,14 @@ jobs:
 
           # If you use VALIDATE_ALL_CODEBASE = true, you can remove this line to
           # improve performance
-          fetch-depth: 0
+          #fetch-depth: 0
 
       # MegaLinter
       - name: MegaLinter
 
         # You can override MegaLinter flavor used to have faster performances
         # More info at https://megalinter.io/latest/flavors/
-        uses: oxsecurity/megalinter@v8
+        uses: oxsecurity/megalinter/flavors/python@v8.2.0
 
         id: ml
 
@@ -108,6 +109,12 @@ jobs:
           path: |
             megalinter-reports
             mega-linter.log
+
+      - name: Upload MegaLinter scan results to GitHub Security tab
+        if: success() || failure()
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: "megalinter-reports/megalinter-report.sarif"
 
       # Create pull request if applicable
       # (for now works only on PR from same repository, not from forks)
@@ -192,9 +199,3 @@ jobs:
           commit_message: "[MegaLinter] Apply linters fixes"
           commit_user_name: megalinter-bot
           commit_user_email: nicolas.vuillamy@ox.security
-
-      - name: Upload MegaLinter scan results to GitHub Security tab
-        if: success() || failure()
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: "megalinter-reports/megalinter-report.sarif"
