@@ -1,6 +1,6 @@
 # Autocopr forked repo
 
-## For any issues or questions related to python scripts, please go to upstream repo
+## For any issues or questions related to python scripts, please go to upstream repo.
 
 <details open>
 
