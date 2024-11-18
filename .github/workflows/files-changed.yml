@@ -72,10 +72,12 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if git diff-index --quiet HEAD; then
             echo "**No changes to README.md with python script to commit**"
+            exit 0
           else
             git add README.md
             git commit -m "Update README.md with the list of spec files"
             git push
+            exit 0
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
