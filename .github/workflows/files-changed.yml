@@ -28,12 +28,8 @@ concurrency:
 
 jobs:
   notify:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
-      - name: Clean the workspace
-        uses: docker://alpine
-        with:
-          args: /bin/sh -c "rm -rf /github/workspace/.* || rm -rf /github/workspace/*"
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -48,18 +44,15 @@ jobs:
         run: ./scripts/copr_webhook.sh "$WEBHOOK" "${{ github.sha }}"
 
   update-readme:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
-      - name: Clean the workspace
-        uses: docker://alpine
-        with:
-          args: /bin/sh -c "rm -rf /github/workspace/.* || rm -rf /github/workspace/*"
 
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 3
           ref: master
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -73,24 +66,15 @@ jobs:
           pip install markdown
 
       - name: Update README.md file
-        run: python scripts/python_create_readme.py
+        run: python3 scripts/python_create_readme.py
 
-      - name: Commit and push changes
-        shell: bash
+      - name: Commit files
         run: |
-          git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff-index --quiet HEAD; then
-            echo "**No changes to README.md with python script to commit**"
-            exit 0
-          else
-            git add README.md
-            git commit -m "Update README.md with the list of spec files"
-            git push
-            exit 0
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Finalize
-        if: failure()
-        run: echo "Workflow completed. No changes were necessary."
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "Add changes"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
