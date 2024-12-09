@@ -7,19 +7,17 @@ from autocopr.specdata import SpecData
 from githubapi.latest import Latest
 
 
-def update_version(spec: SpecData,
-                   latest: Latest,
-                   inplace: bool = False,
-                   push: bool = False):
+def update_version(
+    spec: SpecData, latest: Latest, inplace: bool = False, push: bool = False
+):
     """Given the location of a spec file, the latest version, and the name of
     the package, update the version in the spec and make a commit with the
     cooresponding COPR tag."""
 
     logging.info(f"Updating {spec.name} file to {latest.ver}...")
-    spec_loc_backup = spec.loc.rename(
-        spec.loc.with_suffix(spec.loc.suffix + ".bak"))
+    spec_loc_backup = spec.loc.rename(spec.loc.with_suffix(spec.loc.suffix + ".bak"))
 
-    with (open(spec.loc, "w") as new_spec, open(spec_loc_backup) as old_spec):
+    with open(spec.loc, "w") as new_spec, open(spec_loc_backup) as old_spec:
         # Again, assumes that Version and Release are only defined once!
         for line in old_spec:
             if re.match(RegexConstants.version_pat, line):
@@ -43,9 +41,9 @@ def update_version(spec: SpecData,
         subprocess.run(["git", "commit", "-m", commit_msg])
         # Have to make an annotated tag for github to recognize it
         # message is the same as the commit message
-        subprocess.run([
-            "git", "tag", "-a", "-m", commit_msg, f"{spec.name}-{latest.ver}"
-        ])
+        subprocess.run(
+            ["git", "tag", "-a", "-m", commit_msg, f"{spec.name}-{latest.ver}"]
+        )
         # The github webhooks won't fire if 3+ tags are made at once, to be
         # defensive push each tag by itself
         subprocess.run(["git", "push", "--follow-tags"])

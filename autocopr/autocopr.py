@@ -15,20 +15,26 @@ def main():
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    if (args.push
-            and subprocess.run(["git", "rev-parse", "--is-inside-work-tree"],
-                               capture_output=True).returncode != 0):
+    if (
+        args.push
+        and subprocess.run(
+            ["git", "rev-parse", "--is-inside-work-tree"], capture_output=True
+        ).returncode
+        != 0
+    ):
         # We're not in a git repository, exit
         logging.error("Cannot use --push when not running in a git repository")
         exit(1)
 
     specs = [
-        parsed for spec in root_dir.glob("**/*.spec")
+        parsed
+        for spec in root_dir.glob("**/*.spec")
         if (parsed := autocopr.specdata.parse_spec(spec)) is not None
     ]
 
     latest_vers = autocopr.latestver.get_latest_versions(
-        specs, args.github_token, root_dir / "graphql_id_cache.json")
+        specs, args.github_token, root_dir / "graphql_id_cache.json"
+    )
 
     update_summary = [f"{'Name':15}\t{'Old Version':8}\tNew Version"]
 
@@ -39,21 +45,22 @@ def main():
     ]
 
     if not args.dry_run:
-        for (spec, latest) in latest_vers:
+        for spec, latest in latest_vers:
             if spec.version != latest.ver:
-                autocopr.update.update_version(spec,
-                                               latest,
-                                               inplace=args.in_place,
-                                               push=args.push)
+                autocopr.update.update_version(
+                    spec, latest, inplace=args.in_place, push=args.push
+                )
 
     print("\n".join(update_summary))
 
     if args.dry_run:
         print("To update the spec files, run again without the dry-run flag.")
     elif not args.in_place:
-        print("If any specs were updated, the original spec files now have a "
-              ".bk suffix, and the spec files are updated with the newest "
-              "version.")
+        print(
+            "If any specs were updated, the original spec files now have a "
+            ".bk suffix, and the spec files are updated with the newest "
+            "version."
+        )
     else:
         print("Any updates have been applied to the spec files.")
 
