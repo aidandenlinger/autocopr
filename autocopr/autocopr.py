@@ -33,7 +33,7 @@ def main():
     ]
 
     latest_vers = autocopr.latestver.get_latest_versions(
-        specs, args.github_token, root_dir / "graphql_id_cache.json"
+        specs, root_dir / "graphql_id_cache.json", args.github_token, args.rest if args.rest else None
     )
 
     update_summary = [f"{'Name':15}\t{'Old Version':8}\tNew Version"]
