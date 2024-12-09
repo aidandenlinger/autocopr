@@ -67,6 +67,13 @@ def _graphql(
 def _rest(specs: list[SpecData], token: Optional[str]) -> list[tuple[SpecData, Latest]]:
     """Use the REST api."""
     with requests.Session() as s:
+        if token:
+            s.headers.update(
+                {
+                    "Authorization": f"Bearer {token}"
+                }
+            )
+
         return [
             (spec, latest_ver)
             for spec in specs
