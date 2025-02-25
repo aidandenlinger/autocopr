@@ -1,0 +1,29 @@
+{
+  "name": "My Dev Container",
+  "build": { "dockerfile": "dockerfile" },
+  "forwardPorts": [38907, 40205, 39407],
+  "runArgs": [
+    "--init",
+    "--privileged",
+    "-v",
+    "/var/run/docker.sock:/var/run/docker.sock"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "github.copilot",
+        "davidanson.vscode-markdownlint",
+        "github.vscode-github-actions",
+        "donjayamanne.githistory",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-azuretools.vscode-docker",
+        "github.vscode-github-actions",
+        "ms-python.python",
+        "yzhang.markdown-all-in-one",
+        "1dot75cm.rpmspec",
+        "circleci.circleci"
+      ]
+    }
+  }
+}

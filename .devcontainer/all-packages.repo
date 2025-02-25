@@ -1,0 +1,20 @@
+[copr:copr.fedorainfracloud.org:relativesure:all-packages]
+name=Copr repo for all-packages owned by relativesure
+baseurl=https://download.copr.fedorainfracloud.org/results/relativesure/all-packages/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/relativesure/all-packages/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+
+[coprdep:https_copr_dist_git_fedorainfracloud_org_cgit_relativesure_all_packages]
+name=Copr copr.fedorainfracloud.org/relativesure/all-packages external runtime dependency #1 - https_copr_dist_git_fedorainfracloud_org_cgit_relativesure_all_packages
+baseurl=https://copr-dist-git.fedorainfracloud.org/cgit/relativesure/all-packages/
+type=rpm-md
+skip_if_unavailable=True
+repo_gpgcheck=0
+gpgcheck=0
+enabled=1
+enabled_metadata=1

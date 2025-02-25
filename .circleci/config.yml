@@ -1,0 +1,14 @@
+---
+version: 2.1
+
+orbs:
+  megalinter: relativesure/megalinter@2.0.1
+
+workflows:
+  run-megalinter:
+    jobs:
+      - megalinter/run:
+          flavor: python
+          persist_megalinter_reports: true
+          run_git_operations: true
+          context: Main Context

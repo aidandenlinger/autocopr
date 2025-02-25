@@ -1,0 +1,21 @@
+name: Cleanup old tags and PR
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs at 12:00am UTC
+    - cron: "0 0 * * *"
+
+jobs:
+  cleanup-tags-pr:
+    runs-on: ubuntu-24.04
+    steps:
+      # To use this action, you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Cleanup
+        uses: digicert/prune_old_branches_action@e9579c0de0fef771ed0bd5e5205510ef03b5f50e # v9
+        with:
+          numTags: "10"

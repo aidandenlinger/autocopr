@@ -1,0 +1,55 @@
+name: Update README
+
+on:
+  workflow_dispatch:
+  #push:
+  #  branches:
+  #    - master
+  #  paths:
+  #    - "specs/*"
+  #    - ".github/workflows/*"
+  #workflow_run:
+  #  workflows: [Update spec files]
+  #  types:
+  #    - completed
+
+permissions:
+  # Needs to write to this repo
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          persist-credentials: false
+          fetch-depth: 3
+          ref: master
+
+      - name: Set up Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install markdown
+
+      - name: Update README.md file
+        run: python3 scripts/create_readme.py
+
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" || true
+          git config --local user.name "github-actions[bot]" || true
+          git commit -a -m "Update README.md" || true
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.KUBEARCHITECTBOT_TOKEN || secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

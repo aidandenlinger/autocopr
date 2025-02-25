@@ -1,0 +1,10 @@
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# @RelativeSure will be requested for
+# review when someone opens a pull request.
+# Files in autocopr and githubapi folder is maintained by upstream
+*       @RelativeSure
+
+# Following folders are maintained by upstream
+!/autocopr/**
+!/githubapi/**

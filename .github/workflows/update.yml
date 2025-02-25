@@ -1,10 +1,10 @@
 name: Update spec files
 on:
   workflow_dispatch:
-  
+
   schedule:
     # Runs at 12:00am UTC -> 5:00pm PDT
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 permissions:
   # Needs to write to this repo
@@ -13,18 +13,18 @@ permissions:
 jobs:
   update:
     name: update
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-24.04
+
     steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
         with:
-          python-version: '3.12' # Need python version for cache
-          cache: 'pip' # caching pip dependencies
-          
+          python-version: "3.12" # Need python version for cache
+          cache: "pip" # caching pip dependencies
+
       - name: Cache GraphQL API IDs
-        uses: actions/cache@v4
+        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4
         with:
           path: specs/graphql_id_cache.json
           # This key is overkill - we realy only need to update the
@@ -35,16 +35,16 @@ jobs:
           # Make sure even if the specs change it grabs the old cache
           # to start from! Entries are never invalidated, only added
           restore-keys: graphql-ids
-          
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
+
       - name: Set git user to github-actions[bot]
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
+
       - name: Check and update spec files
         run: python -m autocopr.autocopr --verbose --in-place --push specs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.KUBEARCHITECTBOT_TOKEN || secrets.GITHUB_TOKEN }}

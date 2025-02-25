@@ -1,0 +1,62 @@
+FROM fedora:latest@sha256:3ec60eb34fa1a095c0c34dd37cead9fd38afb62612d43892fcf1d3425c32bc1e
+
+# Define variables
+ARG USERNAME=devcontainer
+ARG USER_HOME=/home/$USERNAME
+
+# Upgrade all packages
+RUN dnf -y upgrade --refresh
+
+# Install fish, figlet, nodejs, git, curl, wget, vim, neovim, util-linux-user, sudo, python3, pip3, python-copr, python-copr-doc, github-cli, and other important packages
+RUN dnf -y install fish figlet nodejs git curl wget vim neovim util-linux-user sudo python3 pip3 python-copr python-copr-doc dnf-plugins-core 'dnf-command(copr)' 'dnf-command(config-manager)' gh kubectl helm git fedora-packager && \
+    curl -fsSL https://code-server.dev/install.sh | sh
+
+# Install Docker CE
+RUN dnf5 config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo && \
+    dnf -y install docker-ce docker-ce-cli containerd.io
+
+# Install Docker-in-Docker (DinD)
+RUN curl -fsSL https://get.docker.com | sh && \
+    dockerd &
+
+# Install minikube
+RUN curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm && \
+sudo rpm -Uvh minikube-latest.x86_64.rpm
+
+# Setup LazyVim
+RUN git clone https://github.com/folke/lazy.nvim.git ~/.local/share/nvim/site/pack/packer/start/lazy.nvim
+
+# Setup RelativeSure Copr repo
+COPY all-packages.repo /etc/yum.repos.d/all-packages.repo
+
+# Install starship and act-cli package
+RUN dnf -y install starship act-cli --refresh
+
+# Create devcontainer user, set fish as default shell, and add to sudoers
+RUN useradd -m -d $USER_HOME -s /usr/bin/fish $USERNAME && \
+    mkdir -p $USER_HOME/.config/fish && \
+    usermod -aG wheel $USERNAME && \
+    usermod -aG docker $USERNAME && \
+    usermod -aG mock $USERNAME && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Set correct permissions for Fish configuration directory
+RUN chown -R $USERNAME:$USERNAME $USER_HOME/.config/fish
+
+# Clean up
+RUN dnf clean all
+
+# Set devcontainer as the default user
+USER $USERNAME
+
+# Set the HOME environment variable
+ENV HOME=$USER_HOME
+
+# Set the working directory to the home directory
+WORKDIR $USER_HOME
+
+# Set fish as the default shell
+ENTRYPOINT ["/usr/bin/fish"]
+
+# Expose necessary ports
+EXPOSE 38907 40205 39407

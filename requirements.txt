@@ -1,1 +1,12 @@
-requests >= 2.28.2
+certifi            >= 2024.8.30
+charset-normalizer >= 3.4.0
+copr               >= 2.0
+filelock           >= 3.16.1
+idna               >= 3.10
+markdown           >= 3.7
+munch              >= 4.0.0
+requests           >= 2.32.3
+requests-toolbelt  >= 1.0.0
+setuptools         >= 75.6.0
+six                >= 1.16.0
+urllib3            >= 2.2.3

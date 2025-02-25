@@ -1,0 +1,28 @@
+# Examples:
+# https://docs.github.com/en/get-started/getting-started-with-git/configuring-git-to-handle-line-endings
+# https://github.com/gitattributes/gitattributes
+# Set the default behavior, in case people don't have core.autocrlf set.
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Scripts
+*.bash text eol=lf
+*.sh   text eol=lf
+*.py   text diff=python
+
+# Serialisation
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml  text eol=lf
+
+# Fix syntax highlighting on GitHub to allow comments
+.devcontainer.json linguist-language=JSON-with-Comments
+devcontainer.json  linguist-language=JSON-with-Comments
+.vscode/*.json     linguist-language=JSON-with-Comments
+
+#
+# Exclude files from exporting
+#
+.gitattributes export-ignore
+.gitignore     export-ignore
+.gitkeep       export-ignore

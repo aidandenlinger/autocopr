@@ -1,0 +1,19 @@
+name: Auto Update Thirdparty Packages
+
+on:
+  schedule:
+    - cron: "30 5 * * *"
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Get changes and send webhook to COPR
+        shell: bash
+        env:
+          WEBHOOK: ${{ secrets.WEBHOOK_URL }}
+        run: ./scripts/copr_webhook_update_thirdparty_pkgs.sh "$WEBHOOK"

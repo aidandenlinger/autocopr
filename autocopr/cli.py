@@ -6,7 +6,8 @@ def create_parser() -> argparse.ArgumentParser:
     """Initializes the cli parser."""
 
     parser = argparse.ArgumentParser(
-        description="Update versions in RPM Spec files and prepare commits.")
+        description="Update versions in RPM Spec files and prepare commits."
+    )
     parser.add_argument(
         "-p",
         "--push",
@@ -35,8 +36,15 @@ def create_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--github-token",
         default=os.environ.get("GITHUB_TOKEN"),
-        help=("Github token to use to access the GraphQL API. "
-              "Defaults to GITHUB_TOKEN environment variable if not set."))
+        help=(
+            "Github token to use to access the GraphQL API. "
+            "Defaults to GITHUB_TOKEN environment variable if not set."
+        ),
+    )
+    parser.add_argument(
+        "--rest",
+        help="Forces usage of the Github REST API over the GraphQL API. The GraphQL API is preferred since it typically only needs to make one request.",
+    )
     parser.add_argument(
         "directory",
         nargs="?",
