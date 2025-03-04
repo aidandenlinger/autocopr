@@ -145,7 +145,7 @@ jobs:
       # Create pull request if applicable
       # (for now works only on PR from same repository, not from forks)
       - name: Create Pull Request with applied fixes
-        uses: peter-evans/create-pull-request@dd2324fc52d5d43c699a5636bcf19fceaa70c284 # v7
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7
         id: cpr
         if: env.APPLY_FIXES_IF_PR == 'true' && contains(fromJSON('["refs/heads/main", "refs/heads/master"]'), github.ref)
         with:
