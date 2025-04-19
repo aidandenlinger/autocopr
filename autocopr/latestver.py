@@ -27,7 +27,8 @@ def get_latest_versions(
             logging.warning(
                 "The REST API will rate limit you to 60 requests per hour without a Github token. "
                 "You can use the REST API with a token by using the --rest flag and using the "
-                "GITHUB_TOKEN environment variable or --github-token flag.")
+                "GITHUB_TOKEN environment variable or --github-token flag."
+            )
 
         return _rest(specs, token)
 
@@ -68,11 +69,7 @@ def _rest(specs: list[SpecData], token: Optional[str]) -> list[tuple[SpecData, L
     """Use the REST api."""
     with requests.Session() as s:
         if token:
-            s.headers.update(
-                {
-                    "Authorization": f"Bearer {token}"
-                }
-            )
+            s.headers.update({"Authorization": f"Bearer {token}"})
 
         return [
             (spec, latest_ver)
