@@ -65,7 +65,7 @@ def _graphql(
     return [(spec, latest[key]) for spec in specs if (key := spec.ownerName) in latest]
 
 
-def _rest(specs: list[SpecData], token: Optional[str]) -> list[tuple[SpecData, Latest]]:
+def _rest(specs: list[SpecData], token: Optional[str] = None) -> list[tuple[SpecData, Latest]]:
     """Use the REST api."""
     with requests.Session() as s:
         if token:
