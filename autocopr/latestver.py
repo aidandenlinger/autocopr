@@ -62,31 +62,35 @@ def _graphql(
     ownerNames = [spec.ownerName for spec in specs]
     latest = githubapi.graphql.latest_versions(ownerNames, token, id_cache)
 
-    missing_specs = [spec for spec in specs if spec.ownerName not in latest]
+    missing_specs = [spec.loc for spec in specs if spec.ownerName not in latest]
 
     if len(missing_specs) != 0:
         logging.warning(f"{missing_specs} had errors, exiting...")
         exit(1)
-    
+
     return [(spec, latest[key]) for spec in specs if (key := spec.ownerName) in latest]
 
 
-def _rest(specs: list[SpecData], token: Optional[str] = None) -> list[tuple[SpecData, Latest]]:
+def _rest(
+    specs: list[SpecData], token: Optional[str] = None
+) -> list[tuple[SpecData, Latest]]:
     """Use the REST api. Will exit the program if fetching fails."""
     with requests.Session() as s:
         if token:
             s.headers.update({"Authorization": f"Bearer {token}"})
 
-        latest = [
-            (spec, latest_ver)
-            for spec in specs
-            if (latest_ver := githubapi.rest.get_latest_version(spec.ownerName, s))
-        ]
+        latest_vers = []
+        errors = []
+        for spec in specs:
+            latest_ver = githubapi.rest.get_latest_version(spec.ownerName, s)
 
-        missing = [entry[0] for entry in latest if entry[1] is None]
+            if latest_ver is None:
+                errors.append(spec)
+            else:
+                latest_vers.append((spec, latest_ver))
 
-        if len(missing) != 0:
-            logging.warning(f"{missing} had errors, exiting...")
+        if len(errors) != 0:
+            logging.warning(f"{errors} had errors, exiting...")
             exit(1)
 
-        return [entry for entry in latest if entry[1] is not None]
+        return latest_vers

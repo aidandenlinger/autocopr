@@ -26,17 +26,13 @@ def main():
         logging.error("Cannot use --push when not running in a git repository")
         exit(1)
 
-    specs = [
-        parsed
-        for spec in root_dir.glob("**/*.spec")
-        if (parsed := autocopr.specdata.parse_spec(spec))
-    ]
+    non_filtered_specs = [autocopr.specdata.parse_spec(spec) for spec in root_dir.glob("**/*.spec")]
 
-    if None in specs:
+    if None in non_filtered_specs:
         logging.warning("A spec/specs failed to parse, exiting...")
         exit(1)
 
-    specs = [spec for spec in specs if spec is not None]
+    specs = [spec for spec in non_filtered_specs if spec is not None]
 
     latest_vers = autocopr.latestver.get_latest_versions(
         specs,

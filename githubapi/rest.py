@@ -30,11 +30,11 @@ def get_latest_version(spec: OwnerName, session: requests.Session) -> Optional[L
         latest_tag: str = req["tag_name"]
         latest_url: str = req["html_url"]
     except KeyError:
-        logging.warning(f"{spec.name} does not have a latest version, skipping")
-        logging.info("Request received:")
+        logging.warning(f"{spec.name} does not have a latest version!")
+        logging.warning("Request received:")
         import json
 
-        logging.info(json.dumps(req, indent=4))
+        logging.warning(json.dumps(req, indent=4))
         return None
 
     # Trims tags like "v0.35.2" to "0.35.2" by cutting from the front until we

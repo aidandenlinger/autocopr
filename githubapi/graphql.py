@@ -137,14 +137,18 @@ def get_latest_versions(
     ).json()
 
     spec_releases = {}
+    if "data" not in resp or "nodes" not in resp["data"]:
+        logging.warning(f"GraphQL response not in expected shape: {resp}")
+        return {}
+        
     for spec, node in zip((spec for (spec, _) in spec_ids), resp["data"]["nodes"]):
         if node and (latest := node["latestRelease"]) and "tagName" in latest:
             latest_version = clean_tag(latest["tagName"])
             logging.info(f"{spec.name} latest version is {latest_version}")
             spec_releases[spec] = Latest(latest_version, latest["url"])
         else:
-            logging.warning(f"Error getting latest release from {spec.name}. Skipping")
-            logging.info(f"Node response: {node}")
+            logging.warning(f"Error getting latest release from {spec.name}")
+            logging.warning(f"Node response: {node}")
 
     if "errors" in resp:
         logging.warning("GraphQL errors when checking latest versions:")
@@ -172,5 +176,10 @@ def latest_versions(
         )
 
         spec_ids = update_cache(id_cache, specs, session)
+
+        ownerNamesRetrieved = [spec_id[0] for spec_id in spec_ids]
+        if missing_specs := [spec for spec in specs if spec not in ownerNamesRetrieved]:
+            logging.warning(f"Missing spec ids for {missing_specs}, exiting")
+            exit(1)
 
         return get_latest_versions(spec_ids, session)
