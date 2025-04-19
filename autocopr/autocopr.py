@@ -29,8 +29,14 @@ def main():
     specs = [
         parsed
         for spec in root_dir.glob("**/*.spec")
-        if (parsed := autocopr.specdata.parse_spec(spec)) is not None
+        if (parsed := autocopr.specdata.parse_spec(spec))
     ]
+
+    if None in specs:
+        logging.warning("A spec/specs failed to parse, exiting...")
+        exit(1)
+
+    specs = [spec for spec in specs if spec is not None]
 
     latest_vers = autocopr.latestver.get_latest_versions(
         specs,
