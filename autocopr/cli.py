@@ -44,6 +44,7 @@ def create_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--rest",
         help="Forces usage of the Github REST API over the GraphQL API. The GraphQL API is preferred since it typically only needs to make one request.",
+        action="store_true"
     )
     parser.add_argument(
         "directory",

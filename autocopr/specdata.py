@@ -59,5 +59,5 @@ def parse_spec(spec_loc: Path) -> Optional[SpecData]:
                 logging.info(f"Parsed from file: {parsed}")
                 return parsed
 
-    logging.warning(f"Missing name, version or URL in {spec_loc}! Skipping")
+    logging.warning(f"Missing name, version or URL field in {spec_loc}!")
     return None
