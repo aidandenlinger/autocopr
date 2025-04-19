@@ -23,6 +23,7 @@ TL;DR: Automatic version bumper for projects that use Github Releases :)
 - [License](#license)
 
 ## Background
+
 [Fedora](https://fedoraproject.org/) is a Linux distribution that uses
 the [`dnf`](https://docs.fedoraproject.org/en-US/quick-docs/dnf/) package
 manager to install, update, and remove packages/software.
@@ -51,6 +52,13 @@ that is already compiled. However, this requires that you trust the project
 maintainers to provide correct binaries. If you don't, please create your own
 AutoCOPR that builds from source or explore other alternatives below.
 
+I'd also like to point to [RelativeSure's autocopr
+repo](https://github.com/RelativeSure/autocopr) as a downstream repo using
+these scripts in a much more structured manner. You may want to use it as your
+COPR repo since they're packaging much more, or use it as inspiration for
+additional features you could use (such as updating a README.md with version
+numbers).
+
 There are several valid alternatives to a system like this:
 - [`cargo-binstall`](https://github.com/cargo-bins/cargo-binstall) or
   installing from source with
@@ -59,7 +67,7 @@ There are several valid alternatives to a system like this:
   programs. This is more idiomatic and certainly easier! However, for me I
   really value having one source of updates for my system so I don't need to
   remember all the different sources, so integrating with `dnf` is ideal.
-- There are other COPR repositories that build these. You can go to
+- There are other COPR repositories that build these programs. You can go to
   [Copr](https://doc.rust-lang.org/cargo/commands/cargo-install.html), type in
   a program name, hit the arrow to filter for "package name", and go explore the
   projects and repositories! *Be sure to check a build for its spec file to see
@@ -70,6 +78,7 @@ There are several valid alternatives to a system like this:
   over-engineer a solution for something that is barely a problem.
 
 ## Install/Usage
+
 There's a few different ways to use this repo, so each one will get its own
 section.
 
@@ -96,6 +105,7 @@ sudo dnf copr enable adenl/github-releases
 ```
 
 #### Usage
+
 With the repository installed, you can install like regular from `dnf` - commands
 like `sudo dnf install zellij` or `sudo dnf remove zellij` will work as expected
 and you will receive updates through GNOME Software or `sudo dnf upgrade`.
@@ -105,6 +115,7 @@ See all packages on
 or by looking in the [specs folder](specs).
 
 ### The `autocopr.py` Program
+
 The `autocopr.py` program (in the [`autocopr` folder](autocopr)) checks all
 `.spec` files in the given directory and updates the versions to the latest
 Github Release. This doesn't need to be integrated with CI - this can be run
@@ -187,6 +198,7 @@ for spec files. It also passes a Github token in the environment to allow for
 authentication to the GraphQL library.
 
 ### Integrating with Github Actions and COPR Automatic Builds
+
 This repo has a Github Action at .github/workflows/update.yml that runs the
 script every 24 hours. This process is detailed much further in
 [DOCS.md](DOCS.md), but if you know what you're doing here's a quick summary:
