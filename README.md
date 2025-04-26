@@ -1,5 +1,7 @@
 # AutoCOPR
 
+[![Update spec files](https://github.com/aidandenlinger/autocopr/actions/workflows/update.yml/badge.svg)](https://github.com/aidandenlinger/autocopr/actions/workflows/update.yml)
+
 Check Github Releases daily for new project versions and updates spec files
 accordingly for automatic COPR updates.
 
