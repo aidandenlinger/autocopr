@@ -2,13 +2,14 @@
 
 Name:       zellij
 Version: 0.42.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary:    A terminal workspace with batteries included
 
 License:    MIT
 URL:        https://github.com/zellij-org/zellij
 Source:     %{url}/releases/download/v%{version}/%{name}-x86_64-unknown-linux-musl.tar.gz
 Source1:    https://raw.githubusercontent.com/zellij-org/zellij/v%{version}/docs/MANPAGE.md
+Source2:    https://raw.githubusercontent.com/zellij-org/zellij/v%{version}/LICENSE.md
 
 BuildRequires: pandoc
 
@@ -24,6 +25,7 @@ language that compiles to WebAssembly.
 %autosetup -c
 # Get the manpage in the build dir
 cp %{SOURCE1} .
+cp %{SOURCE2} .
 
 %build
 # Generate shell completions
@@ -51,3 +53,4 @@ install -pvD -m 0644 %{name}.1.gz %{buildroot}%{_mandir}/man1/%{name}.1.gz
 %{zsh_completions_dir}/_%{name}
 %{fish_completions_dir}/%{name}.fish
 %{_mandir}/man1/%{name}.1.gz
+%license LICENSE.md

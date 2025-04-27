@@ -4,7 +4,7 @@
 
 Name:    lazygit
 Version: 0.49.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: simple terminal UI for git commands
 
 License: MIT
@@ -24,3 +24,4 @@ install -p -D %{name} %{buildroot}%{_bindir}/%{name}
 
 %files
 %{_bindir}/%{name}
+%license LICENSE

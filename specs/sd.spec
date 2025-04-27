@@ -2,7 +2,7 @@
 
 Name:    sd
 Version: 1.0.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Intuitive find & replace CLI (sed alternative)
 
 License: MIT
@@ -55,3 +55,4 @@ install -pvD -m 0644 %{name}.1.gz %{buildroot}%{_mandir}/man1/%{name}.1.gz
 %{zsh_completions_dir}/_%{name}
 %{fish_completions_dir}/%{name}.fish
 %{_mandir}/man1/%{name}.1.gz
+%license LICENSE
