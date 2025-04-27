@@ -5,7 +5,7 @@ Version: 0.21.2
 Release: 1%{?dist}
 Summary:    A modern alternative to ls
 
-License:    MIT
+License:    EUPL-1.2
 URL:        https://github.com/eza-community/eza
 Source:     %{url}/releases/download/v%{version}/%{name}_x86_64-unknown-linux-gnu.tar.gz
 Source1:    %{url}/releases/download/v%{version}/completions-%{version}.tar.gz
