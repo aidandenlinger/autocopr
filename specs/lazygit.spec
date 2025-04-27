@@ -10,8 +10,6 @@ Summary: simple terminal UI for git commands
 License: MIT
 URL: https://github.com/jesseduffield/lazygit
 Source: %{url}/releases/download/v%{version}/%{name}_%{version}_Linux_x86_64.tar.gz
-Source1: https://raw.githubusercontent.com/jesseduffield/lazygit/v%{version}/README.md
-Source2: https://raw.githubusercontent.com/jesseduffield/lazygit/v%{version}/LICENSE
 
 %description
 %{summary}
