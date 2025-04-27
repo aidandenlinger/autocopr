@@ -8,7 +8,7 @@ have to remove the ``~/rpmbuild` dir when you're done, but otherwise it just
 works.
 
 The [Fedora Packaging
-Tutorial](https://docs.fedoraproject.org/en-US/package-maintainers/Packaging_Tutorial_GNU_Hello/)
+Tutorial](https://docs.fedoraproject.org/en-US/package-maintainers/Packaging_Tutorial_2_GNU_Hello/)
 was the most useful guide for dependencies and advice. I wish there was a
 better all-intensive guide to see every macro, but I couldn't find one. The
 other good resources were
@@ -17,6 +17,16 @@ other good resources were
 - and a lot of random stackoverflow questions
 You're also welcome to look at the spec files here if you aren't doing anything
 too complicated, they're hopefully somewhat clear!
+
+Nowadays to write a spec, I mainly follow the steps in that Fedora Packaging Tutorial:
+- copy one of my existing specs as a template
+- update the fields
+- open a distrobox with `fedora-packager` installed
+- copy the spec file to its own folder for testing
+- use `spectool -g <spec-file>` to download the source
+- run `fedpkg mockbuild` to build the specfile so far. I do this gradually - first, add an `ls` after the `%autosetup` and see if it works, if not try adding the necessary flags from my other specs until I get the folder structure I want, and continue on
+- once I think it's fully built, try installing the rpm in the `results` folder with DNF and test it, if it works it's good to go!
+- follow the steps in [COPR Integration](#copr-integration) to add it to COPR
 
 I'm not building the packages, I'm just linking the binaries from Github
 Releases. If your project pushes a binary directly to Github Actions, you're in

@@ -1,5 +1,7 @@
 # AutoCOPR
 
+[![Update spec files](https://github.com/aidandenlinger/autocopr/actions/workflows/update.yml/badge.svg)](https://github.com/aidandenlinger/autocopr/actions/workflows/update.yml)
+
 Check Github Releases daily for new project versions and updates spec files
 accordingly for automatic COPR updates.
 
@@ -223,7 +225,6 @@ run it manually from the Actions -> Update spec files -> "Run Workflow" button.
 
 ## Removed Packages
 - 11/17/23: `helix` [has been removed from this repo](https://github.com/aidandenlinger/autocopr/commit/dfc973e8dce1294c9883906342fed5a3e21dba86) as [it is in the official Fedora repos](https://packages.fedoraproject.org/pkgs/helix/helix/).
-- 11/8/23: `eza` [has been removed from this repo](https://github.com/aidandenlinger/autocopr/commit/9ee5c10bab4337db2d3e913baa8e4d00d2b2333c) as [it is in the official Fedora repos](https://packages.fedoraproject.org/pkgs/rust-eza/eza/).
 
 ## Thanks
 - [VarLad](https://gitlab.com/VarLad/rpm-specs) for writing the original
