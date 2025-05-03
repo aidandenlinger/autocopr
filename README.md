@@ -12,7 +12,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### act-cli
 
-#### version 0.2.74
+#### version 0.2.77
 
 ![act-cli status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/act-cli/status_image/last_build.png)
 
@@ -20,7 +20,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### atuin
 
-#### version 18.4.0
+#### version 18.5.0
 
 ![atuin status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/atuin/status_image/last_build.png)
 
@@ -36,7 +36,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### chezmoi
 
-#### version 2.59.1
+#### version 2.62.2
 
 ![chezmoi status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/chezmoi/status_image/last_build.png)
 
@@ -52,7 +52,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### fish
 
-#### version 4.0b1
+#### version 4.0.2
 
 ![fish status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/fish/status_image/last_build.png)
 
@@ -76,7 +76,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### jj
 
-#### version 0.26.0
+#### version 0.28.2
 
 ![jj status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/jj/status_image/last_build.png)
 
@@ -84,7 +84,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### kubie
 
-#### version 0.24.1
+#### version 0.25.2
 
 ![kubie status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/kubie/status_image/last_build.png)
 
@@ -100,7 +100,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### lazygit
 
-#### version 0.46.0
+#### version 0.50.0
 
 ![lazygit status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lazygit/status_image/last_build.png)
 
@@ -124,7 +124,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### lua-language-server
 
-#### version 3.13.6
+#### version 3.14.0
 
 ![lua-language-server status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lua-language-server/status_image/last_build.png)
 
@@ -132,7 +132,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### mise
 
-#### version 2025.2.7
+#### version 2025.4.12
 
 ![mise status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/mise/status_image/last_build.png)
 
@@ -148,7 +148,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### starship
 
-#### version 1.22.1
+#### version 1.23.0
 
 ![starship status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/starship/status_image/last_build.png)
 
@@ -156,7 +156,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### superfile
 
-#### version 1.1.7.1
+#### version 1.2.1
 
 ![superfile status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/superfile/status_image/last_build.png)
 
@@ -164,7 +164,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### topgrade
 
-#### version 16.0.2
+#### version 16.0.3
 
 ![topgrade status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/topgrade/status_image/last_build.png)
 
@@ -172,7 +172,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### usage
 
-#### version 2.0.5
+#### version 2.1.1
 
 ![usage status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/usage/status_image/last_build.png)
 
@@ -180,7 +180,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### uv
 
-#### version 0.6.2
+#### version 0.7.2
 
 ![uv status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/uv/status_image/last_build.png)
 
@@ -196,7 +196,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### zellij
 
-#### version 0.41.2
+#### version 0.42.2
 
 ![zellij status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/zellij/status_image/last_build.png)
 
