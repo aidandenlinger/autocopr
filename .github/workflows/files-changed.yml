@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - main
     paths:
       - "specs/*"
       - ".github/workflows/*"
