@@ -50,6 +50,14 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 [Upstream](https://github.com/eza-community/eza)
 
+### fish
+
+#### version 4.0b1
+
+![fish status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/fish/status_image/last_build.png)
+
+[Upstream](https://github.com/fish-shell/fish-shell)
+
 ### fnm
 
 #### version 1.38.1
