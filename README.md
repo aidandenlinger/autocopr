@@ -230,15 +230,3 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 ![wezterm status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/wezterm/status_image/last_build.png)
 
 [Upstream](https://github.com/wez/wezterm.git)
-
-### zed
-
-![zed status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/zed/status_image/last_build.png)
-
-[Upstream](https://github.com/terrapkg/packages)
-
-### zed-preview
-
-![zed-preview status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/zed-preview/status_image/last_build.png)
-
-[Upstream](https://github.com/terrapkg/packages)
