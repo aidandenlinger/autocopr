@@ -6,7 +6,8 @@ Release: 1%{?dist}
 Summary: The user-friendly command line shell.
 
 License: MIT
-Source:  https://github.com/fish-shell/fish-shell/releases/download/%{version}/fish-static-linux-x86_64.tar.xz
+URL:     https://github.com/fish-shell/fish-shell
+Source:  %{url}/releases/download/%{version}/fish-static-linux-x86_64.tar.xz
 Source1: https://raw.githubusercontent.com/fish-shell/fish-shell/%{version}/README.rst
 Source2: https://raw.githubusercontent.com/fish-shell/fish-shell/%{version}/COPYING
 
