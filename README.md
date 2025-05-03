@@ -42,6 +42,14 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 [Upstream](https://github.com/twpayne/chezmoi)
 
+### eza
+
+#### version 0.21.3
+
+![eza status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/eza/status_image/last_build.png)
+
+[Upstream](https://github.com/eza-community/eza)
+
 ### fnm
 
 #### version 1.38.1
@@ -52,7 +60,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### ghostty
 
-#### version 1.1.1
+#### version 1.1.3
 
 ![ghostty status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/ghostty/status_image/last_build.png)
 
@@ -121,6 +129,14 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 ![mise status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/mise/status_image/last_build.png)
 
 [Upstream](https://github.com/jdx/mise)
+
+### sd
+
+#### version 1.0.0
+
+![sd status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/sd/status_image/last_build.png)
+
+[Upstream](https://github.com/chmln/sd)
 
 ### starship
 
