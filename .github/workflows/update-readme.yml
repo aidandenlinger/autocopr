@@ -2,16 +2,16 @@ name: Update README
 
 on:
   workflow_dispatch:
-  #push:
-  #  branches:
-  #    - master
-  #  paths:
-  #    - "specs/*"
-  #    - ".github/workflows/*"
-  #workflow_run:
-  #  workflows: [Update spec files]
-  #  types:
-  #    - completed
+  push:
+   branches:
+     - main
+   paths:
+     - "specs/*"
+     - ".github/workflows/*"
+  workflow_run:
+   workflows: [Update spec files]
+   types:
+     - completed
 
 permissions:
   # Needs to write to this repo
