@@ -9,6 +9,11 @@ import autocopr.update
 
 
 def main():
+    """
+    Updates version information in all `.spec` files within a specified directory.
+    
+    Parses command-line arguments to determine the target directory, verbosity, and update options. Validates the environment for git operations if required. Recursively parses all `.spec` files, exits if any fail to parse, and retrieves the latest version information for each spec. If not in dry-run mode, updates spec files where newer versions are available, optionally performing in-place edits and git pushes. Prints a summary of version changes and provides instructions or status messages based on the chosen options.
+    """
     args = autocopr.cli.create_parser().parse_args()
     root_dir = Path(args.directory)
 
@@ -26,11 +31,13 @@ def main():
         logging.error("Cannot use --push when not running in a git repository")
         exit(1)
 
-    specs = [
-        parsed
-        for spec in root_dir.glob("**/*.spec")
-        if (parsed := autocopr.specdata.parse_spec(spec)) is not None
-    ]
+    non_filtered_specs = [autocopr.specdata.parse_spec(spec) for spec in root_dir.glob("**/*.spec")]
+
+    if None in non_filtered_specs:
+        logging.warning("A spec/specs failed to parse, exiting...")
+        exit(1)
+
+    specs = [spec for spec in non_filtered_specs if spec is not None]
 
     latest_vers = autocopr.latestver.get_latest_versions(
         specs,
