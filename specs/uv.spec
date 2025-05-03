@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:    uv
-Version: 0.6.2
+Version: 0.7.2
 Release: 1%{?dist}
 Summary: An extremely fast Python package and project manager, written in Rust.
 

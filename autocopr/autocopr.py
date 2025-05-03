@@ -1,5 +1,6 @@
 import logging
 import subprocess
+import yaml
 from pathlib import Path
 
 import autocopr.cli
@@ -7,11 +8,22 @@ import autocopr.latestver
 import autocopr.specdata
 import autocopr.update
 
+def load_config(config_file):
+    """Loads the YAML config file and returns the content."""
+    try:
+        with open(config_file, "r") as file:
+            return yaml.safe_load(file)
+    except FileNotFoundError:
+        logging.warning(f"Config file {config_file} not found. Proceeding without exclusions.")
+        return {}
+    except yaml.YAMLError as e:
+        logging.error(f"Error parsing the config file: {e}")
+        exit(1)
 
 def main():
     """
     Updates version information in all `.spec` files within a specified directory.
-    
+
     Parses command-line arguments to determine the target directory, verbosity, and update options. Validates the environment for git operations if required. Recursively parses all `.spec` files, exits if any fail to parse, and retrieves the latest version information for each spec. If not in dry-run mode, updates spec files where newer versions are available, optionally performing in-place edits and git pushes. Prints a summary of version changes and provides instructions or status messages based on the chosen options.
     """
     args = autocopr.cli.create_parser().parse_args()
@@ -31,7 +43,17 @@ def main():
         logging.error("Cannot use --push when not running in a git repository")
         exit(1)
 
-    non_filtered_specs = [autocopr.specdata.parse_spec(spec) for spec in root_dir.glob("**/*.spec")]
+    # Load config file
+    config = load_config("config.yaml")
+    exclude_files = set(config.get("exclude_files", []))
+
+    # Parse spec files, excluding those in exclude_files
+    all_specs = root_dir.glob("**/*.spec")
+    non_filtered_specs = [
+        autocopr.specdata.parse_spec(spec)
+        for spec in all_specs
+        if spec.name not in exclude_files
+    ]
 
     if None in non_filtered_specs:
         logging.warning("A spec/specs failed to parse, exiting...")

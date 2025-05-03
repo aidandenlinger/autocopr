@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:    jj
-Version: 0.26.0
+Version: 0.28.2
 Release: 1%{?dist}
 Summary: A Git-compatible VCS that is both simple and powerful
 
