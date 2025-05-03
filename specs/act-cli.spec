@@ -10,7 +10,7 @@ License: MIT
 URL:     https://github.com/nektos/act
 Source0: https://github.com/nektos/act/archive/v%{version}.tar.gz
 
-BuildRequires: golang >= 1.23
+BuildRequires: golang >= 1.24
 BuildRequires: git
 Requires:      (moby or podman or docker or docker-ce or docker-ce-cli or docker-ee)
 
