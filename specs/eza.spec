@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name:       eza
-Version: 0.21.2
-Release: 2%{?dist}
+Version: 0.21.3
+Release: 1%{?dist}
 Summary:    A modern alternative to ls
 
 License:    EUPL-1.2
