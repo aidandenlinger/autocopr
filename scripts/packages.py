@@ -119,20 +119,6 @@ def thirdparty_packages_dict():
             None,
             "make_srpm",
         ),
-        (
-            "zed",
-            "https://github.com/terrapkg/packages",
-            None,
-            "zed.spec",
-            "/anda/devs/zed/stable",
-        ),
-        (
-            "zed-preview",
-            "https://github.com/terrapkg/packages",
-            None,
-            "zed-preview.spec",
-            "/anda/devs/zed/preview",
-        ),
     ]
     thirdparty_packages = {
         "packages": [create_git_package(*pkg) for pkg in package_definitions]
