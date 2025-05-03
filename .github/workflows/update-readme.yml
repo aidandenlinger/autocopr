@@ -27,7 +27,7 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 3
-          ref: master
+          ref: main
 
       - name: Set up Python
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
@@ -48,6 +48,7 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" || true
           git config --local user.name "github-actions[bot]" || true
           git commit -a -m "Update README.md" || true
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
