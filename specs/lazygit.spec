@@ -3,8 +3,8 @@
 %global debug_package %{nil}
 
 Name:    lazygit
-Version: 0.49.0
-Release: 2%{?dist}
+Version: 0.50.0
+Release: 1%{?dist}
 Summary: simple terminal UI for git commands
 
 License: MIT
