@@ -32,8 +32,7 @@ n | N)
 esac
 
 # Setup repofile
-repofile="""
-[copr:copr.fedorainfracloud.org:relativesure:all-packages]
+repofile="""[copr:copr.fedorainfracloud.org:relativesure:all-packages]
 name=Copr repo for all-packages owned by relativesure
 baseurl=https://download.copr.fedorainfracloud.org/results/relativesure/all-packages/fedora-$releasever-$basearch/
 type=rpm-md
