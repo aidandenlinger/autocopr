@@ -138,14 +138,6 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 [Upstream](https://github.com/jdx/mise)
 
-### sd
-
-#### version 1.0.0
-
-![sd status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/sd/status_image/last_build.png)
-
-[Upstream](https://github.com/chmln/sd)
-
 ### starship
 
 #### version 1.23.0
