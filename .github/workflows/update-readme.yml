@@ -8,6 +8,7 @@ on:
    paths:
      - "specs/*"
      - ".github/workflows/*"
+     - "scripts/*"
   workflow_run:
    workflows: [Update spec files]
    types:
