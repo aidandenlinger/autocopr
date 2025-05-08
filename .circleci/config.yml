@@ -9,6 +9,4 @@ workflows:
     jobs:
       - megalinter/run:
           flavor: python
-          persist_megalinter_reports: true
-          run_git_operations: true
           context: Main Context
