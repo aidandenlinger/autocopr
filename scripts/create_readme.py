@@ -27,6 +27,9 @@ for pkg in thirdparty_pkgs_array:
 # Create markdown content for README.md
 readme_content = """# Autocopr forked repo
 
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/RelativeSure/autocopr?utm_source=oss&utm_medium=github&utm_campaign=RelativeSure%2Fautocopr&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews&style=for-the-badge)
+![CircleCI](https://img.shields.io/circleci/build/github/RelativeSure/autocopr?style=for-the-badge&label=CircleCI)
+
 ## Description
 
 This COPR repo is for personal and work use. Please go ahead and use this copr repo, be aware that the repo might be abandoned at any point. Feel free to create a GitHub issue if there's any issues with packages.
@@ -40,13 +43,11 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 for name, url, version in package_array:
     readme_content += f"""
-### {name}
-
-#### version {version}
-
-![{name} status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/{name}/status_image/last_build.png)
+### [{name}](specs/{name}.spec) v{version}
 
 [Upstream]({url})
+
+![{name} status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/{name}/status_image/last_build.png)
 """
 
 readme_content += """
