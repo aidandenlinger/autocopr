@@ -9,7 +9,7 @@ License: Apache-2.0
 URL:     https://github.com/derailed/k9s
 Source0: https://github.com/derailed/k9s/archive/v%{version}.tar.gz
 
-BuildRequires: golang >= 1.20
+BuildRequires: golang >= 1.24
 BuildRequires: git
 
 %description
