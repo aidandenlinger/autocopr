@@ -19,7 +19,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![act-cli status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/act-cli/status_image/last_build.png)
 
-### [atuin](specs/atuin.spec) v18.6.0
+### [atuin](specs/atuin.spec) v18.6.1
 
 [Upstream](https://github.com/atuinsh/atuin)
 
