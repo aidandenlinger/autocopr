@@ -2,17 +2,16 @@ import logging
 from typing import Optional
 
 import requests
-
 from githubapi.latest import Latest, OwnerName, clean_tag
 
 
 def get_latest_version(spec: OwnerName, session: requests.Session) -> Optional[Latest]:
     """
     Retrieves the latest release version of a GitHub repository using the GitHub API.
-    
+
     Args:
         spec: An object representing the GitHub repository identifier.
-    
+
     Returns:
         A Latest object containing the cleaned version string and release URL, or None if the repository has no releases or the API response is missing expected fields.
     """

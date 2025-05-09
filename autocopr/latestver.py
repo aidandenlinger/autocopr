@@ -2,10 +2,9 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-import requests
-
 import githubapi.graphql
 import githubapi.rest
+import requests
 from autocopr.specdata import SpecData
 from githubapi.latest import Latest
 
@@ -60,7 +59,7 @@ def _graphql(
 ) -> list[tuple[SpecData, Latest]]:
     """
     Fetches the latest version information for each spec using the GitHub GraphQL API.
-    
+
     If any spec's latest version cannot be retrieved, logs a warning and exits the program.
     Returns a list of (SpecData, Latest) tuples for successfully fetched specs.
     """
@@ -81,7 +80,7 @@ def _rest(
 ) -> list[tuple[SpecData, Latest]]:
     """
     Fetches the latest version information for each spec using the GitHub REST API.
-    
+
     If any spec fails to retrieve its latest version, logs a warning and exits the program.
     Returns a list of (SpecData, Latest) tuples for successfully fetched specs.
     """

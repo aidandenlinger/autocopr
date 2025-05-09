@@ -2,37 +2,37 @@ version: 2.1
 jobs:
   update-readme:
     docker:
-    - image: cimg/python:3.12
+      - image: cimg/python:3.12
     steps:
-    - checkout
-    - run:
-        name: Install dependencies
-        command: |
-          python3 -m pip install --upgrade pip
-          pip3 install markdown
-    - run:
-        name: Update README.md file
-        command: python3 scripts/create_readme.py
-    - run:
-        name: Commit files
-        command: |
-          git config credential.helper 'cache --timeout=120'
-           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-           git config user.name "github-actions[bot]"
-           git add .
-           git commit -m "Trigger deployment" || exit 0
-           # Push quietly to prevent showing the token in log
-           git push -q https://${GITHUB_TOKEN}@github.com/RelativeSure/autocopr.git master
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            python3 -m pip install --upgrade pip
+            pip3 install markdown
+      - run:
+          name: Update README.md file
+          command: python3 scripts/create_readme.py
+      - run:
+          name: Commit files
+          command: |
+            git config credential.helper 'cache --timeout=120'
+             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+             git config user.name "github-actions[bot]"
+             git add .
+             git commit -m "Trigger deployment" || exit 0
+             # Push quietly to prevent showing the token in log
+             git push -q https://${GITHUB_TOKEN}@github.com/RelativeSure/autocopr.git master
 
 workflows:
   Update_README:
     jobs:
-    - update-readme:
-        context: Main Context
-        filters:
-          branches:
-            only:
-            - master
+      - update-readme:
+          context: Main Context
+          filters:
+            branches:
+              only:
+                - master
 # Translated via CircleCI's Configuration Translator
 # Info :: Could not translate "workflow_run" trigger event to an equivalent in CircleCI's config.yml. See CircleCI's configuration reference to see if there are alternative approaches for this event https://circleci.com/docs/configuration-reference/
 # Info :: Could not translate "permissions"

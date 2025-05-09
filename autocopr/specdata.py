@@ -25,7 +25,7 @@ class SpecData:
 def parse_spec(spec_loc: Path) -> Optional[SpecData]:
     """
     Parses a spec file to extract GitHub repository metadata.
-    
+
     Given a file path, attempts to extract the repository name, version, and GitHub URL from the file. Returns a SpecData object containing the parsed information if all fields are found and the URL points to a GitHub repository; otherwise, returns None.
     """
 

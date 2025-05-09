@@ -1,12 +1,13 @@
 import logging
 import subprocess
-import yaml
 from pathlib import Path
 
 import autocopr.cli
 import autocopr.latestver
 import autocopr.specdata
 import autocopr.update
+import yaml
+
 
 def load_config(config_file):
     """Loads the YAML config file and returns the content."""
@@ -14,11 +15,14 @@ def load_config(config_file):
         with open(config_file, "r") as file:
             return yaml.safe_load(file)
     except FileNotFoundError:
-        logging.warning(f"Config file {config_file} not found. Proceeding without exclusions.")
+        logging.warning(
+            f"Config file {config_file} not found. Proceeding without exclusions."
+        )
         return {}
     except yaml.YAMLError as e:
         logging.error(f"Error parsing the config file: {e}")
         exit(1)
+
 
 def main():
     """

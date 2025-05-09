@@ -2,16 +2,16 @@
 
 # Check if running sudo
 if [ "$EUID" -ne 0 ]; then
-  echo "Please run as root"
-  exit
+	echo "Please run as root"
+	exit
 fi
 
 # Check distro
 DISTRO=$(cat </etc/os-release | grep -oP 'ID=\K\w+' | head -1)
 
 if [ "$DISTRO" != "fedora" ]; then
-  echo "This script is for Fedora only"
-  exit 1
+	echo "This script is for Fedora only"
+	exit 1
 fi
 
 # Setup confirmation message
@@ -19,16 +19,16 @@ read -r -p "This will add a repo file. Continue? [y/N] " choice
 
 case "$choice" in
 y | Y)
-  echo "Starting script..."
-  ;;
+	echo "Starting script..."
+	;;
 n | N)
-  echo "Stopping script..."
-  exit 1
-  ;;
+	echo "Stopping script..."
+	exit 1
+	;;
 *)
-  echo "Invalid option. Stopping script..."
-  exit 1
-  ;;
+	echo "Invalid option. Stopping script..."
+	exit 1
+	;;
 esac
 
 # Add repository file
