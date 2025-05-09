@@ -9,13 +9,13 @@ License: Apache-2.0
 URL:     https://github.com/derailed/k9s
 Source0: https://github.com/derailed/k9s/archive/v%{version}.tar.gz
 
-%if %{fedora} >= 42
+#%if %{fedora} >= 42
 BuildRequires: golang >= 1.24
 BuildRequires: git
-%else
+#%else
 # Fedora < 42 does not have Go 1.24
-ExclusiveArch: do_not_build
-%endif
+#ExclusiveArch: do_not_build
+#%endif
 
 %description
 K9s provides a terminal UI to interact with your Kubernetes clusters. The aim of this project
