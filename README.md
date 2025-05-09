@@ -9,9 +9,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ## List of packages from `specs/` folder
 
-<details open>
-
-<summary>Status badges on COPR builds</summary>
+### Status badges on COPR builds
 
 ### [act-cli](specs/act-cli.spec) v0.2.77
 
@@ -66,6 +64,12 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 [Upstream](https://github.com/martinvonz/jj)
 
 ![jj status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/jj/status_image/last_build.png)
+
+### [k9s](specs/k9s.spec) v0.27.4
+
+[Upstream](https://github.com/derailed/k9s)
+
+![k9s status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/k9s/status_image/last_build.png)
 
 ### [kubie](specs/kubie.spec) v0.25.2
 
