@@ -36,9 +36,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ## List of packages from `specs/` folder
 
-<details open>
-
-<summary>Status badges on COPR builds</summary>
+### Status badges on COPR builds
 """
 
 for name, url, version in package_array:
