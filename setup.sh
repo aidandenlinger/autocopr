@@ -32,7 +32,7 @@ n | N)
 esac
 
 # Add repository file
-cat > /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:relativesure:all-packages.repo << 'EOF'
+cat >/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:relativesure:all-packages.repo <<'EOF'
 [copr:copr.fedorainfracloud.org:relativesure:all-packages]
 EOF
 name=Copr repo for all-packages owned by relativesure
