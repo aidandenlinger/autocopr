@@ -41,6 +41,12 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![eza status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/eza/status_image/last_build.png)
 
+### [fastly](specs/fastly.spec) v11.2.0
+
+[Upstream](https://github.com/fastly/cli)
+
+![fastly status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/fastly/status_image/last_build.png)
+
 ### [fish](specs/fish.spec) v4.0.2
 
 [Upstream](https://github.com/fish-shell/fish-shell)
