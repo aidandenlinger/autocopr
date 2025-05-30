@@ -77,6 +77,12 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![k9s status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/k9s/status_image/last_build.png)
 
+### [kubeswitch](specs/kubeswitch.spec) v0.9.3
+
+[Upstream](https://github.com/danielfoehrKn/kubeswitch)
+
+![kubeswitch status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/kubeswitch/status_image/last_build.png)
+
 ### [kubie](specs/kubie.spec) v0.25.2
 
 [Upstream](https://github.com/sbstp/kubie)
