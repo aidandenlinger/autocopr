@@ -3,8 +3,8 @@
 # Inspired from https://github.com/aidandenlinger/autocopr/blob/main/specs/eza.spec with own changes
 
 Name: eza
-Version: 0.21.3
-Release:        %autorelease
+Version: 0.21.4
+Release: 1%{?dist}
 Summary: A modern alternative to ls
 
 License: EUPL-1.2
