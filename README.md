@@ -35,7 +35,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![chezmoi status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/chezmoi/status_image/last_build.png)
 
-### [eza](specs/eza.spec) v0.21.3
+### [eza](specs/eza.spec) v0.21.4
 
 [Upstream](https://github.com/eza-community/eza)
 
@@ -149,7 +149,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![usage status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/usage/status_image/last_build.png)
 
-### [uv](specs/uv.spec) v0.7.8
+### [uv](specs/uv.spec) v0.7.9
 
 [Upstream](https://github.com/astral-sh/uv)
 
