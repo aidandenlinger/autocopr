@@ -11,7 +11,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### Status badges on COPR builds
 
-### [act-cli](specs/act-cli.spec) v0.2.77
+### [act-cli](specs/act-cli.spec) v0.2.78
 
 [Upstream](https://github.com/nektos/act)
 
