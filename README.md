@@ -95,7 +95,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![lazydocker status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lazydocker/status_image/last_build.png)
 
-### [lazygit](specs/lazygit.spec) v0.51.1
+### [lazygit](specs/lazygit.spec) v0.52.0
 
 [Upstream](https://github.com/jesseduffield/lazygit)
 
