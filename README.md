@@ -125,6 +125,12 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![mise status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/mise/status_image/last_build.png)
 
+### [msedit](specs/msedit.spec) v1.2.0
+
+[Upstream](https://github.com/microsoft/edit)
+
+![msedit status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/msedit/status_image/last_build.png)
+
 ### [starship](specs/starship.spec) v1.23.0
 
 [Upstream](https://github.com/starship/starship)
