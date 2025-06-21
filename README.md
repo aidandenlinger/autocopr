@@ -119,6 +119,12 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![lazynpm status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lazynpm/status_image/last_build.png)
 
+### [lstr](specs/lstr.spec) v0.2.0
+
+[Upstream](https://github.com/bgreenwell/lstr)
+
+![lstr status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lstr/status_image/last_build.png)
+
 ### [lua-language-server](specs/lua-language-server.spec) v3.14.0
 
 [Upstream](https://github.com/LuaLS/lua-language-server)
