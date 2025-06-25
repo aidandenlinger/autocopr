@@ -29,13 +29,13 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![bottom status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/bottom/status_image/last_build.png)
 
-### [chezmoi](specs/chezmoi.spec) v2.62.6
+### [chezmoi](specs/chezmoi.spec) v2.62.7
 
 [Upstream](https://github.com/twpayne/chezmoi)
 
 ![chezmoi status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/chezmoi/status_image/last_build.png)
 
-### [cilium-cli](specs/cilium-cli.spec) v0.16.8
+### [cilium-cli](specs/cilium-cli.spec) v0.18.4
 
 [Upstream](https://github.com/cilium/cilium-cli)
 
@@ -119,7 +119,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![lazynpm status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lazynpm/status_image/last_build.png)
 
-### [lstr](specs/lstr.spec) v0.2.0
+### [lstr](specs/lstr.spec) v0.2.1
 
 [Upstream](https://github.com/bgreenwell/lstr)
 
@@ -131,7 +131,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![lua-language-server status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lua-language-server/status_image/last_build.png)
 
-### [mise](specs/mise.spec) v2025.6.5
+### [mise](specs/mise.spec) v2025.6.7
 
 [Upstream](https://github.com/jdx/mise)
 
@@ -167,7 +167,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![usage status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/usage/status_image/last_build.png)
 
-### [uv](specs/uv.spec) v0.7.13
+### [uv](specs/uv.spec) v0.7.14
 
 [Upstream](https://github.com/astral-sh/uv)
 
