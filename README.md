@@ -125,7 +125,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![lstr status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lstr/status_image/last_build.png)
 
-### [lua-language-server](specs/lua-language-server.spec) v3.14.0
+### [lua-language-server](specs/lua-language-server.spec) v3.15.0
 
 [Upstream](https://github.com/LuaLS/lua-language-server)
 
@@ -167,7 +167,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![usage status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/usage/status_image/last_build.png)
 
-### [uv](specs/uv.spec) v0.7.14
+### [uv](specs/uv.spec) v0.7.15
 
 [Upstream](https://github.com/astral-sh/uv)
 
