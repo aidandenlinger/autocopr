@@ -3,7 +3,7 @@
 # Inspired from https://github.com/aidandenlinger/autocopr/blob/main/specs/eza.spec with own changes
 
 Name: eza
-Version: 0.21.5
+Version: 0.21.6
 Release: 1%{?dist}
 Summary: A modern alternative to ls
 
