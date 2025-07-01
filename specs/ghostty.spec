@@ -26,7 +26,7 @@ BuildRequires: oniguruma-devel
 BuildRequires: pandoc-cli
 BuildRequires: pixman-devel
 BuildRequires: pkg-config
-BuildRequires: zig >= 0.13.0
+BuildRequires: zig = 0.13.0
 BuildRequires: zlib-ng-devel
 BuildRequires: wayland-protocols-devel
 
