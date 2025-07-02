@@ -11,7 +11,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ### Status badges on COPR builds
 
-### [act-cli](specs/act-cli.spec) v0.2.78
+### [act-cli](specs/act-cli.spec) v0.2.79
 
 [Upstream](https://github.com/nektos/act)
 
@@ -89,7 +89,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![kubeswitch status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/kubeswitch/status_image/last_build.png)
 
-### [kubie](specs/kubie.spec) v0.25.2
+### [kubie](specs/kubie.spec) v0.26.0
 
 [Upstream](https://github.com/sbstp/kubie)
 
@@ -131,7 +131,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![lua-language-server status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lua-language-server/status_image/last_build.png)
 
-### [mise](specs/mise.spec) v2025.6.8
+### [mise](specs/mise.spec) v2025.7.0
 
 [Upstream](https://github.com/jdx/mise)
 
@@ -167,7 +167,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![usage status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/usage/status_image/last_build.png)
 
-### [uv](specs/uv.spec) v0.7.17
+### [uv](specs/uv.spec) v0.7.18
 
 [Upstream](https://github.com/astral-sh/uv)
 
