@@ -77,7 +77,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![jj status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/jj/status_image/last_build.png)
 
-### [k9s](specs/k9s.spec) v0.50.6
+### [k9s](specs/k9s.spec) v0.50.7
 
 [Upstream](https://github.com/derailed/k9s)
 
@@ -101,7 +101,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![lazydocker status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lazydocker/status_image/last_build.png)
 
-### [lazygit](specs/lazygit.spec) v0.52.0
+### [lazygit](specs/lazygit.spec) v0.53.0
 
 [Upstream](https://github.com/jesseduffield/lazygit)
 
