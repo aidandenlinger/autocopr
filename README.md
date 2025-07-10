@@ -29,7 +29,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![bottom status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/bottom/status_image/last_build.png)
 
-### [chezmoi](specs/chezmoi.spec) v2.62.7
+### [chezmoi](specs/chezmoi.spec) v2.63.0
 
 [Upstream](https://github.com/twpayne/chezmoi)
 
@@ -47,7 +47,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![eza status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/eza/status_image/last_build.png)
 
-### [fastly](specs/fastly.spec) v11.3.0
+### [fastly](specs/fastly.spec) v11.4.0
 
 [Upstream](https://github.com/fastly/cli)
 
@@ -131,7 +131,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![lua-language-server status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lua-language-server/status_image/last_build.png)
 
-### [mise](specs/mise.spec) v2025.7.1
+### [mise](specs/mise.spec) v2025.7.2
 
 [Upstream](https://github.com/jdx/mise)
 
@@ -167,7 +167,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![usage status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/usage/status_image/last_build.png)
 
-### [uv](specs/uv.spec) v0.7.19
+### [uv](specs/uv.spec) v0.7.20
 
 [Upstream](https://github.com/astral-sh/uv)
 
