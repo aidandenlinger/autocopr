@@ -17,7 +17,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![act-cli status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/act-cli/status_image/last_build.png)
 
-### [atuin](specs/atuin.spec) v18.6.1
+### [atuin](specs/atuin.spec) v18.7.1
 
 [Upstream](https://github.com/atuinsh/atuin)
 
@@ -77,7 +77,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![jj status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/jj/status_image/last_build.png)
 
-### [k9s](specs/k9s.spec) v0.50.8
+### [k9s](specs/k9s.spec) v0.50.9
 
 [Upstream](https://github.com/derailed/k9s)
 
@@ -131,7 +131,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![lua-language-server status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/lua-language-server/status_image/last_build.png)
 
-### [mise](specs/mise.spec) v2025.7.10
+### [mise](specs/mise.spec) v2025.7.11
 
 [Upstream](https://github.com/jdx/mise)
 
@@ -149,7 +149,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![starship status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/starship/status_image/last_build.png)
 
-### [superfile](specs/superfile.spec) v1.3.1
+### [superfile](specs/superfile.spec) v1.3.2
 
 [Upstream](https://github.com/yorukot/superfile)
 
@@ -161,7 +161,7 @@ This COPR repo is for personal and work use. Please go ahead and use this copr r
 
 ![topgrade status](https://copr.fedorainfracloud.org/coprs/relativesure/all-packages/package/topgrade/status_image/last_build.png)
 
-### [usage](specs/usage.spec) v2.2.0
+### [usage](specs/usage.spec) v2.2.2
 
 [Upstream](https://github.com/jdx/usage)
 
