@@ -6,14 +6,15 @@ on:
     # Runs at 12:00am UTC -> 5:00pm PDT
     - cron: '0 0 * * *'
 
-permissions:
-  # Needs to write to this repo
-  contents: write
+permissions: {}
 
 jobs:
   update:
     name: update
     runs-on: ubuntu-latest
+    permissions:
+      # Required to push updated spec files to this repo
+      contents: write
     
     steps:
       - uses: actions/checkout@v5
@@ -27,7 +28,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: specs/graphql_id_cache.json
-          # This key is overkill - we realy only need to update the
+          # This key is overkill - we really only need to update the
           # cache when a *new* spec file is added, not when *any* spec
           # file changes. However, this seems to be the easiest way
           # to achieve that from within Actions.
