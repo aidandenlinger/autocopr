@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    # Put all actions updates in a single PR
+    groups:
+      github-actions:
+        patterns:
+          - '*'
