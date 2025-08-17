@@ -49,6 +49,8 @@ def main():
         for (spec, latest) in latest_vers
     ]
 
+    print("\n".join(update_summary))
+
     if not args.dry_run:
         for spec, latest in latest_vers:
             if spec.version != latest.ver:
@@ -56,7 +58,6 @@ def main():
                     spec, latest, inplace=args.in_place, push=args.push
                 )
 
-    print("\n".join(update_summary))
 
     if args.dry_run:
         print("To update the spec files, run again without the dry-run flag.")
