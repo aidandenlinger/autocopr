@@ -46,4 +46,7 @@ def update_version(
         )
         # The github webhooks won't fire if 3+ tags are made at once, to be
         # defensive push each tag by itself
-        subprocess.run(["git", "push", "--follow-tags"])
+        push_result = subprocess.run(["git", "push", "--follow-tags"])
+        if push_result.returncode:
+            logging.warning("Failed to push updates to the github repo.\nIf you're using Github Actions, please ensure your job has `contents: write` permissions to be able to push to the repo.\nExiting...")
+            exit(1)
