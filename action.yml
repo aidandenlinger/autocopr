@@ -30,14 +30,17 @@ runs:
         restore-keys: graphql-ids
         
     - name: Install dependencies
+      shell: bash
       run: pip install -r requirements.txt
       
     - name: Set git user to github-actions[bot]
+      shell: bash
       run: |
         git config --local user.name "github-actions[bot]"
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         
     - name: Check and update spec files
+      shell: bash
       run: python -m autocopr.autocopr --verbose --in-place --push "${SPEC_LOC}"
       env:
         GITHUB_TOKEN: ${{ github.token }}
