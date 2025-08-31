@@ -138,8 +138,8 @@ def get_latest_versions(
 
     spec_releases = {}
     if "data" not in resp or "nodes" not in resp["data"]:
-        logging.warning(f"GraphQL response not in expected shape: {resp}")
-        return {}
+        logging.error(f"GraphQL response not in expected shape: {resp}")
+        exit(1)
         
     for spec, node in zip((spec for (spec, _) in spec_ids), resp["data"]["nodes"]):
         if node and (latest := node["latestRelease"]) and "tagName" in latest:
@@ -179,7 +179,7 @@ def latest_versions(
 
         ownerNamesRetrieved = [spec_id[0] for spec_id in spec_ids]
         if missing_specs := [spec for spec in specs if spec not in ownerNamesRetrieved]:
-            logging.warning(f"Missing spec ids for {missing_specs}, exiting")
+            logging.error(f"Missing spec ids for {missing_specs}, exiting")
             exit(1)
 
         return get_latest_versions(spec_ids, session)
