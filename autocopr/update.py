@@ -48,5 +48,5 @@ def update_version(
         # defensive push each tag by itself
         push_result = subprocess.run(["git", "push", "--follow-tags"])
         if push_result.returncode:
-            logging.warning("Failed to push updates to the github repo.\nIf you're using Github Actions, please ensure your job has `contents: write` permissions to be able to push to the repo.\nExiting...")
+            logging.error("Failed to push updates to the github repo.\nIf you're using Github Actions, please ensure your job has `contents: write` permissions to be able to push to the repo.\nExiting...")
             exit(1)
