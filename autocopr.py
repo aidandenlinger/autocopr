@@ -1,4 +1,5 @@
 import logging
+import os
 import subprocess
 from pathlib import Path
 
@@ -6,17 +7,26 @@ import autocopr.cli
 import autocopr.latestver
 import autocopr.specdata
 import autocopr.update
+from autocopr.cli import Mode
 
 
 def main():
     args = autocopr.cli.create_parser().parse_args()
-    root_dir = Path(args.directory)
+    root_dir = Path(args.directory).absolute().resolve()
 
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
+    if not root_dir.is_dir():
+        logging.error(
+            f"Provided root directory {root_dir} is not a directory. Please provide a directory to start searching for spec files from. Exiting..."
+        )
+        exit(1)
+
+    os.chdir(root_dir)
+
     if (
-        args.push
+        args.mode == Mode.Push
         and subprocess.run(
             ["git", "rev-parse", "--is-inside-work-tree"], capture_output=True
         ).returncode
@@ -26,7 +36,9 @@ def main():
         logging.error("Cannot use --push when not running in a git repository")
         exit(1)
 
-    non_filtered_specs = [autocopr.specdata.parse_spec(spec) for spec in root_dir.glob("**/*.spec")]
+    non_filtered_specs = [
+        autocopr.specdata.parse_spec(spec) for spec in root_dir.glob("**/*.spec")
+    ]
 
     if None in non_filtered_specs:
         logging.error("A spec/specs failed to parse, exiting...")
@@ -51,24 +63,31 @@ def main():
 
     print("\n".join(update_summary))
 
-    if not args.dry_run:
-        for spec, latest in latest_vers:
-            if spec.version != latest.ver:
+    had_updates = [(spec, latest) for (spec, latest) in latest_vers if spec.version != latest.ver]
+
+    if len(had_updates) == 0:
+        print("All spec files are up to date!")
+        exit(0)
+
+    match args.mode:
+        case Mode.Update | Mode.Push:
+            for spec, latest in had_updates:
                 autocopr.update.update_version(
-                    spec, latest, inplace=args.in_place, push=args.push
+                    spec, latest, push=(args.mode == Mode.Push), verbose=args.verbose
                 )
 
-
-    if args.dry_run:
-        print("To update the spec files, run again without the dry-run flag.")
-    elif not args.in_place:
-        print(
-            "If any specs were updated, the original spec files now have a "
-            ".bk suffix, and the spec files are updated with the newest "
-            "version."
-        )
-    else:
-        print("Any updates have been applied to the spec files.")
+                if args.mode == Mode.Update:
+                    print(
+                        "All spec files are now up to date. If updated, the original spec file is backed up as a .bak file."
+                    )
+                else:
+                    print("All spec files are now up to date, and the updates have been pushed.")
+        
+        case Mode.DryRun | Mode.Check:
+            print(f"{[spec.name for (spec, _) in had_updates]} {"is" if len(had_updates) == 1 else "are"} outdated.")
+            if args.mode == Mode.Check:
+                print("Exiting with an error because we are in check mode.")
+                exit(1)
 
 
 if __name__ == "__main__":
