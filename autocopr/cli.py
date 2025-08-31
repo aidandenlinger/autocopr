@@ -23,6 +23,10 @@ class Mode(StrEnum):
     tag, and push it to the repo. Requires `contents: write` permissions on the
     GITHUB_TOKEN to allow for pushes to a repo. See the `README.md` to learn how
     to start a COPR build based on these commits being pushed.
+
+    If using the GraphQL API, generates "graphql_id_cache.json" in the root directory.
+    This file should persist across runs. It's recommended to cache it for CI or
+    check it into your repo.
     """
 
     DryRun = "dry-run"
