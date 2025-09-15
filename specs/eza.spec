@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:       eza
-Version: 0.23.2
+Version: 0.23.3
 Release: 1%{?dist}
 Summary:    A modern alternative to ls
 
