@@ -4,7 +4,7 @@ description: Check or update RPM spec files to the project's latest version rele
 inputs:
   mode:
     description: "The mode the action should run in. Options:
-      - `push`: Automated updates. If any specfile are outdated, write new specfiles, make a commit for each with an associated tag, and push it to the repo. Requires `contents: write` permissions on the GITHUB_TOKEN to allow for pushes to a repo. See the `README.md` to learn how to start a COPR build based on these commits being pushed.
+      - `push`: Automated updates. If any specfile is outdated, write new specfiles, make a commit for each with an associated tag, and push it to the repo. Requires `contents: write` permissions on the GITHUB_TOKEN to allow for pushes to a repo. See the `README.md` to learn how to start a COPR build based on these commits being pushed.
 
       - `check`: Manual updates. The job succeeds if all specfiles are up to date and fails if any are outdated. This mode does not write new files or push any updates - updating the specfile requires manual action. This mode is more secure since the action is read-only.
 
