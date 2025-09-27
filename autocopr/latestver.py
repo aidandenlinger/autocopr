@@ -48,7 +48,7 @@ def get_latest_versions(
         "using REST api instead of GraphQL."
     )
     logging.warning(
-        "The REST API requires more connections, gathers more data than is "
+        "The REST API requires more requests, gathers more data than is "
         "needed, and you are limited to 60 requests per hour without a token."
     )
 
@@ -65,7 +65,7 @@ def _graphql(
     missing_specs = [spec.loc for spec in specs if spec.ownerName not in latest]
 
     if len(missing_specs) != 0:
-        logging.warning(f"{missing_specs} had errors, exiting...")
+        logging.error(f"{missing_specs} had errors, exiting...")
         exit(1)
 
     return [(spec, latest[key]) for spec in specs if (key := spec.ownerName) in latest]
@@ -90,7 +90,7 @@ def _rest(
                 latest_vers.append((spec, latest_ver))
 
         if len(errors) != 0:
-            logging.warning(f"{errors} had errors, exiting...")
+            logging.error(f"{errors} had errors, exiting...")
             exit(1)
 
         return latest_vers

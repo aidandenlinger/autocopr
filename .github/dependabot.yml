@@ -9,3 +9,16 @@ updates:
       github-actions:
         patterns:
           - '*'
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    # Bundle all Python updates in a single PR
+    groups:
+      # In an ideal world I'd like to separate this into deps and dev-deps, but
+      # as I understand it any requirements.txt is treated as a production dep.
+      # Not really a big deal for me for them to be bundled into one PR
+      deps:
+        patterns:
+          - '*'
