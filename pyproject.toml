@@ -4,8 +4,12 @@ dependencies = ["requests"]
 requires-python = ">= 3.13"
 
 [project.optional-dependencies]
-# Used to create/update requirements.txt
-dev = ["pip-tools"]
+dev = [
+  "types-requests", # type stubs for requests
+  "ruff", # format/linter
+  "mypy", # typechecker
+  "pip-tools" # Used to create/update requirements.txt
+]
 
 [tool.pip-tools]
 generate-hashes = true

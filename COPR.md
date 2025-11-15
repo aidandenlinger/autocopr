@@ -39,7 +39,7 @@ To set up autobuilds:
 
 - Select individual events, select branch/tag creation, and deselect push.
   - We don't want to fire the webhook on every commit, because some commits
-    won't change this specific package! autocopr.py attaches the cooresponding
+    won't change this specific package! The script attaches the cooresponding
     tags when needed.
 
 From that point, it just works! Whenever the Github Action runs, if there's an

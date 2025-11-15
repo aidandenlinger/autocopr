@@ -190,10 +190,10 @@ jobs:
 ### As a Standalone Python Script
 
 ```shell
-python autocopr.py <folder-with-spec-files>
+python main.py <folder-with-spec-files>
 ```
 
-will run the `autocopr.py` script, searching for spec files in the provided directory.
+will run the `main.py` script, searching for spec files in the provided directory.
 If you do not provide a folder, it will search the current directory.
 
 By default, running the script will
