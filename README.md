@@ -131,7 +131,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: aidandenlinger/autocopr@main # Or a specific release tag, or commit
+      - uses: aidandenlinger/autocopr@v1 # Or a specific release tag, or commit
         with:
           mode: "push"
 ```
@@ -182,7 +182,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: aidandenlinger/autocopr@main # Or a specific release tag, or commit
+      - uses: aidandenlinger/autocopr@v1 # Or a specific release tag, or commit
         with:
           mode: "check"
 ```
