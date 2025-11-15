@@ -10,8 +10,6 @@
 # - GITHUB_TOKEN: An authenticated Github token. Highly recommended to be defined to avoid rate limits! Needs `contents:write` permissions for "push" mode.
 # - VERBOSE: if the script should log all information to stdout - should be "true" or "false" (default)
 
-echo $MODE test
-
 set -Eeuxo pipefail # https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
 
 args=()
