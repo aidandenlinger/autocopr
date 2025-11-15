@@ -13,7 +13,6 @@ permissions: {}
 
 jobs:
   lint-fmt-sh:
-    name: Lint/Format with Shellcheck
     runs-on: ubuntu-latest
 
     steps:

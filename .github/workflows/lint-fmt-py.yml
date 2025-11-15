@@ -13,7 +13,6 @@ permissions: {}
 
 jobs:
   lint-fmt-py:
-    name: Lint/Format/Typecheck
     runs-on: ubuntu-latest
 
     steps:
