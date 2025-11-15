@@ -1,0 +1,27 @@
+name: Lint/Format with Shellcheck
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.sh"
+  pull_request:
+    paths:
+      - "**/*.sh"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  lint-fmt-sh:
+    name: Lint/Format with Shellcheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+
+      - name: Run ShellCheck
+        run: find . -type f -name "*.sh" -exec shellcheck {} +
