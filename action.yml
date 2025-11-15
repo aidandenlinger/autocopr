@@ -1,4 +1,4 @@
-name: Check or update spec files
+name: autocopr
 description: Check or update RPM spec files to the project's latest version released on Github
 
 inputs:
