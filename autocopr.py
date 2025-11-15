@@ -63,7 +63,9 @@ def main():
 
     print("\n".join(update_summary))
 
-    had_updates = [(spec, latest) for (spec, latest) in latest_vers if spec.version != latest.ver]
+    had_updates = [
+        (spec, latest) for (spec, latest) in latest_vers if spec.version != latest.ver
+    ]
 
     if len(had_updates) == 0:
         print("All spec files are up to date!")
@@ -81,10 +83,14 @@ def main():
                         "All spec files are now up to date. If updated, the original spec file is backed up as a .bak file."
                     )
                 else:
-                    print("All spec files are now up to date, and the updates have been pushed.")
-        
+                    print(
+                        "All spec files are now up to date, and the updates have been pushed."
+                    )
+
         case Mode.DryRun | Mode.Check:
-            print(f"{[spec.name for (spec, _) in had_updates]} {"is" if len(had_updates) == 1 else "are"} outdated.")
+            print(
+                f"{[spec.name for (spec, _) in had_updates]} {'is' if len(had_updates) == 1 else 'are'} outdated."
+            )
             if args.mode == Mode.Check:
                 print("Exiting with an error because we are in check mode.")
                 exit(1)

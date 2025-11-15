@@ -1,0 +1,30 @@
+name: Lint/Format with Ruff
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.py"
+  pull_request:
+    paths:
+      - "**/*.py"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  lint-fmt-py:
+    name: Lint/Format with Ruff
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+
+      # Runs `ruff check`
+      - uses: astral-sh/ruff-action@57714a7c8a2e59f32539362ba31877a1957dded1 # v3.5.1
+
+      # Check formatting
+      - run: ruff format --check --diff

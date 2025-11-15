@@ -140,7 +140,7 @@ def get_latest_versions(
     if "data" not in resp or "nodes" not in resp["data"]:
         logging.error(f"GraphQL response not in expected shape: {resp}")
         exit(1)
-        
+
     for spec, node in zip((spec for (spec, _) in spec_ids), resp["data"]["nodes"]):
         if node and (latest := node["latestRelease"]) and "tagName" in latest:
             latest_version = clean_tag(latest["tagName"])

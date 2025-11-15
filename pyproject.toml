@@ -9,3 +9,7 @@ dev = ["pip-tools"]
 
 [tool.pip-tools]
 generate-hashes = true
+
+# Sort imports with ruff
+[tool.ruff.lint]
+extend-select = ["I"]

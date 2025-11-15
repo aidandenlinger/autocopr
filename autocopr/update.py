@@ -52,7 +52,9 @@ def update_version(
         exit(1)
 
     commit_msg = f"Update {spec.name} to {latest.ver}\n\n{latest.url}"
-    commit_result = subprocess.run(["git", "commit", "-m", commit_msg], capture_output=(not verbose))
+    commit_result = subprocess.run(
+        ["git", "commit", "-m", commit_msg], capture_output=(not verbose)
+    )
     if commit_result.returncode:
         logging.error(
             "Failed to make a commit.\nThis is a bug, please report it. Exiting..."
@@ -76,7 +78,9 @@ def update_version(
 
     # The github webhooks won't fire if 3+ tags are made at once, to be
     # defensive we push on each spec file rather than pushing at the end
-    push_result = subprocess.run(["git", "push", "--follow-tags"], capture_output=(not verbose))
+    push_result = subprocess.run(
+        ["git", "push", "--follow-tags"], capture_output=(not verbose)
+    )
     if push_result.returncode:
         if not verbose:
             logging.error(add_result.stderr)
