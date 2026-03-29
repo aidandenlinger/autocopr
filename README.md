@@ -213,6 +213,9 @@ There are a few flags:
   `dry-run` acts like `check` but will always exit with 0 regardless of updates.
   See the `--help` output for more details.
 
+- `--ignore <SPEC_PATH>` will ignore the given spec file. The path must be
+  relative to the folder with spec files you're checking.
+
 - `-v / --verbose` will print additional information to stdout.
 
 - `--github-token` allows you to pass in a github token to use the GraphQL API,

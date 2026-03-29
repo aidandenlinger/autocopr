@@ -21,6 +21,9 @@ inputs:
     description: "A path to a folder, relative to the repo root, where the action will  look for spec files. This searches recursively. Defaults to checking the entire repo."
     default: '.'  # Defaults to the root of the repo
 
+  ignore:
+    description: "A list of spec filepaths relative to root_loc to ignore."
+
   verbose:
     description: "If the script should log additional information to stdout. Options: `true` or `false` (default)."
     default: "false"
@@ -73,3 +76,4 @@ runs:
         ROOT_LOC: ${{ github.workspace }}/${{ inputs.root_loc }}
         MODE: ${{ inputs.mode }}
         VERBOSE: ${{ inputs.verbose }}
+        IGNORE: ${{ inputs.ignore }}

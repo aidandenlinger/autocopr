@@ -23,6 +23,13 @@ if [ "${VERBOSE,,}" = "true" ]; then
   args+=("--verbose")
 fi
 
+# files to ignore
+readarray -t IGNORE_FILES <<< "$IGNORE"
+
+for file in "${IGNORE_FILES[@]}"; do
+  args+=("--ignore" "$file")
+done
+
 # The folder where *this* script is, so we can run autocopr.py.
 # (Technically unneeded, this should be put in the environment by action.yml, but nice for testing this script locally.)
 # https://stackoverflow.com/a/11114547
