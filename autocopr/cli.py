@@ -68,7 +68,7 @@ def create_parser() -> argparse.ArgumentParser:
         "--ignore",
         action="append",
         default=[],
-        help="A filepath relative to root_loc of a spec to ignore. Can be used multiple times."
+        help="A filepath relative to root_loc of a spec to ignore. Can be used multiple times.",
     )
     parser.add_argument(
         "--github-token",

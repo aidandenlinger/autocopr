@@ -39,8 +39,10 @@ def main():
     if args.ignore:
         logging.info(f"Ignoring {args.ignore} due to --ignore flag")
 
-    paths_to_parse = (path for path in root_dir.glob("**/*.spec") if path not in args.ignore)
-    
+    paths_to_parse = (
+        path for path in root_dir.glob("**/*.spec") if path not in args.ignore
+    )
+
     non_filtered_specs = [
         spec
         for spec_path in paths_to_parse
