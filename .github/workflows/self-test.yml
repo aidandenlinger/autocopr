@@ -32,4 +32,7 @@ jobs:
           mode: "dry-run"
           root_loc: "autocopr-specs"
           verbose: "true"
-          ignore: bottom.spec
+          ignore: |
+            bottom.spec
+            zellij.spec
+            sd.spec
