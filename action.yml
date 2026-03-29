@@ -32,7 +32,7 @@ runs:
   using: composite
 
   steps:
-    - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+    - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
         # FIXME: Caching outside of the directory is not supported right now.
@@ -55,7 +55,7 @@ runs:
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
     - name: Cache GraphQL API IDs
-      uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
+      uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
       with:
         path: ${{ inputs.root_loc }}/graphql_id_cache.json
         # This key is overkill - we really only need to update the
