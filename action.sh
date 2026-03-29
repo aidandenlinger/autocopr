@@ -7,6 +7,7 @@
 # - MODE: The mode the script is running in - `check`, `push`, or any other acceptable argument to `--mode`. See `action.yml`/`README.md` for more details.
 #
 # Optional environment variables:
+# - IGNORE: A newline-separated list of filepaths relative to ROOT_LOC to ignore.
 # - GITHUB_TOKEN: An authenticated Github token. Highly recommended to be defined to avoid rate limits! Needs `contents:write` permissions for "push" mode.
 # - VERBOSE: if the script should log all information to stdout - should be "true" or "false" (default)
 
@@ -21,6 +22,16 @@ args+=("--mode" "$MODE")
 VERBOSE=${VERBOSE:-false}
 if [ "${VERBOSE,,}" = "true" ]; then
   args+=("--verbose")
+fi
+
+# files to ignore
+IGNORE="${IGNORE:-}"
+if [[ -n "$IGNORE" ]]; then
+  readarray -t IGNORE_FILES <<< "$IGNORE"
+
+  for file in "${IGNORE_FILES[@]}"; do
+    args+=("--ignore" "$file")
+  done
 fi
 
 # The folder where *this* script is, so we can run autocopr.py.
