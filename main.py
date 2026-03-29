@@ -36,13 +36,20 @@ def main():
         logging.error("Cannot use --push when not running in a git repository")
         exit(1)
 
-    non_filtered_specs = [
-        autocopr.specdata.parse_spec(spec) for spec in root_dir.glob("**/*.spec")
-    ]
+    paths_to_ignore = set(root_dir / file for file in args.ignore)
 
-    if None in non_filtered_specs:
-        logging.error("A spec/specs failed to parse, exiting...")
-        exit(1)
+    if args.ignore:
+        logging.info(f"Ignoring {paths_to_ignore} due to --ignore flag")
+
+    paths_to_parse = (
+        path for path in root_dir.glob("**/*.spec") if path not in paths_to_ignore
+    )
+
+    non_filtered_specs = [
+        spec
+        for spec_path in paths_to_parse
+        if (spec := autocopr.specdata.parse_spec(spec_path)) is not None
+    ]
 
     specs = [spec for spec in non_filtered_specs if spec is not None]
 
