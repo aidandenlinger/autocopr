@@ -32,6 +32,9 @@ jobs:
         with:
           python-version: '3.14'
 
+      # Install deps so they can provide their types
+      - run: "python -m pip install --require-hashes --no-deps --only-binary :all: -r requirements.txt"
+
       - run: "python -m pip install mypy"
 
       - run: "mypy ."
