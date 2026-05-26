@@ -5,7 +5,6 @@ requires-python = ">= 3.13"
 
 [project.optional-dependencies]
 dev = [
-  "types-requests", # type stubs for requests
   "ruff", # format/linter
   "mypy", # typechecker
   "pip-tools" # Used to create/update requirements.txt
