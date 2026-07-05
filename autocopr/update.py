@@ -47,7 +47,8 @@ def update_version(
             logging.error(add_result.stderr)
 
         logging.error(
-            f"Failed to add {spec.loc} to the working repository.\nThis is a bug, please report it. Exiting..."
+            f"Failed to add {spec.loc} to the working repository."
+            "This is a bug, please report it. Exiting..."
         )
         exit(1)
 
@@ -57,7 +58,7 @@ def update_version(
     )
     if commit_result.returncode:
         logging.error(
-            "Failed to make a commit.\nThis is a bug, please report it. Exiting..."
+            "Failed to make a commit. This is a bug, please report it. Exiting..."
         )
         exit(1)
 
@@ -72,7 +73,7 @@ def update_version(
             logging.error(add_result.stderr)
 
         logging.error(
-            "Failed to make a tag.\nThis is a bug, please report it. Exiting..."
+            "Failed to make a tag. This is a bug, please report it. Exiting..."
         )
         exit(1)
 
@@ -86,6 +87,8 @@ def update_version(
             logging.error(add_result.stderr)
 
         logging.error(
-            "Failed to push updates to the github repo.\nIf you're using Github Actions, please ensure your job has `contents: write` permissions to be able to push to the repo.\nExiting..."
+            "Failed to push updates to the github repo. "
+            "If you're using Github Actions, please ensure your job has "
+            "`contents: write` permissions to be able to push to the repo. Exiting..."
         )
         exit(1)

@@ -3,7 +3,6 @@ import re
 import urllib.parse
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 from autocopr.regexconstants import RegexConstants
 from githubapi.latest import OwnerName
@@ -22,7 +21,7 @@ class SpecData:
         return self.ownerName.name
 
 
-def parse_spec(spec_loc: Path) -> Optional[SpecData]:
+def parse_spec(spec_loc: Path) -> SpecData | None:
     """Given a path to a Spec file, returns a parsed version and url. Returns
     None if file does not have a name, version, or URL, or if the URL is not a
     Github repo."""
@@ -60,6 +59,7 @@ def parse_spec(spec_loc: Path) -> Optional[SpecData]:
                 return parsed
 
     logging.warning(
-        f"Missing name, version or URL field in {spec_loc}! Ignoring the file and moving on..."
+        f"Missing name, version or URL field in {spec_loc}! Ignoring the file and "
+        "moving on..."
     )
     return None

@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-from typing import Optional
 
 import requests
 
@@ -11,7 +10,7 @@ from githubapi.latest import Latest
 
 
 def get_latest_versions(
-    specs: list[SpecData], id_cache: Path, token: Optional[str], rest: Optional[bool]
+    specs: list[SpecData], id_cache: Path, token: str | None, rest: bool | None
 ) -> list[tuple[SpecData, Latest]]:
     """Given a list of specs, a location to potentially load and store a cache
     of GraphQL ids, and optionally a Github token and a boolean to force usage
@@ -25,9 +24,10 @@ def get_latest_versions(
 
         if token is None:
             logging.warning(
-                "The REST API will rate limit you to 60 requests per hour without a Github token. "
-                "You can use the REST API with a token by using the --rest flag and using the "
-                "GITHUB_TOKEN environment variable or --github-token flag."
+                "The REST API will rate limit you to 60 requests per hour without a "
+                "GitHub token. You can use the REST API with a token by using the "
+                "--rest flag and using the GITHUB_TOKEN environment variable or "
+                "--github-token flag."
             )
 
         return _rest(specs, token)
@@ -72,7 +72,7 @@ def _graphql(
 
 
 def _rest(
-    specs: list[SpecData], token: Optional[str] = None
+    specs: list[SpecData], token: str | None = None
 ) -> list[tuple[SpecData, Latest]]:
     """Use the REST api. Will exit the program if fetching fails."""
     with requests.Session() as s:

@@ -21,6 +21,7 @@ project-includes = [ "autocopr", "githubapi" ]
 # min-severity = "warn"
 
 [tool.ruff.lint]
+# I got this list of popular rules from https://docs.astral.sh/ruff/linter/#rule-selection
 select = [
     # pycodestyle
     "E",

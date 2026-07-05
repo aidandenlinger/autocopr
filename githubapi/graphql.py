@@ -58,7 +58,7 @@ def update_cache(
       repository(owner: $owner, name: $name) {
         id
       }
-    }    
+    }
     """
 
     specs_that_got_added = []
@@ -141,7 +141,12 @@ def get_latest_versions(
         logging.error(f"GraphQL response not in expected shape: {resp}")
         exit(1)
 
-    for spec, node in zip((spec for (spec, _) in spec_ids), resp["data"]["nodes"]):
+    for spec, node in zip(
+        # Strict mode because we should have a response for each spec
+        (spec for (spec, _) in spec_ids),
+        resp["data"]["nodes"],
+        strict=True,
+    ):
         if node and (latest := node["latestRelease"]) and "tagName" in latest:
             latest_version = clean_tag(latest["tagName"])
             logging.info(f"{spec.name} latest version is {latest_version}")

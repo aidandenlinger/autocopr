@@ -5,7 +5,8 @@ from enum import StrEnum
 
 class Mode(StrEnum):
     """
-    How the script will operate (ie is it read-only, will it push new files to github, etc)
+    How the script will operate (ie is it read-only, will it push new files to github,
+    etc)
     """
 
     Check = "check"
@@ -48,12 +49,21 @@ def create_parser() -> argparse.ArgumentParser:
     """Initializes the cli parser."""
 
     parser = argparse.ArgumentParser(
-        description="Check or update RPM spec files to the project's latest version released on Github"
+        description=(
+            "Check or update RPM spec files to the project's latest version released "
+            "on Github"
+        )
     )
     parser.add_argument(
         "-m",
         "--mode",
-        help=""" The desired behavior for this script. `check` is the default option - it is read only, it exits successfully if all spec files are up to date and otherwise exits with an error. `push` will fully automate updates by making and pushing git commits. See the README.md for more info on all available options.""",
+        help=(
+            "The desired behavior for this script. `check` is the default option - it "
+            "is read only, it exits successfully if all spec files are up to date and "
+            "otherwise exits with an error. `push` will fully automate updates by "
+            "making and pushing git commits. See the README.md for more info on all "
+            "available options."
+        ),
         type=Mode,
         choices=list(Mode),
         default=Mode.Check,
@@ -68,7 +78,10 @@ def create_parser() -> argparse.ArgumentParser:
         "--ignore",
         action="append",
         default=[],
-        help="A filepath relative to root_loc of a spec to ignore. Can be used multiple times.",
+        help=(
+            "A filepath relative to root_loc of a spec to ignore. Can be used multiple "
+            "times."
+        ),
     )
     parser.add_argument(
         "--github-token",
@@ -80,7 +93,10 @@ def create_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--rest",
-        help="Forces usage of the Github REST API over the GraphQL API. The GraphQL API is preferred since it typically only needs to make one request.",
+        help=(
+            "Forces usage of the Github REST API over the GraphQL API. The GraphQL API "
+            "is preferred since it typically only needs to make one request."
+        ),
         action="store_true",
     )
     parser.add_argument(
