@@ -32,21 +32,9 @@ runs:
   using: composite
 
   steps:
-    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+    - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39  # v8.2.0
       with:
-        python-version: '3.14'
-        # FIXME: Caching outside of the directory is not supported right now.
-        # I could work around it, but frankly I'm only installing requests, it isn't worth it
-        # Implement when the issue is resolved
-        # https://github.com/actions/setup-python/issues/361
-        # cache: 'pip'
-        # cache-dependency-path: "${{ github.action_path }}/requirements.txt"
-
-    - name: Install dependencies
-      shell: bash
-      working-directory: ${{ github.action_path }}
-      # https://www.b-list.org/weblog/2023/dec/07/pip-install-safely/ for logic behind the flags used here
-      run: "python -m pip install --require-hashes --no-deps --only-binary :all: -r requirements.txt"
+        working-directory: ${{ github.action_path }}
 
     - name: Set git user to github-actions[bot]
       shell: bash
