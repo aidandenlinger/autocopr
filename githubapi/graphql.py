@@ -142,10 +142,9 @@ def get_latest_versions(
         exit(1)
 
     for spec, node in zip(
-        # Strict mode because we should have a response for each spec
         (spec for (spec, _) in spec_ids),
         resp["data"]["nodes"],
-        strict=True,
+        strict=True,  # we should have a response for each spec
     ):
         if node and (latest := node["latestRelease"]) and "tagName" in latest:
             latest_version = clean_tag(latest["tagName"])
