@@ -21,11 +21,16 @@
         {
           devShells.default =
             let
+              # When bumping, also update
+              # - .python-version
+              # - pyproject.toml `requires-python`
               python = pkgs.python314;
             in
             pkgs.mkShell {
               packages = with pkgs; [
                 python
+                # When bumping nixpkgs, also bump
+                # - pyproject.toml `tools.uv.required-version`
                 uv
 
                 # Shell/github action linters used in CI
