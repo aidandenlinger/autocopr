@@ -16,9 +16,11 @@ dev = [
 
 [tool.uv]
 required-version = "==0.11.25"
+exclude-newer = "3 days"
 
 [tool.pyrefly]
 project-includes = [ "autocopr", "githubapi" ]
+preset = "strict"
 # https://github.com/facebook/pyrefly/commit/97fd78f013374caae0e8f259c62ca5a6505e876d
 # fixes the issue with requests - once 1.2.0 comes out I should be able to enable this
 # min-severity = "warn"

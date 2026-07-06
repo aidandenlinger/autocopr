@@ -10,7 +10,7 @@ from githubapi.latest import Latest
 
 def update_version(
     spec: SpecData, latest: Latest, push: bool = False, verbose: bool = False
-):
+) -> None:
     """Given the location of a spec file, the latest version, and the name of
     the package, update the version in the spec and make a commit with the
     cooresponding COPR tag."""

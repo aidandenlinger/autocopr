@@ -34,5 +34,8 @@ jobs:
       - name: Lint
         run: uv run --locked ruff check --output-format github
 
+      - name: Enforce full typing coverage
+        run: uv run --locked pyrefly coverage check --output-format github
+
       - name: Typecheck
         run: uv run --locked pyrefly check --output-format github
