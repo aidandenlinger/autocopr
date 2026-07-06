@@ -38,12 +38,13 @@ ID = str
 def update_cache(
     id_cache: Path, specs: list[OwnerName], session: requests.Session
 ) -> list[tuple[OwnerName, ID]]:
-    """Given a list of specs, request headers, id cache, and session,
-    load the cache of id keys and fetch any new ones from GraphQl"""
+    """Given a cache location, list of specs, and session,
+    load the cache of id keys and fetch any missing IDs via GraphQL"""
 
     if id_cache.exists():
         with open(id_cache) as cache:
-            ids = json.load(cache)
+            # Maps "owner/name" to the github ID
+            ids: dict[str, ID] = json.load(cache)
 
         logging.info(f"Loaded IDs for {ids.keys()} from {id_cache}")
     else:
