@@ -1,7 +1,7 @@
 [project]
 name = "autocopr"
-version = "0.1.0"
-description = "Automatically update COPR entries"
+version = "1.0.0"
+description = "Check Github Releases daily for new project versions and updates spec files accordingly for automatic COPR updates."
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
@@ -10,8 +10,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "pyrefly>=1.1.1",
-    "ruff>=0.15.20",
+    "pyrefly>=1.1.1", # typechecker
+    "ruff>=0.15.20", # formatter/linter
 ]
 
 [tool.uv]
