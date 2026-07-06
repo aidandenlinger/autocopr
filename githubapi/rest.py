@@ -1,12 +1,11 @@
 import logging
-from typing import Optional
 
 import requests
 
 from githubapi.latest import Latest, OwnerName, clean_tag
 
 
-def get_latest_version(spec: OwnerName, session: requests.Session) -> Optional[Latest]:
+def get_latest_version(spec: OwnerName, session: requests.Session) -> Latest | None:
     """Given SpecData with a github url, returns the latest version. Forces
     usage of a session because all uses of this function will use the same
     API. Returns None if there is no latest version (either the repo has no

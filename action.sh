@@ -39,4 +39,4 @@ fi
 # https://stackoverflow.com/a/11114547
 ACTIONS_FOLDER=$(dirname "$(realpath --no-symlinks "${BASH_SOURCE[0]}")")
 
-python "${ACTIONS_FOLDER}"/main.py "${args[@]}" "${ROOT_LOC}"
+uv run --frozen --no-dev "${ACTIONS_FOLDER}"/main.py "${args[@]}" "${ROOT_LOC}"

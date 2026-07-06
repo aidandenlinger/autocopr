@@ -19,7 +19,9 @@ def main():
 
     if not root_dir.is_dir():
         logging.error(
-            f"Provided root directory {root_dir} is not a directory. Please provide a directory to start searching for spec files from. Exiting..."
+            f"Provided root directory {root_dir} is not a directory. "
+            "Please provide a directory to start searching for spec files from. "
+            "Exiting..."
         )
         exit(1)
 
@@ -87,16 +89,19 @@ def main():
 
                 if args.mode == Mode.Update:
                     print(
-                        "All spec files are now up to date. If updated, the original spec file is backed up as a .bak file."
+                        "All spec files are now up to date. If updated, "
+                        "the original spec file is backed up as a .bak file."
                     )
                 else:
                     print(
-                        "All spec files are now up to date, and the updates have been pushed."
+                        "All spec files are now up to date, and the updates have been "
+                        "pushed."
                     )
 
         case Mode.DryRun | Mode.Check:
             print(
-                f"{[spec.name for (spec, _) in had_updates]} {'is' if len(had_updates) == 1 else 'are'} outdated."
+                f"{[spec.name for (spec, _) in had_updates]} "
+                f"{'is' if len(had_updates) == 1 else 'are'} outdated."
             )
             if args.mode == Mode.Check:
                 print("Exiting with an error because we are in check mode.")

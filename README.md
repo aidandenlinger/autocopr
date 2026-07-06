@@ -66,17 +66,7 @@ noting how I write a specfile.
 You'll also want to have a folder of spec files, although they don't need to be
 on Github. See above for notes.
 
-To run this on your system, you'll need [Python](https://www.python.org/) installed.
-Check [pyproject.toml](./pyproject.toml) for the required Python version.
-
-Clone the repo, consider making a
-[virtual environment](https://docs.python.org/3/library/venv.html), and run
-
-```shell
-python -m pip install -r requirements.txt
-```
-
-to install the necessary dependencies.
+To run this on your system, you'll need [`uv`](https://docs.astral.sh/uv/) installed.
 
 ## Usage
 
@@ -190,7 +180,7 @@ jobs:
 ### As a Standalone Python Script
 
 ```shell
-python main.py <folder-with-spec-files>
+uv run main.py <folder-with-spec-files>
 ```
 
 will run the `main.py` script, searching for spec files in the provided directory.
