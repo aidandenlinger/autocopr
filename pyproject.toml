@@ -11,11 +11,11 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pyrefly>=1.1.1", # typechecker
-    "ruff>=0.15.20", # formatter/linter
+    "ruff>=0.16.1", # formatter/linter
 ]
 
 [tool.uv]
-required-version = ">0.11.0"
+required-version = ">=0.11.0"
 exclude-newer = "3 days"
 
 [tool.pyrefly]
