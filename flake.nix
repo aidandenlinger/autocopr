@@ -31,6 +31,7 @@
                 python
                 # When bumping nixpkgs, also bump
                 # - action.yml `.runs.steps[0].with.version` (pinned for deterministic CI)
+                # - pyproject.toml ".tool.uv.'required-version'" if new minor version
                 uv
 
                 # Shell/github action linters used in CI
