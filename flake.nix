@@ -30,7 +30,7 @@
               packages = with pkgs; [
                 python
                 # When bumping nixpkgs, also bump
-                # - pyproject.toml `tools.uv.required-version` (pinned for deterministic CI)
+                # - action.yml `.runs.steps[0].with.version` (pinned for deterministic CI)
                 uv
 
                 # Shell/github action linters used in CI
