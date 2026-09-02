@@ -1,0 +1,27 @@
+name: Lint/Format Justfile
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "Justfile"
+  pull_request:
+    paths:
+      - "Justfile"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  lint-fmt-justfile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3  # v4
+
+      - run: just check-justfile
