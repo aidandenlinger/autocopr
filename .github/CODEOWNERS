@@ -1,1 +1,3 @@
-.github/workflows/ @aidandenlinger
+/.github/workflows/ @aidandenlinger
+/pyproject.toml @aidandenlinger
+/uv.lock @aidandenlinger
