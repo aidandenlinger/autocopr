@@ -2,6 +2,7 @@ import logging
 import os
 import subprocess
 import sys
+from logging import Logger
 from pathlib import Path
 
 import autocopr.cli
@@ -10,10 +11,10 @@ import autocopr.specdata
 import autocopr.update
 from autocopr.cli import Mode
 
-logger = logging.getLogger(__name__)
+logger: Logger = logging.getLogger(__name__)
 
 
-def main():
+def main() -> None:
     args = autocopr.cli.create_parser().parse_args()
     root_dir = Path(args.directory).absolute().resolve()
 

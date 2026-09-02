@@ -1,11 +1,14 @@
 import json
+import logging
 import sys
+from logging import Logger
 from pathlib import Path
 
 import requests
 
 from githubapi.latest import Latest, OwnerName, clean_tag
-from githubapi.logger import logger
+
+logger: Logger = logging.getLogger(__name__)
 
 # The GraphQL API allows us to specify exactly what we want, instead of
 # overfetching data we don't need from the REST API. This means that

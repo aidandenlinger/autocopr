@@ -1,13 +1,16 @@
+import logging
 import sys
+from logging import Logger
 from pathlib import Path
 
 import requests
 
 import githubapi.graphql
 import githubapi.rest
-from autocopr.logger import logger
 from autocopr.specdata import SpecData
 from githubapi.latest import Latest
+
+logger: Logger = logging.getLogger(__name__)
 
 
 def get_latest_versions(

@@ -1,11 +1,14 @@
+import logging
 import re
 import urllib.parse
 from dataclasses import dataclass
+from logging import Logger
 from pathlib import Path
 
-from autocopr.logger import logger
 from autocopr.regexconstants import RegexConstants
 from githubapi.latest import OwnerName
+
+logger: Logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)

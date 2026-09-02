@@ -1,12 +1,15 @@
+import logging
 import os
 import re
 import subprocess
 import sys
+from logging import Logger
 
-from autocopr.logger import logger
 from autocopr.regexconstants import RegexConstants
 from autocopr.specdata import SpecData
 from githubapi.latest import Latest
+
+logger: Logger = logging.getLogger(__name__)
 
 
 def update_version(

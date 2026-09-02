@@ -19,6 +19,6 @@ required-version = ">=0.12.0"
 exclude-newer = "3 days"
 
 [tool.pyrefly]
-project-includes = [ "autocopr", "githubapi" ]
+project-includes = [ "autocopr", "githubapi", "main.py" ]
 preset = "strict"
 min-severity = "warn"

@@ -1,7 +1,11 @@
+import logging
+from logging import Logger
+
 import requests
 
 from githubapi.latest import Latest, OwnerName, clean_tag
-from githubapi.logger import logger
+
+logger: Logger = logging.getLogger(__name__)
 
 
 def get_latest_version(spec: OwnerName, session: requests.Session) -> Latest | None:
