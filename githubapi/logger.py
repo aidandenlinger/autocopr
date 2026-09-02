@@ -1,3 +1,4 @@
 import logging
+from logging import Logger
 
-logger = logging.getLogger(__name__)
+logger: Logger = logging.getLogger(__name__)
