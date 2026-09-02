@@ -1,8 +1,8 @@
-import logging
 
 import requests
 
 from githubapi.latest import Latest, OwnerName, clean_tag
+from githubapi.logger import logger
 
 
 def get_latest_version(spec: OwnerName, session: requests.Session) -> Latest | None:
@@ -15,7 +15,7 @@ def get_latest_version(spec: OwnerName, session: requests.Session) -> Latest | N
     )"""
 
     url = f"https://api.github.com/repos/{spec.id()}/releases/latest"
-    logging.info(f"Querying {url}")
+    logger.info(f"Querying {url}")
 
     req = session.get(
         url,
@@ -29,11 +29,11 @@ def get_latest_version(spec: OwnerName, session: requests.Session) -> Latest | N
         latest_tag: str = req["tag_name"]
         latest_url: str = req["html_url"]
     except KeyError:
-        logging.warning(f"{spec.name} does not have a latest version!")
-        logging.warning("Request received:")
+        logger.warning(f"{spec.name} does not have a latest version!")
+        logger.warning("Request received:")
         import json
 
-        logging.warning(json.dumps(req, indent=4))
+        logger.warning(json.dumps(req, indent=4))
         return None
 
     # Trims tags like "v0.35.2" to "0.35.2" by cutting from the front until we
@@ -42,6 +42,6 @@ def get_latest_version(spec: OwnerName, session: requests.Session) -> Latest | N
     # RPM versions don't start with letters
     # Assumes the version has a digit somewhere in it
     latest_version = clean_tag(latest_tag)
-    logging.info(f"{spec.name} latest version is {latest_version}")
+    logger.info(f"{spec.name} latest version is {latest_version}")
 
     return Latest(latest_version, latest_url)
