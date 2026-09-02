@@ -37,6 +37,9 @@
                 # Shell/github action linters used in CI
                 shellcheck
                 zizmor
+
+                # command runner
+                just
               ];
 
               env = {
