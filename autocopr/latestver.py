@@ -1,4 +1,6 @@
 import logging
+import sys
+from logging import Logger
 from pathlib import Path
 
 import requests
@@ -7,6 +9,8 @@ import githubapi.graphql
 import githubapi.rest
 from autocopr.specdata import SpecData
 from githubapi.latest import Latest
+
+logger: Logger = logging.getLogger(__name__)
 
 
 def get_latest_versions(
@@ -20,10 +24,10 @@ def get_latest_versions(
     A GitHub token is required to use the GraphQL API."""
 
     if rest:
-        logging.info("--rest is set, using REST api")
+        logger.info("--rest is set, using REST api")
 
         if token is None:
-            logging.warning(
+            logger.warning(
                 "The REST API will rate limit you to 60 requests per hour without a "
                 "GitHub token. You can use the REST API with a token by using the "
                 "--rest flag and using the GITHUB_TOKEN environment variable or "
@@ -33,7 +37,7 @@ def get_latest_versions(
         return _rest(specs, token)
 
     if token:
-        logging.info(
+        logger.info(
             "GITHUB_TOKEN environment variable or --github-token flag is set, "
             "using GraphQL api"
         )
@@ -43,11 +47,11 @@ def get_latest_versions(
     # This case should only be hit if
     # 1. --rest was NOT set, so we tried defaulting to GraphQL
     # 2. --github-token was NOT set, so we do not have a token
-    logging.warning(
+    logger.warning(
         "GITHUB_TOKEN environment variable or --github-token flag is not set, "
         "using REST api instead of GraphQL."
     )
-    logging.warning(
+    logger.warning(
         "The REST API requires more requests, gathers more data than is "
         "needed, and you are limited to 60 requests per hour without a token."
     )
@@ -65,8 +69,8 @@ def _graphql(
     missing_specs = [spec.loc for spec in specs if spec.ownerName not in latest]
 
     if len(missing_specs) != 0:
-        logging.error(f"{missing_specs} had errors, exiting...")
-        exit(1)
+        logger.error(f"{missing_specs} had errors, exiting...")
+        sys.exit(1)
 
     return [(spec, latest[key]) for spec in specs if (key := spec.ownerName) in latest]
 
@@ -90,7 +94,7 @@ def _rest(
                 latest_vers.append((spec, latest_ver))
 
         if len(errors) != 0:
-            logging.error(f"{errors} had errors, exiting...")
-            exit(1)
+            logger.error(f"{errors} had errors, exiting...")
+            sys.exit(1)
 
         return latest_vers

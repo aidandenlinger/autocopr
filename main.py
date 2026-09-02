@@ -1,6 +1,8 @@
 import logging
 import os
 import subprocess
+import sys
+from logging import Logger
 from pathlib import Path
 
 import autocopr.cli
@@ -9,8 +11,10 @@ import autocopr.specdata
 import autocopr.update
 from autocopr.cli import Mode
 
+logger: Logger = logging.getLogger(__name__)
 
-def main():
+
+def main() -> None:
     args = autocopr.cli.create_parser().parse_args()
     root_dir = Path(args.directory).absolute().resolve()
 
@@ -18,30 +22,32 @@ def main():
         logging.basicConfig(level=logging.INFO)
 
     if not root_dir.is_dir():
-        logging.error(
+        logger.error(
             f"Provided root directory {root_dir} is not a directory. "
             "Please provide a directory to start searching for spec files from. "
             "Exiting..."
         )
-        exit(1)
+        sys.exit(1)
 
     os.chdir(root_dir)
 
     if (
         args.mode == Mode.Push
         and subprocess.run(
-            ["git", "rev-parse", "--is-inside-work-tree"], capture_output=True
+            ["git", "rev-parse", "--is-inside-work-tree"],
+            capture_output=True,
+            check=False,  # we check returncode right here
         ).returncode
         != 0
     ):
         # We're not in a git repository, exit
-        logging.error("Cannot use --push when not running in a git repository")
-        exit(1)
+        logger.error("Cannot use --push when not running in a git repository")
+        sys.exit(1)
 
-    paths_to_ignore = set(root_dir / file for file in args.ignore)
+    paths_to_ignore = {root_dir / file for file in args.ignore}
 
     if args.ignore:
-        logging.info(f"Ignoring {paths_to_ignore} due to --ignore flag")
+        logger.info(f"Ignoring {paths_to_ignore} due to --ignore flag")
 
     paths_to_parse = (
         path for path in root_dir.glob("**/*.spec") if path not in paths_to_ignore
@@ -78,7 +84,7 @@ def main():
 
     if len(had_updates) == 0:
         print("All spec files are up to date!")
-        exit(0)
+        sys.exit(0)
 
     match args.mode:
         case Mode.Update | Mode.Push:
@@ -105,7 +111,7 @@ def main():
             )
             if args.mode == Mode.Check:
                 print("Exiting with an error because we are in check mode.")
-                exit(1)
+                sys.exit(1)
 
 
 if __name__ == "__main__":

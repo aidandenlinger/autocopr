@@ -1,10 +1,14 @@
 import json
 import logging
+import sys
+from logging import Logger
 from pathlib import Path
 
 import requests
 
 from githubapi.latest import Latest, OwnerName, clean_tag
+
+logger: Logger = logging.getLogger(__name__)
 
 # The GraphQL API allows us to specify exactly what we want, instead of
 # overfetching data we don't need from the REST API. This means that
@@ -46,10 +50,10 @@ def update_cache(
             # Maps "owner/name" to the github ID
             ids: dict[str, ID] = json.load(cache)
 
-        logging.info(f"Loaded IDs for {ids.keys()} from {id_cache}")
+        logger.info(f"Loaded IDs for {ids.keys()} from {id_cache}")
     else:
         ids = {}
-        logging.info(f"No cache at {id_cache}, making a new one")
+        logger.info(f"No cache at {id_cache}, making a new one")
 
     specs_that_need_key = [spec for spec in specs if spec.id() not in ids]
 
@@ -64,7 +68,7 @@ def update_cache(
 
     specs_that_got_added = []
     for spec in specs_that_need_key:
-        logging.info(f"Getting key for {spec.id()}")
+        logger.info(f"Getting key for {spec.id()}")
 
         resp = session.post(
             graphQL_url,
@@ -75,32 +79,32 @@ def update_cache(
         ).json()
 
         if "errors" in resp:
-            logging.warning(f"API error when getting {spec.name}'s GraphQL id':")
+            logger.warning(f"API error when getting {spec.name}'s GraphQL id':")
             for error in resp["errors"]:
-                logging.warning(error["message"])
-            logging.warning(f"Skipping {spec.name}...")
+                logger.warning(error["message"])
+            logger.warning(f"Skipping {spec.name}...")
 
             continue
 
         try:
             id = resp["data"]["repository"]["id"]
         except KeyError:
-            logging.warning(f"Error accessing id for {spec.name}, skipping")
-            logging.warning("API response:")
-            logging.warning(resp)
+            logger.warning(f"Error accessing id for {spec.name}, skipping")
+            logger.warning("API response:")
+            logger.warning(resp)
             continue
 
-        logging.info(f"Adding {id=} for {spec.name} to cache")
+        logger.info(f"Adding {id=} for {spec.name} to cache")
         specs_that_got_added.append(spec.name)
         ids[spec.id()] = id
 
     if len(specs_that_got_added) > 0:
         # We changed the cache, update it
-        logging.info(f"Writing new GraphQL cache since {specs_that_got_added} added")
+        logger.info(f"Writing new GraphQL cache since {specs_that_got_added} added")
         with open(id_cache, "w") as out:
             json.dump(ids, out, indent=2)
     else:
-        logging.info("No new GraphQL keys added")
+        logger.info("No new GraphQL keys added")
 
     # Finally, map ids to their actual specs and return!
     return [(spec, ids[spec.id()]) for spec in specs if spec.id() in ids]
@@ -139,8 +143,8 @@ def get_latest_versions(
 
     spec_releases = {}
     if "data" not in resp or "nodes" not in resp["data"]:
-        logging.error(f"GraphQL response not in expected shape: {resp}")
-        exit(1)
+        logger.error(f"GraphQL response not in expected shape: {resp}")
+        sys.exit(1)
 
     for spec, node in zip(
         (spec for (spec, _) in spec_ids),
@@ -149,16 +153,16 @@ def get_latest_versions(
     ):
         if node and (latest := node["latestRelease"]) and "tagName" in latest:
             latest_version = clean_tag(latest["tagName"])
-            logging.info(f"{spec.name} latest version is {latest_version}")
+            logger.info(f"{spec.name} latest version is {latest_version}")
             spec_releases[spec] = Latest(latest_version, latest["url"])
         else:
-            logging.warning(f"Error getting latest release from {spec.name}")
-            logging.warning(f"Node response: {node}")
+            logger.warning(f"Error getting latest release from {spec.name}")
+            logger.warning(f"Node response: {node}")
 
     if "errors" in resp:
-        logging.warning("GraphQL errors when checking latest versions:")
+        logger.warning("GraphQL errors when checking latest versions:")
         for error in resp["errors"]:
-            logging.warning(error["message"])
+            logger.warning(error["message"])
 
     return spec_releases
 
@@ -184,7 +188,7 @@ def latest_versions(
 
         ownerNamesRetrieved = [spec_id[0] for spec_id in spec_ids]
         if missing_specs := [spec for spec in specs if spec not in ownerNamesRetrieved]:
-            logging.error(f"Missing spec ids for {missing_specs}, exiting")
-            exit(1)
+            logger.error(f"Missing spec ids for {missing_specs}, exiting")
+            sys.exit(1)
 
         return get_latest_versions(spec_ids, session)
