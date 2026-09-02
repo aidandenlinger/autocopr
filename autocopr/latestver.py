@@ -1,7 +1,7 @@
 import logging
 import sys
-from logging import Logger
 from pathlib import Path
+from logging import Logger
 
 import requests
 
