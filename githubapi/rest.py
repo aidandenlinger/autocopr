@@ -1,4 +1,3 @@
-
 import requests
 
 from githubapi.latest import Latest, OwnerName, clean_tag
