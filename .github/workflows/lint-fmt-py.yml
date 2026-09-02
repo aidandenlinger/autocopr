@@ -26,16 +26,8 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3  # v4
+
       - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d  # v10.0.1
 
-      - name: Format
-        run: uv run --locked ruff format --diff
-
-      - name: Lint
-        run: uv run --locked ruff check --output-format github
-
-      - name: Enforce full typing coverage
-        run: uv run --locked pyrefly coverage check --output-format github
-
-      - name: Typecheck
-        run: uv run --locked pyrefly check --output-format github
+      - run: just check-python
