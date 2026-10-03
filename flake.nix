@@ -2,7 +2,7 @@
   description = "Python Devshell";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst";
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
@@ -26,7 +26,7 @@
               # - pyproject.toml `requires-python` (if i use features from newer python)
               python = pkgs.python314;
             in
-            pkgs.mkShell {
+            pkgs.mkShellNoCC {
               packages = with pkgs; [
                 python
                 # When bumping nixpkgs, also bump
