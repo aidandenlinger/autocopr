@@ -4,10 +4,7 @@ ci := env("GITHUB_ACTIONS", "false")
 output_flags := if ci == "true" { "--output-format github" } else { "" }
 ruff_format_output_flags := if ci == "true" { "--check --output-format github" } else { "--diff" }
 
-check: check-python check-shell check-justfile
-
-check-shell:
-    find . -type f -name "*.sh" -exec shellcheck {} +
+check: check-python check-shell check-justfile check-github-actions
 
 check-python:
     {{ uv }} ruff format {{ ruff_format_output_flags }}
@@ -15,10 +12,17 @@ check-python:
     {{ uv }} pyrefly coverage check {{ output_flags }}
     {{ uv }} pyrefly check {{ output_flags }}
 
+check-shell:
+    find . -type f -name "*.sh" -exec shellcheck {} +
+
 check-justfile:
     just --fmt --check
+
+check-github-actions:
+    zizmor .
 
 fix:
     {{ uv }} ruff format
     {{ uv }} ruff check --fix
     just --fmt
+    zizmor --fix .

@@ -232,6 +232,7 @@ Please feel free to leave any issues if you have questions about creating your
 own AutoCOPR! I'm open to PRs to the autocopr program to make it better or add
 new features.
 
+If you want to run CI checks locally, see this repo's [nix flake](./flake.nix) for all the tools you'd need. Run `just check` to run all CI checks.
 
 ## License
 MIT

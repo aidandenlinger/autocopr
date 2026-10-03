@@ -27,7 +27,7 @@ jobs:
           persist-credentials: false
 
       # Run the action from THIS branch on autocopr-specs in dry-run mode
-      - uses: ./
+      - uses: $/
         with:
           mode: "dry-run"
           root_loc: "autocopr-specs"
