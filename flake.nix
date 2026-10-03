@@ -34,7 +34,7 @@
                 # - pyproject.toml ".tool.uv.'required-version'" if new minor version
                 uv
 
-                # Shell/github action linters used in CI
+                # Shell/github action linters
                 shellcheck
                 zizmor
 
