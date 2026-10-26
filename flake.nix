@@ -24,7 +24,7 @@
               # When bumping, also update
               # - .python-version (this is what uv installs in CI)
               # - pyproject.toml `requires-python` (if i use features from newer python)
-              python = pkgs.python314;
+              python = pkgs.python315;
             in
             pkgs.mkShellNoCC {
               packages = with pkgs; [
