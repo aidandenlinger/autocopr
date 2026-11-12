@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # 31.11.3
+
+      - name: just check
+        run: nix develop --no-update-lock-file --command just check
+
+  self-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Check out the specs to run this on
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: aidandenlinger/autocopr-specs
+          path: './autocopr-specs'
+          persist-credentials: false
+
+      # Run the action from THIS branch on autocopr-specs in dry-run mode
+      - uses: $/
+        with:
+          mode: "dry-run"
+          root_loc: "autocopr-specs"
+          verbose: "true"
